@@ -1,0 +1,67 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import Steps from '~/components/widgets/Steps.astro';
+
+const metadata = {
+  title: 'Privileged Account Manager',
+  description:
+    'Discover, vault, and control privileged accounts across Windows, Linux, databases, and cloud — with full audit trails.',
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    tagline="Product"
+    actions={[
+      { variant: 'primary', text: 'Request a Demo', href: '/contact' },
+      { text: 'All Products', href: '/products' },
+    ]}
+  >
+    <Fragment slot="title">Privileged Account Manager</Fragment>
+    <Fragment slot="subtitle">
+      Discover and consolidate privileged accounts into a centralized, encrypted vault. Control shared admin access,
+      automate password rotation, and maintain a complete audit trail.
+    </Fragment>
+  </Hero>
+
+  <Features
+    title="Core capabilities"
+    items={[
+      { title: 'Discover & consolidate', description: 'Find privileged accounts across servers, workstations, databases, network devices, and applications — including dormant and abandoned accounts.', icon: 'tabler:search' },
+      { title: 'Shared admin control', description: 'Share break-glass and admin accounts with accountability. Track who used which credential and when.', icon: 'tabler:users' },
+      { title: 'Automated rotation', description: 'Randomize passwords on a schedule or after use. Enforce complexity policies without manual work.', icon: 'tabler:refresh' },
+      { title: 'Central encrypted vault', description: 'Store credentials under strong encryption with granular access controls and approval workflows.', icon: 'tabler:lock' },
+      { title: 'Dependency-aware updates', description: 'Update service and application dependencies when passwords change so systems keep running.', icon: 'tabler:link' },
+      { title: 'Audit-ready reporting', description: 'Export access and change history for compliance reviews and incident investigations.', icon: 'tabler:file-text' },
+    ]}
+  />
+
+  <Steps
+    title="How it works"
+    items={[
+      { title: 'Connect sources', description: 'Point SecureHive at directories, servers, and cloud accounts for discovery.', icon: 'tabler:plug' },
+      { title: 'Inventory privileges', description: 'Build a live inventory of human, service, and shared privileged accounts.', icon: 'tabler:list' },
+      { title: 'Vault & policy', description: 'Onboard accounts into the vault and apply rotation and access policies.', icon: 'tabler:shield' },
+      { title: 'Operate & audit', description: 'Users request access; every checkout and change is logged.', icon: 'tabler:check' },
+    ]}
+  />
+
+  <FAQs
+    title="Frequently asked questions"
+    items={[
+      { title: 'What account types can be managed?', description: 'Local and domain accounts, service accounts, database credentials, network device logins, and application secrets — depending on connectors configured for your environment.' },
+      { title: 'Does this replace our identity provider?', description: 'No. SecureHive integrates with your existing IdP and directories. It focuses on privileged credentials and access, not workforce SSO.' },
+      { title: 'How are passwords protected in the vault?', description: 'Credentials are encrypted at rest and in transit. Access is governed by role, approval workflows, and optional dual control for sensitive accounts.' },
+      { title: 'Can we rotate passwords after each use?', description: 'Yes. Policies can require rotation after checkout or on a fixed schedule, including dependency updates where supported.' },
+    ]}
+  />
+
+  <CallToAction actions={[{ variant: 'primary', text: 'Request a Demo', href: '/contact' }]}>
+    <Fragment slot="title">See Privileged Account Manager in action</Fragment>
+    <Fragment slot="subtitle">Walk through discovery, vaulting, and rotation in an environment like yours.</Fragment>
+  </CallToAction>
+</Layout>

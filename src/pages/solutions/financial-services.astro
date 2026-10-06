@@ -1,0 +1,54 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+const metadata = {
+  title: 'Financial Services Solutions',
+  description: 'Protect trading platforms, core banking, and admin planes with just-in-time access, session oversight, and audit-ready evidence for regulators and internal risk teams.',
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    tagline="Solutions"
+    actions={[
+      { variant: 'primary', text: 'Request a Demo', href: '/contact' },
+      { text: 'All Solutions', href: '/solutions' },
+    ]}
+  >
+    <Fragment slot="title">Financial Services</Fragment>
+    <Fragment slot="subtitle">
+      Protect trading platforms, core banking, and admin planes with just-in-time access, session oversight, and audit-ready evidence for regulators and internal risk teams.
+    </Fragment>
+  </Hero>
+
+  <Features
+    title="How SecureHive helps"
+    items={[
+      { title: 'Critical system access', description: 'Control privileged paths into payment, trading, and core systems without standing shared passwords.', icon: 'tabler:shield' },
+      { title: 'Audit and exam readiness', description: 'Produce access and session records that support internal audit and regulatory reviews.', icon: 'tabler:lock' },
+      { title: 'Third-party oversight', description: 'Time-bound, monitored access for vendors and integrators touching sensitive environments.', icon: 'tabler:eye' },
+      { title: 'Segregation of duties', description: 'Approval workflows and dual control for high-impact privileged actions.', icon: 'tabler:users' },
+      { title: 'Credential hygiene', description: 'Rotate and vault shared and service credentials that accumulate in financial IT.', icon: 'tabler:key' },
+      { title: 'Incident response', description: 'Session context speeds investigation when privileged misuse is suspected.', icon: 'tabler:report' },
+    ]}
+  />
+
+  <FAQs
+    title="Frequently asked questions"
+    items={[
+      { title: 'Does this help with SOX or similar controls?', description: 'SecureHive provides access and session evidence many control frameworks expect around privileged activity. Mapping to specific controls is done with your GRC team.' },
+      { title: 'Can we support 24/7 operations?', description: 'JIT and break-glass patterns can be designed so production support remains available while standing privilege is reduced.' },
+      { title: 'How do traders or ops get emergency access?', description: 'Emergency paths can be pre-staged with stricter logging and mandatory post-access review.' },
+      { title: 'Does it integrate with our existing IAM?', description: 'SecureHive is designed to work alongside enterprise identity providers and directories rather than replace workforce IAM.' },
+    ]}
+  />
+
+  <CallToAction actions={[{ variant: 'primary', text: 'Request a Demo', href: '/contact' }]}>
+    <Fragment slot="title">Discuss Financial Services requirements</Fragment>
+    <Fragment slot="subtitle">Map privileged access controls to your environment and compliance goals.</Fragment>
+  </CallToAction>
+</Layout>

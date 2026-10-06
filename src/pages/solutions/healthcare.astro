@@ -1,0 +1,54 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+const metadata = {
+  title: 'Healthcare Solutions',
+  description: 'Govern admin access to EHR, imaging, and infrastructure while supporting uptime and privacy expectations common in healthcare environments.',
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    tagline="Solutions"
+    actions={[
+      { variant: 'primary', text: 'Request a Demo', href: '/contact' },
+      { text: 'All Solutions', href: '/solutions' },
+    ]}
+  >
+    <Fragment slot="title">Healthcare</Fragment>
+    <Fragment slot="subtitle">
+      Govern admin access to EHR, imaging, and infrastructure while supporting uptime and privacy expectations common in healthcare environments.
+    </Fragment>
+  </Hero>
+
+  <Features
+    title="How SecureHive helps"
+    items={[
+      { title: 'Clinical system protection', description: 'Reduce standing admin on systems that store or process patient-related data.', icon: 'tabler:shield' },
+      { title: 'Vendor and support access', description: 'Grant temporary access to EHR and device vendors with monitoring.', icon: 'tabler:lock' },
+      { title: 'Least privilege for IT staff', description: 'Elevate only when required for change windows and incidents.', icon: 'tabler:eye' },
+      { title: 'Session accountability', description: 'Know who performed privileged actions during outages and upgrades.', icon: 'tabler:users' },
+      { title: 'Credential vaulting', description: 'Remove shared passwords from sticky notes and shared inboxes.', icon: 'tabler:key' },
+      { title: 'Compliance support', description: 'Access logs that help demonstrate control over privileged activity.', icon: 'tabler:report' },
+    ]}
+  />
+
+  <FAQs
+    title="Frequently asked questions"
+    items={[
+      { title: 'Is SecureHive a HIPAA compliance product?', description: 'SecureHive is a security control for privileged access. It can support your compliance program; legal and clinical compliance remain organizational responsibilities.' },
+      { title: 'Will this slow clinical operations?', description: 'Policies are designed around operational reality — emergency access and approved elevation paths keep care teams unblocked.' },
+      { title: 'Can biomedical device vendors be controlled?', description: 'Vendor access is a primary use case: time-limited, monitored sessions instead of permanent shared logins.' },
+      { title: 'What about shared clinical workstations?', description: 'Endpoint privilege controls can reduce local admin on shared devices while allowing required clinical applications.' },
+    ]}
+  />
+
+  <CallToAction actions={[{ variant: 'primary', text: 'Request a Demo', href: '/contact' }]}>
+    <Fragment slot="title">Discuss Healthcare requirements</Fragment>
+    <Fragment slot="subtitle">Map privileged access controls to your environment and compliance goals.</Fragment>
+  </CallToAction>
+</Layout>

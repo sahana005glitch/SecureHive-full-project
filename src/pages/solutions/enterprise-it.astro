@@ -1,0 +1,54 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+const metadata = {
+  title: 'Enterprise IT Solutions',
+  description: 'Consolidate privileged access across directories, cloud admin planes, and server fleets under one policy and audit model.',
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    tagline="Solutions"
+    actions={[
+      { variant: 'primary', text: 'Request a Demo', href: '/contact' },
+      { text: 'All Solutions', href: '/solutions' },
+    ]}
+  >
+    <Fragment slot="title">Enterprise IT</Fragment>
+    <Fragment slot="subtitle">
+      Consolidate privileged access across directories, cloud admin planes, and server fleets under one policy and audit model.
+    </Fragment>
+  </Hero>
+
+  <Features
+    title="How SecureHive helps"
+    items={[
+      { title: 'Hybrid coverage', description: 'Windows, Linux, cloud consoles, and network devices under consistent governance.', icon: 'tabler:shield' },
+      { title: 'Admin sprawl reduction', description: 'Find and retire unused privileged accounts.', icon: 'tabler:lock' },
+      { title: 'JIT for cloud admin', description: 'Time-limited elevation for cloud control planes.', icon: 'tabler:eye' },
+      { title: 'Central vault', description: 'One place for shared and break-glass credentials.', icon: 'tabler:users' },
+      { title: 'SOC integration', description: 'Session and access signals that support detection and response workflows.', icon: 'tabler:key' },
+      { title: 'Self-service with control', description: 'Engineers request access without ticket ping-pong for every task — within policy.', icon: 'tabler:report' },
+    ]}
+  />
+
+  <FAQs
+    title="Frequently asked questions"
+    items={[
+      { title: 'How is this different from IAM?', description: 'IAM manages workforce identity. PAM governs elevated access to critical systems and secrets after authentication.' },
+      { title: 'Can we roll out in phases?', description: 'Yes. Many teams start with discovery and vaulting of shared admins, then add JIT and session controls.' },
+      { title: 'What about DevOps pipelines?', description: 'Service account and secrets capabilities address non-human access used by automation.' },
+      { title: 'Does it work with our IdP?', description: 'SecureHive is intended to complement existing enterprise identity providers.' },
+    ]}
+  />
+
+  <CallToAction actions={[{ variant: 'primary', text: 'Request a Demo', href: '/contact' }]}>
+    <Fragment slot="title">Discuss Enterprise IT requirements</Fragment>
+    <Fragment slot="subtitle">Map privileged access controls to your environment and compliance goals.</Fragment>
+  </CallToAction>
+</Layout>

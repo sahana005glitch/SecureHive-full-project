@@ -1,0 +1,60 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
+import ContactUs from '~/components/widgets/Contact.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+
+const metadata = {
+  title: 'Contact — Request a Demo',
+  description: 'Contact SecureHive for a PAM demo, sales inquiry, or support. Tell us about your environment and goals.',
+};
+---
+
+<Layout metadata={metadata}>
+  <HeroText
+    tagline="Contact"
+    title="Request a demo or get in touch"
+    subtitle="Share a few details about your team and how we can help. We typically respond within one business day."
+  />
+
+  <ContactUs
+    id="form"
+    title="How can we help?"
+    subtitle="For product evaluations, mention Privileged Access Management or your primary use case in the message."
+    inputs={[
+      { type: 'text', name: 'name', label: 'Full name', required: true },
+      { type: 'email', name: 'email', label: 'Work email', required: true },
+      { type: 'text', name: 'company', label: 'Company' },
+      { type: 'tel', name: 'phone', label: 'Phone (optional)' },
+    ]}
+    textarea={{
+      label: 'Message — include service interest (PAM, identity, compliance, other) and company size if relevant',
+    }}
+    disclaimer={{
+      label:
+        'By submitting this form, you acknowledge that SecureHive may contact you regarding your inquiry.',
+    }}
+    description="Our team typically responds within one business day."
+  />
+
+  <Features2
+    title="Ways to engage"
+    items={[
+      {
+        title: 'Request a Demo',
+        description: 'See how SecureHive PAM supports discovery, just-in-time access, and session oversight.',
+        icon: 'tabler:presentation',
+      },
+      {
+        title: 'Talk to Sales',
+        description: 'Discuss deployment options, integrations, and enterprise requirements.',
+        icon: 'tabler:briefcase',
+      },
+      {
+        title: 'Support',
+        description: 'Existing customers can reach our team for operational assistance.',
+        icon: 'tabler:headset',
+      },
+    ]}
+  />
+</Layout>

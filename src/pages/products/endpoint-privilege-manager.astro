@@ -1,0 +1,55 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+const metadata = {
+  title: 'Endpoint Privilege Manager',
+  description: 'Remove local admin rights on endpoints and elevate applications only when policy allows.',
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    tagline="Product"
+    actions={[
+      { variant: 'primary', text: 'Request a Demo', href: '/contact' },
+      { text: 'All Products', href: '/products' },
+    ]}
+  >
+    <Fragment slot="title">Endpoint Privilege Manager</Fragment>
+    <Fragment slot="subtitle">
+      Eliminate standing local administrator rights. Users work with standard privileges; approved applications and
+      tasks elevate on demand under policy.
+    </Fragment>
+  </Hero>
+
+  <Features
+    title="Endpoint least privilege"
+    items={[
+      { title: 'Remove local admin', description: 'Standardize endpoints on non-admin users without blocking legitimate work.', icon: 'tabler:user-off' },
+      { title: 'Application elevation', description: 'Elevate specific apps or processes when policy allows — not the entire desktop session.', icon: 'tabler:apps' },
+      { title: 'Policy-based control', description: 'Define what can run elevated by publisher, path, hash, or role.', icon: 'tabler:list-check' },
+      { title: 'Server & workstation coverage', description: 'Apply consistent privilege policies across user devices and server fleets.', icon: 'tabler:device-desktop' },
+      { title: 'Audit elevation events', description: 'Log every elevation for investigation and compliance reporting.', icon: 'tabler:file-analytics' },
+      { title: 'Align with PAM', description: 'Combine endpoint least privilege with vaulted credentials and JIT for a full privileged access program.', icon: 'tabler:link' },
+    ]}
+  />
+
+  <FAQs
+    title="Frequently asked questions"
+    items={[
+      { title: 'Will users lose productivity without admin rights?', description: 'Elevation policies are designed so approved tools still work. The goal is to remove blanket admin, not block the business.' },
+      { title: 'How do we handle software installs?', description: 'Controlled elevation or IT-managed deployment paths replace ad-hoc admin installs, reducing malware and configuration drift.' },
+      { title: 'Does this replace antivirus or EDR?', description: 'No. Endpoint privilege management complements EDR by shrinking the blast radius when a session is compromised.' },
+      { title: 'Can policies differ by department?', description: 'Yes. Policies can align to roles and device groups so developers, finance, and operators get appropriate elevation rules.' },
+    ]}
+  />
+
+  <CallToAction actions={[{ variant: 'primary', text: 'Request a Demo', href: '/contact' }]}>
+    <Fragment slot="title">Deploy least privilege on endpoints</Fragment>
+    <Fragment slot="subtitle">Discuss rollout strategy and elevation policies with SecureHive.</Fragment>
+  </CallToAction>
+</Layout>

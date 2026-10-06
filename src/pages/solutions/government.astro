@@ -1,0 +1,54 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+const metadata = {
+  title: 'Government Solutions',
+  description: 'Enforce least privilege, monitor high-risk sessions, and produce the audit trail required for public sector accountability.',
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    tagline="Solutions"
+    actions={[
+      { variant: 'primary', text: 'Request a Demo', href: '/contact' },
+      { text: 'All Solutions', href: '/solutions' },
+    ]}
+  >
+    <Fragment slot="title">Government</Fragment>
+    <Fragment slot="subtitle">
+      Enforce least privilege, monitor high-risk sessions, and produce the audit trail required for public sector accountability.
+    </Fragment>
+  </Hero>
+
+  <Features
+    title="How SecureHive helps"
+    items={[
+      { title: 'Fine-grained access control', description: 'Limit privileged entitlements to what roles actually require.', icon: 'tabler:shield' },
+      { title: 'Contractor oversight', description: 'Time-bound access for integrators and managed service providers.', icon: 'tabler:lock' },
+      { title: 'Session monitoring', description: 'Oversight of privileged activity on critical systems.', icon: 'tabler:eye' },
+      { title: 'Credential centralization', description: 'Vault shared and administrative credentials across agencies or departments.', icon: 'tabler:users' },
+      { title: 'Reporting for oversight', description: 'Evidence for internal review boards and external assessments.', icon: 'tabler:key' },
+      { title: 'Hybrid infrastructure', description: 'Consistent controls across on-premises and cloud workloads.', icon: 'tabler:report' },
+    ]}
+  />
+
+  <FAQs
+    title="Frequently asked questions"
+    items={[
+      { title: 'Can this support NIST-aligned access practices?', description: 'Just-in-time access, least privilege, and auditing align with common modern identity security practices. Implementation is tailored with your team.' },
+      { title: 'How are citizen-facing systems protected?', description: 'By reducing standing admin and monitoring privileged sessions on systems that support those services.' },
+      { title: 'Multi-agency deployments?', description: 'Policy and vault models can be structured for shared services or agency-specific boundaries.' },
+      { title: 'Offline or air-gapped needs?', description: 'Deployment options depend on environment constraints; discuss architecture during evaluation.' },
+    ]}
+  />
+
+  <CallToAction actions={[{ variant: 'primary', text: 'Request a Demo', href: '/contact' }]}>
+    <Fragment slot="title">Discuss Government requirements</Fragment>
+    <Fragment slot="subtitle">Map privileged access controls to your environment and compliance goals.</Fragment>
+  </CallToAction>
+</Layout>

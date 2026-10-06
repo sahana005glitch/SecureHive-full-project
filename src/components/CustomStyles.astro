@@ -1,0 +1,108 @@
+---
+// SecureHive brand tokens + micro-interactions
+// Font: Inter via Astro Fonts API (--font-inter)
+---
+
+<style is:inline>
+  :root {
+    --aw-font-sans: var(--font-inter);
+    --aw-font-serif: var(--font-inter);
+    --aw-font-heading: var(--font-inter);
+
+    /* SecureHive brand */
+    --aw-color-primary: #0B2D5B;
+    --aw-color-secondary: #1E3A5F;
+    --aw-color-accent: #3B82F6;
+
+    --aw-color-text-heading: #0B2D5B;
+    --aw-color-text-default: #1F2937;
+    --aw-color-text-muted: #4B5563;
+    --aw-color-bg-page: #F8FAFC;
+    --aw-color-bg-page-dark: #0B2D5B;
+    --aw-color-link: #3B82F6;
+
+    ::selection {
+      background-color: #3B82F6;
+      color: #ffffff;
+    }
+  }
+
+  .dark {
+    --aw-font-sans: var(--font-inter);
+    --aw-font-serif: var(--font-inter);
+    --aw-font-heading: var(--font-inter);
+
+    --aw-color-primary: #3B82F6;
+    --aw-color-secondary: #60A5FA;
+    --aw-color-accent: #93C5FD;
+
+    --aw-color-text-heading: #F8FAFC;
+    --aw-color-text-default: #E5E7EB;
+    --aw-color-text-muted: #9CA3AF;
+    --aw-color-bg-page: #0a1628;
+    --aw-color-link: #60A5FA;
+
+    ::selection {
+      background-color: #3B82F6;
+      color: #ffffff;
+    }
+  }
+
+  /* Buttons */
+  .btn-primary,
+  a.btn-primary,
+  button.btn-primary {
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  }
+  .btn-primary:hover,
+  a.btn-primary:hover,
+  button.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+  }
+
+  /* Cards */
+  .sh-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  .sh-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(11, 45, 91, 0.1);
+    border-color: rgba(59, 130, 246, 0.35);
+  }
+  .dark .sh-card:hover {
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+    border-color: rgba(59, 130, 246, 0.45);
+  }
+
+  /* Arrow micro-interaction */
+  .sh-arrow {
+    transition: transform 0.2s ease;
+  }
+  a:hover .sh-arrow,
+  button:hover .sh-arrow {
+    transform: translateX(3px);
+  }
+
+  /* Subtle technical grid */
+  .sh-network-grid {
+    background-image:
+      linear-gradient(rgba(59, 130, 246, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59, 130, 246, 0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .dark .sh-network-grid {
+    background-image:
+      linear-gradient(rgba(59, 130, 246, 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59, 130, 246, 0.07) 1px, transparent 1px);
+  }
+
+  /* Smooth focus rings for accessibility */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid #3B82F6;
+    outline-offset: 2px;
+  }
+</style>

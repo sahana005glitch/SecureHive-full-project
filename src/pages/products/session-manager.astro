@@ -1,0 +1,55 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+const metadata = {
+  title: 'Session Manager',
+  description: 'Launch, monitor, and record privileged sessions without exposing credentials to end users.',
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    tagline="Product"
+    actions={[
+      { variant: 'primary', text: 'Request a Demo', href: '/contact' },
+      { text: 'All Products', href: '/products' },
+    ]}
+  >
+    <Fragment slot="title">Session Manager</Fragment>
+    <Fragment slot="subtitle">
+      One-click connections to privileged systems without revealing passwords. Monitor live sessions, record activity,
+      and terminate access if something looks wrong.
+    </Fragment>
+  </Hero>
+
+  <Features
+    title="Session control capabilities"
+    items={[
+      { title: 'Credential injection', description: 'Users connect without seeing plaintext passwords. Credentials stay in the vault.', icon: 'tabler:key' },
+      { title: 'Live monitoring', description: 'Security teams can watch active privileged sessions in real time.', icon: 'tabler:eye' },
+      { title: 'Session recording', description: 'Record sessions for forensics, training, and compliance evidence.', icon: 'tabler:video' },
+      { title: 'Terminate on demand', description: 'End a session immediately if anomalous activity is detected.', icon: 'tabler:player-stop' },
+      { title: 'Protocol coverage', description: 'Support common remote protocols used by admins and operators in enterprise environments.', icon: 'tabler:network' },
+      { title: 'Searchable history', description: 'Find past sessions by user, asset, and time for investigations.', icon: 'tabler:search' },
+    ]}
+  />
+
+  <FAQs
+    title="Frequently asked questions"
+    items={[
+      { title: 'Do users still need local admin passwords?', description: 'For managed connections, users typically do not need to know the underlying privileged password — the platform injects credentials securely.' },
+      { title: 'Are recordings stored securely?', description: 'Recordings and metadata are stored according to your retention and access policies so only authorized roles can review them.' },
+      { title: 'Can we monitor vendor sessions?', description: 'Yes. Third-party and contractor sessions are a common use case for recording and live oversight.' },
+      { title: 'What happens if a session is terminated?', description: 'The connection is closed and further access requires a new approved request or policy-allowed path.' },
+    ]}
+  />
+
+  <CallToAction actions={[{ variant: 'primary', text: 'Request a Demo', href: '/contact' }]}>
+    <Fragment slot="title">See privileged sessions under control</Fragment>
+    <Fragment slot="subtitle">Demo credential injection, monitoring, and recording with your team.</Fragment>
+  </CallToAction>
+</Layout>

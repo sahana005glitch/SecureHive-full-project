@@ -1,0 +1,55 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+const metadata = {
+  title: 'Just-in-Time Access',
+  description: 'Replace standing privilege with time-limited, approval-based access to critical systems.',
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    tagline="Product"
+    actions={[
+      { variant: 'primary', text: 'Request a Demo', href: '/contact' },
+      { text: 'All Products', href: '/products' },
+    ]}
+  >
+    <Fragment slot="title">Just-in-Time Access</Fragment>
+    <Fragment slot="subtitle">
+      Eliminate standing privilege. Users request elevated access, approvers grant a time window, and access expires
+      automatically — with optional password reset after use.
+    </Fragment>
+  </Hero>
+
+  <Features
+    title="How JIT reduces risk"
+    items={[
+      { title: 'Request & approve workflows', description: 'Users request access with a business reason. Designated approvers grant a limited window or auto-approve trusted roles.', icon: 'tabler:git-pull-request' },
+      { title: 'Time-bound elevation', description: 'Access lasts only as long as the approved window. When time ends, privileges are revoked.', icon: 'tabler:clock' },
+      { title: 'Just-enough privilege', description: 'Grant only the permissions required for the task — not full admin by default.', icon: 'tabler:adjustments' },
+      { title: 'Reset after use', description: 'Optionally randomize credentials when the session ends so standing secrets do not linger.', icon: 'tabler:refresh' },
+      { title: 'Policy exceptions', description: 'Exclude high-risk accounts from auto-approval and require dual control where needed.', icon: 'tabler:shield-check' },
+      { title: 'Full request history', description: 'Every request, approval, and grant is logged for audit and incident review.', icon: 'tabler:history' },
+    ]}
+  />
+
+  <FAQs
+    title="Frequently asked questions"
+    items={[
+      { title: 'What is standing privilege?', description: 'Standing privilege means always-on admin or elevated rights. JIT replaces that with temporary access that must be requested and expires.' },
+      { title: 'Can emergency access still work?', description: 'Yes. Break-glass paths can be configured with stricter logging and post-use review so operations are not blocked.' },
+      { title: 'Does JIT work with our existing tickets?', description: 'Workflows can align with your change and incident processes. Integration options depend on your environment and deployment.' },
+      { title: 'Who can approve requests?', description: 'You designate approvers by role, group, or account ownership. Auto-approval can be limited to low-risk scenarios.' },
+    ]}
+  />
+
+  <CallToAction actions={[{ variant: 'primary', text: 'Request a Demo', href: '/contact' }]}>
+    <Fragment slot="title">Move from standing privilege to JIT</Fragment>
+    <Fragment slot="subtitle">See request workflows, time windows, and revocation in a live walkthrough.</Fragment>
+  </CallToAction>
+</Layout>

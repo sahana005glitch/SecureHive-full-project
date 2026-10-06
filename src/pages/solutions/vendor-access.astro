@@ -1,0 +1,54 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+const metadata = {
+  title: 'Vendor and Third-Party Access Solutions',
+  description: 'Stop permanent vendor logins. Grant contractors and OEMs just-in-time access with session oversight and automatic expiry.',
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    tagline="Solutions"
+    actions={[
+      { variant: 'primary', text: 'Request a Demo', href: '/contact' },
+      { text: 'All Solutions', href: '/solutions' },
+    ]}
+  >
+    <Fragment slot="title">Vendor and Third-Party Access</Fragment>
+    <Fragment slot="subtitle">
+      Stop permanent vendor logins. Grant contractors and OEMs just-in-time access with session oversight and automatic expiry.
+    </Fragment>
+  </Hero>
+
+  <Features
+    title="How SecureHive helps"
+    items={[
+      { title: 'Time-limited invites', description: 'Access activates for a window and then ends — no standing vendor accounts.', icon: 'tabler:shield' },
+      { title: 'No password sharing', description: 'Vendors connect without receiving long-lived privileged passwords.', icon: 'tabler:lock' },
+      { title: 'Session recording', description: 'Full visibility into what external users did on your systems.', icon: 'tabler:eye' },
+      { title: 'Approval workflows', description: 'Business owners approve access tied to tickets or change records.', icon: 'tabler:users' },
+      { title: 'Scope limitation', description: 'Grant only the systems and privileges required for the engagement.', icon: 'tabler:key' },
+      { title: 'Offboarding by default', description: 'When the window ends, access is gone without manual cleanup.', icon: 'tabler:report' },
+    ]}
+  />
+
+  <FAQs
+    title="Frequently asked questions"
+    items={[
+      { title: 'How do vendors authenticate?', description: 'Patterns typically combine your identity policies with SecureHive session launch so credentials are not emailed or messaged.' },
+      { title: 'Can access span multiple days?', description: 'Yes. Windows can match project schedules while still avoiding permanent accounts.' },
+      { title: 'What if a vendor needs emergency access at 2am?', description: 'Pre-approved emergency paths with enhanced logging can be defined for support contracts.' },
+      { title: 'Does this replace our VDI or VPN?', description: 'It complements network access controls by governing privileged credentials and session behavior after connect.' },
+    ]}
+  />
+
+  <CallToAction actions={[{ variant: 'primary', text: 'Request a Demo', href: '/contact' }]}>
+    <Fragment slot="title">Discuss Vendor and Third-Party Access requirements</Fragment>
+    <Fragment slot="subtitle">Map privileged access controls to your environment and compliance goals.</Fragment>
+  </CallToAction>
+</Layout>

@@ -1,0 +1,114 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+const metadata = {
+  title: 'Solutions & Products',
+  description: 'SecureHive solutions for identity security, privileged access, endpoint protection, and cloud security.',
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    tagline="Solutions"
+    actions={[
+      { variant: 'primary', text: 'Request a Demo', href: '/contact' },
+      { text: 'Contact Us', href: '/contact' },
+    ]}
+  >
+    <Fragment slot="title">
+      Enterprise security<br />
+      <span class="text-accent">across every layer</span>
+    </Fragment>
+    <Fragment slot="subtitle">
+      From identity and privileged access to endpoints and cloud workloads, SecureHive provides coordinated controls
+      designed for modern security operations.
+    </Fragment>
+  </Hero>
+
+  <Features
+    id="solutions"
+    tagline="Capabilities"
+    title="Security solutions"
+    subtitle="Modular capabilities that work together as a unified platform."
+    items={[
+      {
+        title: 'Identity & Access Security',
+        description:
+          'Strengthen authentication, enforce least privilege, and continuously verify identities across applications and infrastructure.',
+        icon: 'tabler:user-check',
+      },
+      {
+        title: 'Privileged Access Management',
+        description:
+          'Discover privileged accounts, enforce just-in-time access, and monitor sessions for high-risk activity.',
+        icon: 'tabler:key',
+      },
+      {
+        title: 'Endpoint Security',
+        description:
+          'Protect endpoints with adaptive policies, visibility, and controls aligned to your identity and access strategy.',
+        icon: 'tabler:device-desktop',
+      },
+      {
+        title: 'Cloud Security',
+        description:
+          'Extend visibility and control to cloud identities, configurations, and workloads across multi-cloud environments.',
+        icon: 'tabler:cloud',
+      },
+      {
+        title: 'Security Automation',
+        description:
+          'Reduce response time with policy-driven workflows and integrated signals from across the platform.',
+        icon: 'tabler:bolt',
+      },
+      {
+        title: 'Unified Visibility',
+        description:
+          'Correlate identity, access, and infrastructure signals for clearer investigation and reporting.',
+        icon: 'tabler:chart-dots',
+      },
+    ]}
+  />
+
+  <Features2
+    title="Product areas"
+    subtitle="Explore the product families that make up the SecureHive platform. Details are placeholders pending final product naming."
+    items={[
+      {
+        title: 'SecureHive Identity',
+        description: 'Identity security and access governance capabilities for workforce and privileged users.',
+        icon: 'tabler:id',
+      },
+      {
+        title: 'SecureHive Access',
+        description: 'Privileged access management and session control for critical systems.',
+        icon: 'tabler:lock-access',
+      },
+      {
+        title: 'SecureHive Endpoint',
+        description: 'Endpoint protection aligned with identity-centric security policies.',
+        icon: 'tabler:devices',
+      },
+      {
+        title: 'SecureHive Cloud',
+        description: 'Cloud security posture and workload protection integrated with identity controls.',
+        icon: 'tabler:cloud-lock',
+      },
+    ]}
+  />
+
+  <CallToAction
+    actions={[
+      { variant: 'primary', text: 'Request a Demo', href: '/contact' },
+    ]}
+  >
+    <Fragment slot="title">See SecureHive in action</Fragment>
+    <Fragment slot="subtitle">
+      Schedule a conversation to review your environment and security priorities.
+    </Fragment>
+  </CallToAction>
+</Layout>

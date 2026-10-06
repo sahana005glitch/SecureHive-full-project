@@ -1,0 +1,63 @@
+---
+// Pagefind search UI — indexes static HTML after `astro build && pagefind --site dist`
+import { Icon } from 'astro-icon/components';
+import { SITE } from 'astrowind:config';
+import { getAsset } from '~/utils/permalinks';
+---
+
+<div
+  class="relative"
+  data-search-root
+  data-pagefind-url={getAsset('pagefind/pagefind.js')}
+  data-trailing-slash={SITE.trailingSlash}
+>
+  <button
+    type="button"
+    id="sh-search-open"
+    class="text-muted dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center"
+    aria-label="Open search"
+  >
+    <Icon name="tabler:search" class="w-5 h-5" />
+  </button>
+</div>
+
+<dialog
+  id="sh-search-dialog"
+  class="sh-search-dialog backdrop:bg-black/50 bg-transparent p-0 max-w-none w-full h-full max-h-none m-0 open:flex open:items-start open:justify-center open:pt-[12vh]"
+>
+  <div
+    class="w-full max-w-xl mx-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-2xl overflow-hidden"
+  >
+    <form
+      id="sh-search-form"
+      class="flex items-center gap-2 px-4 py-3 border-b border-slate-200 dark:border-slate-700"
+      role="search"
+    >
+      <Icon name="tabler:search" class="w-5 h-5 text-slate-400 shrink-0" />
+      <input
+        id="sh-search-input"
+        type="search"
+        name="q"
+        placeholder="Search products, solutions, blog…"
+        autocomplete="off"
+        class="flex-1 bg-transparent border-0 outline-none text-slate-900 dark:text-slate-100 placeholder:text-slate-400 text-base py-1"
+        aria-label="Search"
+      />
+      <kbd
+        class="hidden sm:inline text-xs text-slate-400 border border-slate-200 dark:border-slate-600 rounded px-1.5 py-0.5"
+        >ESC</kbd
+      >
+    </form>
+    <div id="sh-search-results" class="max-h-[50vh] overflow-y-auto p-2" role="listbox" aria-label="Search results">
+      <p class="text-sm text-slate-500 dark:text-slate-400 px-3 py-6 text-center">Type to search this section…</p>
+    </div>
+  </div>
+</dialog>
+
+<script is:inline type="module" src={getAsset('search.js')}></script>
+
+<style>
+  .sh-search-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.45);
+  }
+</style>

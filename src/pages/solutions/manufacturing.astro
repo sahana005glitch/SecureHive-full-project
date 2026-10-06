@@ -1,0 +1,54 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+const metadata = {
+  title: 'Manufacturing Solutions',
+  description: 'Control privileged access across plants, industrial systems, and enterprise IT — balancing availability with least privilege.',
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    tagline="Solutions"
+    actions={[
+      { variant: 'primary', text: 'Request a Demo', href: '/contact' },
+      { text: 'All Solutions', href: '/solutions' },
+    ]}
+  >
+    <Fragment slot="title">Manufacturing</Fragment>
+    <Fragment slot="subtitle">
+      Control privileged access across plants, industrial systems, and enterprise IT — balancing availability with least privilege.
+    </Fragment>
+  </Hero>
+
+  <Features
+    title="How SecureHive helps"
+    items={[
+      { title: 'OT/IT boundary control', description: 'Govern privileged paths between enterprise IT and industrial environments.', icon: 'tabler:shield' },
+      { title: 'Plant vendor access', description: 'Monitored, time-bound access for OEMs and integrators.', icon: 'tabler:lock' },
+      { title: 'Service account hygiene', description: 'Discover and rotate machine accounts used by industrial software.', icon: 'tabler:eye' },
+      { title: 'Change window elevation', description: 'JIT access aligned to maintenance windows rather than permanent admin.', icon: 'tabler:users' },
+      { title: 'Session evidence', description: 'Record privileged work during outages and upgrades.', icon: 'tabler:key' },
+      { title: 'Distributed sites', description: 'Consistent policy model across plants and regional operations.', icon: 'tabler:report' },
+    ]}
+  />
+
+  <FAQs
+    title="Frequently asked questions"
+    items={[
+      { title: 'Do you replace OT security platforms?', description: 'No. SecureHive focuses on privileged access governance and complements OT monitoring and network segmentation.' },
+      { title: 'What if a line is down and we need immediate access?', description: 'Break-glass procedures can be defined with strong logging so production recovery is not blocked.' },
+      { title: 'Can we cover both Windows and specialized systems?', description: 'Coverage depends on connectors and architecture; many deployments start with Windows/Linux admin and expand.' },
+      { title: 'How do remote plants connect securely?', description: 'Session manager patterns reduce password sharing for remote privileged work.' },
+    ]}
+  />
+
+  <CallToAction actions={[{ variant: 'primary', text: 'Request a Demo', href: '/contact' }]}>
+    <Fragment slot="title">Discuss Manufacturing requirements</Fragment>
+    <Fragment slot="subtitle">Map privileged access controls to your environment and compliance goals.</Fragment>
+  </CallToAction>
+</Layout>

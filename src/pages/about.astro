@@ -1,0 +1,69 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+const metadata = {
+  title: 'About SecureHive',
+  description:
+    'SecureHive builds privileged access management and identity-centric security for enterprise teams.',
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    tagline="Company"
+    actions={[
+      { variant: 'primary', text: 'Contact Us', href: '/contact' },
+      { text: 'Request a Demo', href: '/contact' },
+    ]}
+  >
+    <Fragment slot="title">
+      Privileged access<br />
+      <span class="text-accent">as the control plane</span>
+    </Fragment>
+    <Fragment slot="subtitle">
+      SecureHive focuses on Privileged Access Management and identity-centric security so enterprises can reduce
+      standing privilege, control critical access, and produce the audit trail security and compliance teams need.
+    </Fragment>
+  </Hero>
+
+  <Features2
+    title="What guides our work"
+    items={[
+      {
+        title: 'Identity-centric security',
+        description: 'We treat identity and privileged access as the primary control plane for modern environments.',
+        icon: 'tabler:user-shield',
+      },
+      {
+        title: 'Operational clarity',
+        description: 'Controls should be enforceable by security teams without blocking legitimate work.',
+        icon: 'tabler:eye',
+      },
+      {
+        title: 'Enterprise readiness',
+        description: 'Scale, auditability, and integration with existing identity infrastructure are non-negotiable.',
+        icon: 'tabler:building',
+      },
+      {
+        title: 'Least privilege in practice',
+        description: 'Just-in-time access and credential hygiene over standing admin rights.',
+        icon: 'tabler:shield-check',
+      },
+    ]}
+  />
+
+  <CallToAction
+    actions={[
+      { variant: 'primary', text: 'Request a Demo', href: '/contact' },
+      { text: 'View Products', href: '/products' },
+    ]}
+  >
+    <Fragment slot="title">Talk with SecureHive</Fragment>
+    <Fragment slot="subtitle">
+      Discuss privileged access, discovery, and how PAM fits your identity strategy.
+    </Fragment>
+  </CallToAction>
+</Layout>
