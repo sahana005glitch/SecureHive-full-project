@@ -3,6 +3,8 @@ import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import type { Post, Taxonomy } from '~/types';
 import { APP_BLOG } from 'astrowind:config';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import type { Locale } from '~/i18n/config';
 import { cleanSlug, trimSlash, BLOG_BASE, POST_PERMALINK_PATTERN, CATEGORY_BASE, TAG_BASE } from './permalinks';
 
 const generatePermalink = async ({
@@ -48,6 +50,8 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     publishDate: rawPublishDate = new Date(),
     updateDate: rawUpdateDate,
     title,
+    locale,
+    translationKey: rawTranslationKey,
     excerpt,
     image,
     imageAlt,
@@ -58,7 +62,9 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     metadata = {},
   } = data;
 
-  const slug = cleanSlug(id);
+  const translationKey = rawTranslationKey;
+  const slug = cleanSlug(translationKey);
+  const localePath = locale === 'en' ? undefined : locale;
   const publishDate = new Date(rawPublishDate);
   const updateDate = rawUpdateDate ? new Date(rawUpdateDate) : undefined;
 
@@ -74,10 +80,19 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     title: tag,
   }));
 
+  const permalink = await generatePermalink({
+    id: translationKey,
+    slug,
+    publishDate,
+    category: category?.slug,
+  });
+
   return {
     id: id,
     slug: slug,
-    permalink: await generatePermalink({ id, slug, publishDate, category: category?.slug }),
+    translationKey,
+    locale,
+    permalink: localePath ? getRelativeLocaleUrl(localePath, permalink) : permalink,
 
     publishDate: publishDate,
     updateDate: updateDate,
@@ -102,8 +117,34 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
   };
 };
 
-const load = async function (): Promise<Array<Post>> {
-  const posts = await getCollection('post');
+const load = async function (locale: Locale): Promise<Array<Post>> {
+  const allPosts = await getCollection('post');
+  const englishTranslationKeys = new Set(
+    allPosts.filter((post) => post.data.locale === 'en').map((post) => post.data.translationKey)
+  );
+
+  for (const post of allPosts) {
+    const directoryLocale = post.id.split('/')[0];
+    if (directoryLocale !== post.data.locale) {
+      throw new Error(
+        `Post "${post.id}" declares locale "${post.data.locale}" but is stored under "${directoryLocale}".`
+      );
+    }
+    if (post.data.locale !== 'en' && !englishTranslationKeys.has(post.data.translationKey)) {
+      throw new Error(`Post "${post.id}" has no English source for translation key "${post.data.translationKey}".`);
+    }
+  }
+
+  const posts = allPosts.filter((post) => post.data.locale === locale);
+  const keys = new Set<string>();
+  for (const post of posts) {
+    const key = `${post.data.locale}:${post.data.translationKey}`;
+    if (keys.has(key)) {
+      throw new Error(`Duplicate post translation key "${key}" in collection entry "${post.id}".`);
+    }
+    keys.add(key);
+  }
+
   const normalizedPosts = posts.map(async (post) => await getNormalizedPost(post));
 
   const results = (await Promise.all(normalizedPosts))
@@ -113,7 +154,7 @@ const load = async function (): Promise<Array<Post>> {
   return results;
 };
 
-let _posts: Array<Post>;
+const postsByLocale = new Map<Locale, Array<Post>>();
 
 /** */
 export const isBlogEnabled = APP_BLOG.isEnabled;
@@ -131,12 +172,13 @@ export const blogTagRobots = APP_BLOG.tag.robots;
 export const blogPostsPerPage = APP_BLOG?.postsPerPage;
 
 /** */
-export const fetchPosts = async (): Promise<Array<Post>> => {
-  if (!_posts) {
-    _posts = await load();
-  }
+export const fetchPosts = async (locale: Locale = 'en'): Promise<Array<Post>> => {
+  const cachedPosts = postsByLocale.get(locale);
+  if (cachedPosts) return cachedPosts;
 
-  return _posts;
+  const posts = await load(locale);
+  postsByLocale.set(locale, posts);
+  return posts;
 };
 
 /** */
@@ -154,14 +196,14 @@ export const findPostsBySlugs = async (slugs: Array<string>): Promise<Array<Post
 };
 
 /** */
-export const findPostsByIds = async (ids: Array<string>): Promise<Array<Post>> => {
+export const findPostsByIds = async (ids: Array<string>, locale: Locale = 'en'): Promise<Array<Post>> => {
   if (!Array.isArray(ids)) return [];
 
-  const posts = await fetchPosts();
+  const posts = await fetchPosts(locale);
 
   return ids.reduce(function (r: Array<Post>, id: string) {
     posts.some(function (post: Post) {
-      return id === post.id && r.push(post);
+      return (id === post.id || id === post.translationKey || id === post.slug) && r.push(post);
     });
     return r;
   }, []);
@@ -247,7 +289,7 @@ export const getStaticPathsBlogTag = async ({ paginate }: { paginate: PaginateFu
 
 /** */
 export async function getRelatedPosts(originalPost: Post, maxResults: number = 4): Promise<Post[]> {
-  const allPosts = await fetchPosts();
+  const allPosts = await fetchPosts(originalPost.locale);
   const originalTagsSet = new Set(originalPost.tags ? originalPost.tags.map((tag) => tag.slug) : []);
 
   const postsWithScores = allPosts.reduce((acc: { post: Post; score: number }[], iteratedPost: Post) => {
