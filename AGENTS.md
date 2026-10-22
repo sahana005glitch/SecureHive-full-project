@@ -32,11 +32,14 @@ src/
   components/
     common/        # Shared: Image, Metadata, Analytics, ToggleTheme
     ui/            # Primitives: Button, Form, Headline, Timeline, WidgetWrapper
-    widgets/       # Page sections: Hero, Features, Bento, Pricing, Comparison, FAQs, Team, Gallery…
+    widgets/       # Shared site chrome and SecureHive page sections
     blog/          # Blog: SinglePost, List, Pagination, Tags
     CustomStyles.astro  # CSS variables for colors and fonts
   content.config.ts    # Content Collections schema (Astro 5+ location)
-  data/post/           # Blog posts (.md, .mdx)
+  data/pages/<locale>/ # Zod-validated marketing page data, one JSON file per page
+  data/post/<locale>/  # Locale-partitioned blog posts (.md, .mdx)
+  messages/            # UI and micro-copy catalogs (en.json, fr.json, de.json)
+  schemas/             # Shared Content Collection validation schemas
   layouts/             # Layout.astro, PageLayout.astro, MarkdownLayout.astro
   pages/               # File-based routing
   utils/               # blog.ts, images.ts, permalinks.ts, frontmatter.ts
@@ -79,7 +82,7 @@ Components use `twMerge` from `tailwind-merge` v3 for conditional class composit
 
 ## Content Collections
 
-Defined in `src/content.config.ts` using Astro's Content Layer API with `glob()` loader. Posts are in `src/data/post/` as `.md` or `.mdx` files.
+Defined in `src/content.config.ts` using Astro's Content Layer API with a recursive `glob()` loader. Posts are in `src/data/post/<locale>/` as `.md` or `.mdx` files, with required `locale` and shared `translationKey` frontmatter.
 
 Post frontmatter: `title` (required), `publishDate`, `updateDate`, `draft`, `excerpt`, `image`, `category`, `tags`, `author`, `metadata`.
 

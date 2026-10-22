@@ -1,0 +1,22 @@
+{
+  "tagline": "Contact",
+  "title": "Demandez une démonstration ou contactez-nous",
+  "subtitle": "Présentez-nous votre équipe et expliquez-nous comment nous pouvons vous aider. Nous répondons généralement sous un jour ouvré.",
+  "formTitle": "Comment pouvons-nous vous aider ?",
+  "formSubtitle": "Pour évaluer nos produits, indiquez dans votre message la gestion des accès privilégiés ou votre principal cas d’usage.",
+  "nameLabel": "Nom complet",
+  "emailLabel": "Adresse e-mail professionnelle",
+  "companyLabel": "Entreprise",
+  "phoneLabel": "Téléphone (facultatif)",
+  "messageLabel": "Message — précisez votre besoin (accès privilégiés, identité, conformité ou autre) et la taille de votre entreprise si nécessaire",
+  "disclaimer": "En envoyant ce formulaire, vous acceptez que SecureHive vous contacte au sujet de votre demande.",
+  "responseNote": "Notre équipe répond généralement sous un jour ouvré.",
+  "submitBtn": "Envoyer le message",
+  "engageTitle": "Comment échanger avec nous",
+  "engage1Title": "Demander une démonstration",
+  "engage1Desc": "Découvrez comment SecureHive facilite la découverte des comptes, l’accès juste-à-temps et la supervision des sessions.",
+  "engage2Title": "Contacter l’équipe commerciale",
+  "engage2Desc": "Échangez sur les options de déploiement, les intégrations et les besoins de votre entreprise.",
+  "engage3Title": "Assistance",
+  "engage3Desc": "Les clients peuvent contacter notre équipe pour obtenir une assistance opérationnelle."
+}

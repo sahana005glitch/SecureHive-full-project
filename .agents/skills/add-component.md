@@ -59,5 +59,5 @@ const columnsClass = getColumnsClass(columns, 'sm:grid-cols-2');
 - Images through `~/components/common/Image.astro` with `widths`/`sizes`, and `alt` text. Icons from the Tabler set; verify the name exists in `@iconify-json/tabler/icons.json`.
 - Items with a link render an `<a>` (`const Card = href ? 'a' : 'div'`) rather than a nested button.
 - Animations use the `intersect-*` classes and are wrapped in `motion-safe:`.
-- Interaction, when unavoidable, is a small web component (`<aw-my-widget>` with a `<script>` in the same file, ≤ 40 lines) with a static fallback: `FAQs` uses `<details>`, `Gallery` a `<dialog>`, `Countdown`/`Video`/`StickyCTA` a custom element. Register it with `if (!customElements.get(...))` so view transitions do not redefine it.
+- Prefer native HTML for interactions (for example, `<details>` for disclosures). If a small custom element is necessary, keep it in the component file and register it with `if (!customElements.get(...))` so view transitions do not redefine it.
 - Add a row to the catalogue in `use-widgets.md`.

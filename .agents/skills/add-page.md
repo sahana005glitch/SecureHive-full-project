@@ -41,9 +41,11 @@ const metadata = {
 </Layout>
 ```
 
-## Available Widget Components
+## Available Section Components
 
-Hero, Features, Content, Steps, Testimonials, FAQs, Stats, Pricing, Brands, CallToAction, Contact, Team
+`Hero`, `HeroText`, `Features`, `Features2`, `Steps`, `FAQs`, `CallToAction`,
+`Contact`, `Newsletter`, and `BlogHighlightedPosts`. Shared site chrome such as
+`Header` and `Footer` is also in `src/components/widgets/`.
 
 ## Notes
 

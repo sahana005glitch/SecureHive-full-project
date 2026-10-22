@@ -13,7 +13,7 @@ apps:
 ```
 
 2. Remove the blog entries from `headerData.links` in `src/navigation.ts` (the "Blog" dropdown) and any blog link in `footerData`.
-3. Remove `<BlogLatestPosts />` (and `<BlogHighlightedPosts />` if used) from `src/pages/index.astro` and any other page; with the blog disabled they render nothing, so they are just dead code.
+3. Remove `<BlogHighlightedPosts />` from `src/pages/index.astro` and any other page; with the blog disabled it renders nothing, so it is just dead code.
 4. Run `npm run build` and confirm no `/blog`, `/category/*`, `/tag/*` or post pages are emitted in `dist/`.
 
 ## What changes
@@ -23,7 +23,7 @@ apps:
 | `/blog`, `/blog/2`, `/category/*`, `/tag/*` | Not generated (`getStaticPaths()` returns `[]`)      |
 | Post URLs (`/%slug%`)                       | Not generated                                        |
 | `/rss.xml`                                  | Returns 404 (`src/pages/rss.xml.ts` checks the flag) |
-| `src/data/post/*.md(x)`                     | Ignored at build; safe to delete                     |
+| `src/data/post/<locale>/*.md(x)`            | Ignored at build; safe to delete                     |
 | `src/pages/[...blog]/`                      | Can stay; it produces no routes                      |
 
 ## Partial disabling

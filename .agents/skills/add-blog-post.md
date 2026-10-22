@@ -2,11 +2,13 @@
 
 ## Steps
 
-1. Create a new `.md` or `.mdx` file in `src/data/post/`
+1. Create a new `.md` or `.mdx` file in the matching `src/data/post/<locale>/` directory
 2. Add required frontmatter:
 
 ```yaml
 ---
+locale: en
+translationKey: your-post
 publishDate: 2026-01-15T00:00:00Z
 title: 'Your Post Title'
 excerpt: 'One or two sentences, at most 155 characters: it is the meta description and the card text.'
@@ -25,19 +27,21 @@ author: 'Author Name'
 
 ## Frontmatter Fields
 
-| Field         | Required | Description                                                                                                                           |
-| ------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| `title`       | Yes      | Post title                                                                                                                            |
-| `publishDate` | No       | ISO 8601 date                                                                                                                         |
-| `updateDate`  | No       | ISO 8601 date; shown as "Updated" next to the publish date and sent as `article:modified_time` / `dateModified`                       |
-| `draft`       | No       | Set `true` to hide from listing                                                                                                       |
-| `excerpt`     | No       | Summary for listing pages and the meta description (keep it ≤ 155 characters; longer text is cut at a word boundary for the meta tag) |
-| `image`       | No       | Path to hero image (use `~/` prefix for local)                                                                                        |
-| `imageAlt`    | No       | Alt text of the hero image; leave empty for decorative stock photos                                                                   |
-| `category`    | No       | Single category string                                                                                                                |
-| `tags`        | No       | Array of tag strings                                                                                                                  |
-| `author`      | No       | Author name                                                                                                                           |
-| `metadata`    | No       | Override SEO metadata                                                                                                                 |
+| Field            | Required | Description                                                                                                                           |
+| ---------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `locale`         | Yes      | Language code: `en`, `fr` or `de`; store the file under the matching `src/data/post/<locale>/` directory                              |
+| `translationKey` | Yes      | Stable key shared by translated versions; normally the English post slug                                                              |
+| `title`          | Yes      | Post title                                                                                                                            |
+| `publishDate`    | No       | ISO 8601 date                                                                                                                         |
+| `updateDate`     | No       | ISO 8601 date; shown as "Updated" next to the publish date and sent as `article:modified_time` / `dateModified`                       |
+| `draft`          | No       | Set `true` to hide from listing                                                                                                       |
+| `excerpt`        | No       | Summary for listing pages and the meta description (keep it ≤ 155 characters; longer text is cut at a word boundary for the meta tag) |
+| `image`          | No       | Path to hero image (use `~/` prefix for local)                                                                                        |
+| `imageAlt`       | No       | Alt text of the hero image; leave empty for decorative stock photos                                                                   |
+| `category`       | No       | Single category string                                                                                                                |
+| `tags`           | No       | Array of tag strings                                                                                                                  |
+| `author`         | No       | Author name                                                                                                                           |
+| `metadata`       | No       | Override SEO metadata                                                                                                                 |
 
 ## URL Pattern
 
@@ -54,3 +58,5 @@ The slug is derived from the filename and the URL follows `apps.blog.post.permal
 - Reading time is calculated automatically via remark plugin
 - Images referenced with `~/` are optimized at build time
 - Use `.mdx` extension to embed Astro components in posts
+- Add translations as `src/data/post/fr/<translationKey>.md` or `src/data/post/de/<translationKey>.md`; untranslated articles stay out of those locale archives.
+- Keep the English filename and permalink stable when translating so existing URLs remain unchanged.

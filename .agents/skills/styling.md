@@ -8,15 +8,16 @@ All Tailwind config is in `src/assets/styles/tailwind.css`:
 
 Defined in `@theme` block, mapped to CSS variables from `CustomStyles.astro`:
 
-| Token               | CSS Variable                              | Usage                            |
-| ------------------- | ----------------------------------------- | -------------------------------- |
-| `--color-primary`   | `--aw-color-primary`                      | `bg-primary`, `text-primary`     |
-| `--color-secondary` | `--aw-color-secondary`                    | `bg-secondary`, `text-secondary` |
-| `--color-accent`    | `--aw-color-accent`                       | `bg-accent`, `text-accent`       |
-| `--color-heading`   | `--aw-color-text-heading`                 | `text-heading` (titles, hero h1) |
-| `--color-default`   | `--aw-color-text-default`                 | `text-default`                   |
-| `--color-muted`     | `--aw-color-text-muted`                   | `text-muted`                     |
-| `--color-link`      | `--aw-color-link` (falls back to primary) | `text-link`, active header link  |
+| Token                | CSS Variable                              | Usage                              |
+| -------------------- | ----------------------------------------- | ---------------------------------- |
+| `--color-primary`    | `--aw-color-primary`                      | `bg-primary`, `text-primary`       |
+| `--color-secondary`  | `--aw-color-secondary`                    | `bg-secondary`, `text-secondary`   |
+| `--color-accent`     | `--aw-color-accent`                       | `bg-accent`, `text-accent`         |
+| `--color-brand-warm` | `--aw-color-warm`                         | `bg-brand-warm`, `text-brand-warm` |
+| `--color-heading`    | `--aw-color-text-heading`                 | `text-heading` (titles, hero h1)   |
+| `--color-default`    | `--aw-color-text-default`                 | `text-default`                     |
+| `--color-muted`      | `--aw-color-text-muted`                   | `text-muted`                       |
+| `--color-link`       | `--aw-color-link` (falls back to primary) | `text-link`, active header link    |
 
 ### Custom Utilities
 
@@ -55,9 +56,9 @@ Custom `intersect` variant for IntersectionObserver animations:
 | shadcn utility                                                                   | Backed by                                       |
 | -------------------------------------------------------------------------------- | ----------------------------------------------- |
 | `bg-background`, `text-foreground`                                               | `--aw-color-bg-page`, `--aw-color-text-default` |
-| `bg-card`, `bg-popover` (+ `-foreground`)                                        | page background / default text                  |
+| `bg-card`, `bg-popover` (+ `-foreground`)                                        | theme card surface / default text               |
 | `text-muted-foreground`                                                          | `--aw-color-text-muted`                         |
-| `border-border`, `border-input`, `ring-ring`                                     | 15 % mix of text over background / primary      |
+| `border-border`, `border-input`, `ring-ring`                                     | theme border / primary                          |
 | `bg-destructive`, `text-destructive-foreground`                                  | fixed red / white                               |
 | `text-primary-foreground`, `text-secondary-foreground`, `text-accent-foreground` | white                                           |
 | `bg-chart-1..5`, `bg-sidebar*`                                                   | derived from primary / secondary / accent       |
@@ -70,19 +71,28 @@ Edit `src/components/CustomStyles.astro`:
 
 ```css
 :root {
-  --aw-color-primary: rgb(1 97 239);
-  --aw-color-secondary: rgb(1 84 207);
-  --aw-color-accent: rgb(109 40 217);
-  --aw-color-text-heading: rgb(0 0 0);
-  /* optional: --aw-color-link: rgb(1 97 239); */
+  --aw-color-primary: #024950;
+  --aw-color-secondary: #003135;
+  --aw-color-accent: #0fa4af;
+  --aw-color-warm: #964734;
+  --aw-color-text-heading: #003135;
+  /* optional: --aw-color-link: #024950; */
 }
 .dark {
-  --aw-color-primary: rgb(1 97 239);
-  /* ... */
+  --aw-color-primary: #6edff6;
+  --aw-color-secondary: #729bff;
+  --aw-color-bg-page: #081426;
+  --aw-color-bg-section: #0e1c31;
+  --aw-color-bg-card: #142641;
+  --aw-color-text-heading: #f0f5ff;
+  --aw-color-text-default: #c0ccdf;
+  --aw-color-text-muted: #8494ae;
+  --aw-color-border: #293a55;
+  --aw-color-link: #6edff6;
 }
 ```
 
-Note: the demo pages wrap highlighted words in `text-accent dark:text-white` because the default purple accent has low contrast on the dark background. Remove `dark:text-white` or pick a lighter `--aw-color-accent` in `.dark` if you want the accent in dark mode.
+The light theme uses the SecureHive teal palette with a terracotta warm accent. The dark theme uses a navy palette with cyan and periwinkle accents. Use dark text on the bright accent-colored buttons for readable contrast.
 
 ## Changing Fonts
 
