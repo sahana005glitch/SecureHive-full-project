@@ -4,51 +4,54 @@ import Hero from '~/components/widgets/Hero.astro';
 import Features from '~/components/widgets/Features.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
+import { useTranslations } from '~/i18n/translations';
+import { getLocalizedPath } from '~/i18n/routes';
+
+const locale = Astro.currentLocale || 'en';
+const { t } = useTranslations(locale);
+const localePath = (p: string) => getLocalizedPath(p, locale);
 
 const metadata = {
-  title: 'Manufacturing Solutions',
-  description: 'Control privileged access across plants, industrial systems, and enterprise IT — balancing availability with least privilege.',
+  title: `${t('solutions.items.mfg.title')} — SecureHive`,
+  description: t('solutions.items.mfg.subtitle'),
 };
 ---
 
 <Layout metadata={metadata}>
   <Hero
-    tagline="Solutions"
+    tagline={t('solutions.tagline')}
     actions={[
-      { variant: 'primary', text: 'Request a Demo', href: '/contact' },
-      { text: 'All Solutions', href: '/solutions' },
+      { variant: 'primary', text: t('common.requestDemo'), href: localePath('/contact') },
+      { text: t('common.allSolutions'), href: localePath('/solutions') },
     ]}
   >
-    <Fragment slot="title">Manufacturing</Fragment>
-    <Fragment slot="subtitle">
-      Control privileged access across plants, industrial systems, and enterprise IT — balancing availability with least privilege.
-    </Fragment>
+    <Fragment slot="title">{t('solutions.items.mfg.title')}</Fragment>
+    <Fragment slot="subtitle">{t('solutions.items.mfg.subtitle')}</Fragment>
   </Hero>
 
   <Features
-    title="How SecureHive helps"
+    title={t('solutions.items.mfg.featuresTitle')}
     items={[
-      { title: 'OT/IT boundary control', description: 'Govern privileged paths between enterprise IT and industrial environments.', icon: 'tabler:shield' },
-      { title: 'Plant vendor access', description: 'Monitored, time-bound access for OEMs and integrators.', icon: 'tabler:lock' },
-      { title: 'Service account hygiene', description: 'Discover and rotate machine accounts used by industrial software.', icon: 'tabler:eye' },
-      { title: 'Change window elevation', description: 'JIT access aligned to maintenance windows rather than permanent admin.', icon: 'tabler:users' },
-      { title: 'Session evidence', description: 'Record privileged work during outages and upgrades.', icon: 'tabler:key' },
-      { title: 'Distributed sites', description: 'Consistent policy model across plants and regional operations.', icon: 'tabler:report' },
+      { title: t('solutions.items.mfg.feat1Title'), description: t('solutions.items.mfg.feat1Desc'), icon: 'tabler:shield' },
+      { title: t('solutions.items.mfg.feat2Title'), description: t('solutions.items.mfg.feat2Desc'), icon: 'tabler:lock' },
+      { title: t('solutions.items.mfg.feat3Title'), description: t('solutions.items.mfg.feat3Desc'), icon: 'tabler:eye' },
+      { title: t('solutions.items.mfg.feat4Title'), description: t('solutions.items.mfg.feat4Desc'), icon: 'tabler:users' },
+      { title: t('solutions.items.mfg.feat5Title'), description: t('solutions.items.mfg.feat5Desc'), icon: 'tabler:key' },
+      { title: t('solutions.items.mfg.feat6Title'), description: t('solutions.items.mfg.feat6Desc'), icon: 'tabler:report' },
     ]}
   />
 
   <FAQs
-    title="Frequently asked questions"
+    title={t('solutions.faqsTitle')}
     items={[
-      { title: 'Do you replace OT security platforms?', description: 'No. SecureHive focuses on privileged access governance and complements OT monitoring and network segmentation.' },
-      { title: 'What if a line is down and we need immediate access?', description: 'Break-glass procedures can be defined with strong logging so production recovery is not blocked.' },
-      { title: 'Can we cover both Windows and specialized systems?', description: 'Coverage depends on connectors and architecture; many deployments start with Windows/Linux admin and expand.' },
-      { title: 'How do remote plants connect securely?', description: 'Session manager patterns reduce password sharing for remote privileged work.' },
+      { title: t('solutions.faq1Q'), description: t('solutions.faq1A') },
+      { title: t('solutions.faq2Q'), description: t('solutions.faq2A') },
+      { title: t('solutions.faq3Q'), description: t('solutions.faq3A') },
     ]}
   />
 
-  <CallToAction actions={[{ variant: 'primary', text: 'Request a Demo', href: '/contact' }]}>
-    <Fragment slot="title">Discuss Manufacturing requirements</Fragment>
-    <Fragment slot="subtitle">Map privileged access controls to your environment and compliance goals.</Fragment>
+  <CallToAction actions={[{ variant: 'primary', text: t('common.requestDemo'), href: localePath('/contact') }]}>
+    <Fragment slot="title">{t('solutions.items.mfg.ctaTitle')}</Fragment>
+    <Fragment slot="subtitle">{t('solutions.items.mfg.ctaSubtitle')}</Fragment>
   </CallToAction>
 </Layout>

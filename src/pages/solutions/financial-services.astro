@@ -4,51 +4,54 @@ import Hero from '~/components/widgets/Hero.astro';
 import Features from '~/components/widgets/Features.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
+import { useTranslations } from '~/i18n/translations';
+import { getLocalizedPath } from '~/i18n/routes';
+
+const locale = Astro.currentLocale || 'en';
+const { t } = useTranslations(locale);
+const localePath = (p: string) => getLocalizedPath(p, locale);
 
 const metadata = {
-  title: 'Financial Services Solutions',
-  description: 'Protect trading platforms, core banking, and admin planes with just-in-time access, session oversight, and audit-ready evidence for regulators and internal risk teams.',
+  title: `${t('solutions.items.financial.title')} — SecureHive`,
+  description: t('solutions.items.financial.subtitle'),
 };
 ---
 
 <Layout metadata={metadata}>
   <Hero
-    tagline="Solutions"
+    tagline={t('solutions.tagline')}
     actions={[
-      { variant: 'primary', text: 'Request a Demo', href: '/contact' },
-      { text: 'All Solutions', href: '/solutions' },
+      { variant: 'primary', text: t('common.requestDemo'), href: localePath('/contact') },
+      { text: t('common.allSolutions'), href: localePath('/solutions') },
     ]}
   >
-    <Fragment slot="title">Financial Services</Fragment>
-    <Fragment slot="subtitle">
-      Protect trading platforms, core banking, and admin planes with just-in-time access, session oversight, and audit-ready evidence for regulators and internal risk teams.
-    </Fragment>
+    <Fragment slot="title">{t('solutions.items.financial.title')}</Fragment>
+    <Fragment slot="subtitle">{t('solutions.items.financial.subtitle')}</Fragment>
   </Hero>
 
   <Features
-    title="How SecureHive helps"
+    title={t('solutions.items.financial.featuresTitle')}
     items={[
-      { title: 'Critical system access', description: 'Control privileged paths into payment, trading, and core systems without standing shared passwords.', icon: 'tabler:shield' },
-      { title: 'Audit and exam readiness', description: 'Produce access and session records that support internal audit and regulatory reviews.', icon: 'tabler:lock' },
-      { title: 'Third-party oversight', description: 'Time-bound, monitored access for vendors and integrators touching sensitive environments.', icon: 'tabler:eye' },
-      { title: 'Segregation of duties', description: 'Approval workflows and dual control for high-impact privileged actions.', icon: 'tabler:users' },
-      { title: 'Credential hygiene', description: 'Rotate and vault shared and service credentials that accumulate in financial IT.', icon: 'tabler:key' },
-      { title: 'Incident response', description: 'Session context speeds investigation when privileged misuse is suspected.', icon: 'tabler:report' },
+      { title: t('solutions.items.financial.feat1Title'), description: t('solutions.items.financial.feat1Desc'), icon: 'tabler:shield' },
+      { title: t('solutions.items.financial.feat2Title'), description: t('solutions.items.financial.feat2Desc'), icon: 'tabler:lock' },
+      { title: t('solutions.items.financial.feat3Title'), description: t('solutions.items.financial.feat3Desc'), icon: 'tabler:eye' },
+      { title: t('solutions.items.financial.feat4Title'), description: t('solutions.items.financial.feat4Desc'), icon: 'tabler:users' },
+      { title: t('solutions.items.financial.feat5Title'), description: t('solutions.items.financial.feat5Desc'), icon: 'tabler:key' },
+      { title: t('solutions.items.financial.feat6Title'), description: t('solutions.items.financial.feat6Desc'), icon: 'tabler:report' },
     ]}
   />
 
   <FAQs
-    title="Frequently asked questions"
+    title={t('solutions.faqsTitle')}
     items={[
-      { title: 'Does this help with SOX or similar controls?', description: 'SecureHive provides access and session evidence many control frameworks expect around privileged activity. Mapping to specific controls is done with your GRC team.' },
-      { title: 'Can we support 24/7 operations?', description: 'JIT and break-glass patterns can be designed so production support remains available while standing privilege is reduced.' },
-      { title: 'How do traders or ops get emergency access?', description: 'Emergency paths can be pre-staged with stricter logging and mandatory post-access review.' },
-      { title: 'Does it integrate with our existing IAM?', description: 'SecureHive is designed to work alongside enterprise identity providers and directories rather than replace workforce IAM.' },
+      { title: t('solutions.faq1Q'), description: t('solutions.faq1A') },
+      { title: t('solutions.faq2Q'), description: t('solutions.faq2A') },
+      { title: t('solutions.faq3Q'), description: t('solutions.faq3A') },
     ]}
   />
 
-  <CallToAction actions={[{ variant: 'primary', text: 'Request a Demo', href: '/contact' }]}>
-    <Fragment slot="title">Discuss Financial Services requirements</Fragment>
-    <Fragment slot="subtitle">Map privileged access controls to your environment and compliance goals.</Fragment>
+  <CallToAction actions={[{ variant: 'primary', text: t('common.requestDemo'), href: localePath('/contact') }]}>
+    <Fragment slot="title">{t('solutions.items.financial.ctaTitle')}</Fragment>
+    <Fragment slot="subtitle">{t('solutions.items.financial.ctaSubtitle')}</Fragment>
   </CallToAction>
 </Layout>

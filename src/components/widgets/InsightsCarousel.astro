@@ -1,0 +1,432 @@
+---
+import { Icon } from 'astro-icon/components';
+import Image from '~/components/common/Image.astro';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import { isSupportedLocale, type Locale } from '~/i18n/config';
+import { getLocalizedPath } from '~/i18n/routes';
+import { useTranslations } from '~/i18n/translations';
+import { fetchPosts } from '~/utils/blog';
+import type { Post, Widget } from '~/types';
+import { APP_BLOG } from 'astrowind:config';
+
+export interface Props extends Widget {
+  title: string;
+  information?: string;
+}
+
+const { title, information, id = 'latest-insights', isDark = false, classes = {}, bg } = Astro.props;
+const currentLocale = Astro.currentLocale || '';
+const locale: Locale = isSupportedLocale(currentLocale) ? currentLocale : 'en';
+const { t } = useTranslations(locale);
+const posts: Post[] = APP_BLOG.isEnabled ? (await fetchPosts(locale)).slice(0, 5) : [];
+const excerptLimit = 155;
+const conciseExcerpt = (excerpt: string | undefined) => {
+  if (!excerpt) return '';
+  const normalized = excerpt.replace(/\s+/gu, ' ').trim();
+  if (normalized.length <= excerptLimit) return normalized;
+  const shortened = normalized.slice(0, excerptLimit);
+  const lastSpace = shortened.lastIndexOf(' ');
+  return `${shortened.slice(0, lastSpace > 0 ? lastSpace : excerptLimit).trimEnd()}…`;
+};
+---
+
+{
+  posts.length > 0 && (
+    <WidgetWrapper id={id} isDark={isDark} containerClass={classes?.container as string} bg={bg}>
+      <sh-insights-carousel
+        class="insights-carousel"
+        data-insights-carousel
+        data-pause-label={t('common.pauseRotation')}
+        data-resume-label={t('common.resumeRotation')}
+        role="region"
+        aria-roledescription="carousel"
+        aria-label={title}
+      >
+        <header class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 class="font-heading text-3xl font-bold tracking-tight text-heading sm:text-4xl">{title}</h2>
+            <a
+              class="mt-2 inline-flex items-center gap-1 text-sm font-medium text-link transition-colors hover:text-primary"
+              href={getLocalizedPath('/blog', locale)}
+            >
+              {t('blog.viewAllPosts')}
+              <span aria-hidden="true">»</span>
+            </a>
+          </div>
+          {information && <p class="max-w-md text-sm leading-relaxed text-muted">{information}</p>}
+        </header>
+
+        <div class="insights-carousel__slides" aria-live="off">
+          {posts.map((post, index) => (
+            <article
+              class="insights-carousel__slide"
+              data-insight-slide
+              data-active={index === 0 ? 'true' : 'false'}
+              hidden={index !== 0}
+              aria-hidden={index !== 0 ? 'true' : 'false'}
+              aria-roledescription="slide"
+              aria-label={`${index + 1} / ${posts.length}`}
+            >
+              <div class="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+                <div class="order-2 lg:order-1">
+                  {post.category && (
+                    <p class="mb-3 text-sm font-semibold uppercase tracking-wider text-primary">
+                      {post.category.title}
+                    </p>
+                  )}
+                  <h3 class="insights-carousel__title mb-4 font-heading text-3xl font-bold leading-tight text-heading sm:text-4xl">
+                    <a class="transition-colors hover:text-link" href={post.permalink}>
+                      {post.title}
+                    </a>
+                  </h3>
+                  {post.excerpt && (
+                    <p class="insights-carousel__excerpt max-w-xl text-base leading-relaxed text-default sm:text-lg">
+                      {conciseExcerpt(post.excerpt)}
+                    </p>
+                  )}
+                  <a
+                    class="mt-6 inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 font-semibold text-white transition-colors hover:bg-secondary dark:text-[#081426] dark:hover:text-[#081426]"
+                    href={post.permalink}
+                  >
+                    {t('common.readArticle')}
+                    <Icon name="tabler:arrow-right" class="h-4 w-4" aria-hidden="true" />
+                  </a>
+                </div>
+
+                <a
+                  class="insights-carousel__image order-1 block overflow-hidden rounded-lg bg-section lg:order-2"
+                  href={post.permalink}
+                  aria-label={post.title}
+                >
+                  {post.image ? (
+                    <Image
+                      src={post.image}
+                      alt={post.imageAlt || post.title}
+                      width={1200}
+                      height={675}
+                      widths={[640, 960, 1200]}
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      format="webp"
+                      layout="cover"
+                      loading={index === 0 ? 'eager' : 'lazy'}
+                    />
+                  ) : (
+                    <span class="flex h-full items-center justify-center text-primary" aria-hidden="true">
+                      <Icon name="tabler:shield-lock" class="h-16 w-16" />
+                    </span>
+                  )}
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {posts.length > 1 && (
+          <div class="mt-8 flex items-center gap-3 sm:gap-5" data-insight-controls>
+            <button
+              class="insights-carousel__arrow"
+              type="button"
+              data-insight-previous
+              aria-label={t('common.previousInsight')}
+            >
+              <Icon name="tabler:arrow-left" class="h-5 w-5" aria-hidden="true" />
+            </button>
+
+            <div class="flex flex-1 items-center gap-2 sm:gap-3" aria-hidden="true">
+              {posts.map((_, index) => (
+                <span class="insights-carousel__progress">
+                  <span
+                    class="insights-carousel__progress-fill"
+                    data-insight-progress-fill
+                    data-active={index === 0 ? 'true' : 'false'}
+                  />
+                </span>
+              ))}
+            </div>
+
+            <button
+              class="insights-carousel__arrow"
+              type="button"
+              data-insight-toggle
+              data-paused="false"
+              aria-label={t('common.pauseRotation')}
+              aria-pressed="false"
+            >
+              <Icon name="tabler:player-pause" class="h-4 w-4" data-pause-icon aria-hidden="true" />
+              <Icon name="tabler:player-play" class="hidden h-4 w-4" data-resume-icon aria-hidden="true" />
+            </button>
+
+            <button
+              class="insights-carousel__arrow"
+              type="button"
+              data-insight-next
+              aria-label={t('common.nextInsight')}
+            >
+              <Icon name="tabler:arrow-right" class="h-5 w-5" aria-hidden="true" />
+            </button>
+          </div>
+        )}
+      </sh-insights-carousel>
+    </WidgetWrapper>
+  )
+}
+
+<script>
+  class InsightsCarousel extends HTMLElement {
+    private timer: ReturnType<typeof setInterval> | undefined;
+    private activeIndex = 0;
+    private paused = false;
+    private hovered = false;
+    private mediaQuery: MediaQueryList | undefined;
+    private controller: AbortController | undefined;
+
+    connectedCallback() {
+      const slides = Array.from(this.querySelectorAll<HTMLElement>('[data-insight-slide]'));
+      const progressBars = Array.from(this.querySelectorAll<HTMLElement>('[data-insight-progress-fill]'));
+      const previous = this.querySelector<HTMLButtonElement>('[data-insight-previous]');
+      const next = this.querySelector<HTMLButtonElement>('[data-insight-next]');
+      const toggle = this.querySelector<HTMLButtonElement>('[data-insight-toggle]');
+      const pauseIcon = this.querySelector<HTMLElement>('[data-pause-icon]');
+      const resumeIcon = this.querySelector<HTMLElement>('[data-resume-icon]');
+
+      if (slides.length < 2 || !previous || !next || !toggle || !pauseIcon || !resumeIcon) return;
+
+      this.controller?.abort();
+      this.controller = new AbortController();
+      const { signal } = this.controller;
+      this.activeIndex = Math.max(
+        0,
+        slides.findIndex((slide) => slide.dataset.active === 'true')
+      );
+      this.hovered = false;
+      this.mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      this.paused = this.mediaQuery.matches;
+
+      const setPaused = (value: boolean) => {
+        this.paused = value;
+        toggle.dataset.paused = String(value);
+        toggle.setAttribute('aria-pressed', String(value));
+        toggle.setAttribute(
+          'aria-label',
+          value ? (this.dataset.resumeLabel ?? 'Resume rotation') : (this.dataset.pauseLabel ?? 'Pause rotation')
+        );
+        pauseIcon.classList.toggle('hidden', value);
+        resumeIcon.classList.toggle('hidden', !value);
+        this.restartTimer();
+      };
+
+      setPaused(this.paused);
+
+      const showSlide = (index: number, direction: 'next' | 'previous') => {
+        this.activeIndex = (index + slides.length) % slides.length;
+        this.dataset.direction = direction;
+
+        slides.forEach((slide, slideIndex) => {
+          const isActive = slideIndex === this.activeIndex;
+          slide.hidden = !isActive;
+          slide.dataset.active = String(isActive);
+          slide.setAttribute('aria-hidden', String(!isActive));
+        });
+
+        progressBars.forEach((bar, barIndex) => {
+          bar.dataset.active = String(barIndex === this.activeIndex);
+        });
+        this.restartTimer();
+      };
+
+      previous.addEventListener('click', () => showSlide(this.activeIndex - 1, 'previous'), { signal });
+      next.addEventListener('click', () => showSlide(this.activeIndex + 1, 'next'), { signal });
+      toggle.addEventListener('click', () => setPaused(!this.paused), { signal });
+      this.addEventListener(
+        'mouseenter',
+        () => {
+          this.hovered = true;
+          this.restartTimer();
+        },
+        { signal }
+      );
+      this.addEventListener(
+        'mouseleave',
+        () => {
+          this.hovered = false;
+          this.restartTimer();
+        },
+        { signal }
+      );
+      this.addEventListener('focusin', () => this.restartTimer(true), { signal });
+      this.addEventListener(
+        'focusout',
+        (event) => {
+          if (!this.contains(event.relatedTarget as Node | null)) this.restartTimer();
+        },
+        { signal }
+      );
+      this.mediaQuery.addEventListener('change', (event) => setPaused(event.matches), { signal });
+      document.addEventListener('visibilitychange', () => this.restartTimer(), { signal });
+
+      this.restartTimer();
+    }
+
+    disconnectedCallback() {
+      this.controller?.abort();
+      this.clearTimer();
+    }
+
+    private clearTimer() {
+      if (this.timer) clearInterval(this.timer);
+      this.timer = undefined;
+    }
+
+    private restartTimer(pause = false) {
+      this.clearTimer();
+      const stopped = pause || this.paused || this.hovered || document.hidden;
+      this.dataset.stopped = String(stopped);
+      if (stopped) return;
+
+      this.timer = setInterval(() => {
+        this.querySelector<HTMLButtonElement>('[data-insight-next]')?.click();
+      }, 5000);
+    }
+  }
+
+  if (!customElements.get('sh-insights-carousel')) {
+    customElements.define('sh-insights-carousel', InsightsCarousel);
+  }
+</script>
+
+<style>
+  .insights-carousel {
+    display: block;
+  }
+
+  .insights-carousel__slide[hidden] {
+    display: none;
+  }
+
+  .insights-carousel__slide[data-active='true'] {
+    animation: insight-enter-from-right 0.45s ease both;
+  }
+
+  .insights-carousel[data-direction='previous'] .insights-carousel__slide[data-active='true'] {
+    animation-name: insight-enter-from-left;
+  }
+
+  @keyframes insight-enter-from-right {
+    from {
+      opacity: 0;
+      transform: translateX(1.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes insight-enter-from-left {
+    from {
+      opacity: 0;
+      transform: translateX(-1.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .insights-carousel__image {
+    aspect-ratio: 16 / 10;
+  }
+
+  .insights-carousel__image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .insights-carousel__image:hover :global(img) {
+    transform: scale(1.025);
+  }
+
+  .insights-carousel__title {
+    display: -webkit-box;
+    min-height: 2.4em;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .insights-carousel__excerpt {
+    display: -webkit-box;
+    min-height: 4.5em;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .insights-carousel__arrow {
+    display: inline-flex;
+    width: 2.75rem;
+    height: 2.75rem;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--aw-color-border);
+    border-radius: 9999px;
+    color: var(--aw-color-text-default);
+    transition:
+      border-color 0.2s ease,
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .insights-carousel__arrow:hover {
+    border-color: var(--aw-color-primary);
+    background-color: color-mix(in srgb, var(--aw-color-primary) 10%, transparent);
+    color: var(--aw-color-primary);
+  }
+
+  .insights-carousel__progress {
+    display: block;
+    height: 0.25rem;
+    flex: 1;
+    overflow: hidden;
+    background-color: color-mix(in srgb, var(--aw-color-text-muted) 25%, transparent);
+  }
+
+  .insights-carousel__progress-fill {
+    display: block;
+    width: 0;
+    height: 100%;
+    background-color: var(--aw-color-primary);
+  }
+
+  .insights-carousel__progress-fill[data-active='true'] {
+    animation: insights-progress 5s linear forwards;
+  }
+
+  .insights-carousel[data-stopped='true'] .insights-carousel__progress-fill[data-active='true'] {
+    animation-play-state: paused;
+  }
+
+  @keyframes insights-progress {
+    to {
+      width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .insights-carousel__slide[data-active='true'] {
+      animation: none;
+    }
+
+    .insights-carousel__image :global(img) {
+      transition: none;
+    }
+
+    .insights-carousel__progress-fill[data-active='true'] {
+      animation: none;
+      width: 100%;
+    }
+  }
+</style>

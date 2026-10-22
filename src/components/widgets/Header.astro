@@ -3,12 +3,15 @@ import { Icon } from 'astro-icon/components';
 import Logo from '~/components/Logo.astro';
 import ToggleTheme from '~/components/common/ToggleTheme.astro';
 import Search from '~/components/common/Search.astro';
+import LanguageSwitcher from '~/components/common/LanguageSwitcher.astro';
 import ToggleMenu from '~/components/common/ToggleMenu.astro';
 import Button from '~/components/ui/Button.astro';
+import { getRelativeLocaleUrl } from 'astro:i18n';
 
 import { getHomePermalink } from '~/utils/permalinks';
 import { trimSlash, getAsset } from '~/utils/permalinks';
 import type { CallToAction } from '~/types';
+import { useTranslations } from '~/i18n/translations';
 
 interface Link {
   text?: string;
@@ -45,7 +48,10 @@ const {
   position = 'center',
 } = Astro.props;
 
+const currentLocale = Astro.currentLocale || 'en';
+const { t } = useTranslations(currentLocale);
 const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
+const homePermalink = currentLocale !== 'en' ? getRelativeLocaleUrl(currentLocale) : getHomePermalink();
 
 // Compare paths without trailing slashes so the active link is detected
 // regardless of the `trailingSlash` setting (`getPermalink()` emits `/contact/`
@@ -58,7 +64,17 @@ const isActive = (href?: string) => typeof href === 'string' && `/${trimSlash(hr
 // with its own menu (the demo homes, the landing pages) would keep showing the
 // header of the page the visitor came from. Hash the props that shape the markup.
 const persistKey = `header-${Array.from(
-  JSON.stringify({ links, actions, isSticky, isDark, isFullWidth, showToggleTheme, showRssFeed, position })
+  JSON.stringify({
+    links,
+    actions,
+    isSticky,
+    isDark,
+    isFullWidth,
+    showToggleTheme,
+    showRssFeed,
+    position,
+    locale: Astro.currentLocale,
+  })
 )
   .reduce((hash, char) => (hash * 31 + char.charCodeAt(0)) >>> 0, 7)
   .toString(36)}`;
@@ -89,17 +105,18 @@ const persistKey = `header-${Array.from(
       ]}
     >
       <div class:list={[{ 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' }, 'flex justify-between']}>
-        <a class="flex items-center" href={getHomePermalink()}>
+        <a class="flex items-center" href={homePermalink}>
           <Logo />
         </a>
         <div class="flex items-center gap-2 lg:hidden">
-          {showToggleTheme && <ToggleTheme iconClass="w-5 h-5" />}
-          <ToggleMenu />
+          <LanguageSwitcher />
+          {showToggleTheme && <ToggleTheme iconClass="w-5 h-5" label={t('common.toggleTheme')} />}
+          <ToggleMenu label={t('common.openMenu')} />
         </div>
       </div>
       <nav
         class="items-center w-full lg:w-auto hidden lg:flex lg:mx-5 text-default overflow-y-auto overflow-x-hidden lg:overflow-visible lg:justify-self-center"
-        aria-label="Main navigation"
+        aria-label={t('common.mainNavigation')}
       >
         <ul
           class="flex flex-col lg:flex-row lg:self-center w-full lg:w-auto text-xl lg:text-[0.9375rem] tracking-[0.01rem] font-medium lg:justify-center"
@@ -119,12 +136,12 @@ const persistKey = `header-${Array.from(
                         class="w-3.5 h-3.5 ml-0.5 rtl:ml-0 rtl:mr-0.5 hidden lg:inline"
                       />
                     </button>
-                    <ul class="dropdown-menu lg:backdrop-blur-md dark:lg:bg-slate-900 dark:lg:border dark:lg:border-slate-700/50 rounded lg:absolute pl-4 lg:pl-0 lg:hidden font-medium lg:bg-white/90 lg:min-w-[200px] drop-shadow-xl">
+                    <ul class="dropdown-menu lg:backdrop-blur-md dark:lg:bg-card-surface dark:lg:border dark:lg:border-theme rounded lg:absolute pl-4 lg:pl-0 lg:hidden font-medium lg:bg-white/90 lg:min-w-[200px] drop-shadow-xl">
                       {links.map(({ text: text2, href: href2 }) => (
                         <li>
                           <a
                             class:list={[
-                              'first:rounded-t last:rounded-b lg:hover:bg-gray-100 hover:text-link dark:hover:text-white dark:hover:bg-gray-700 py-2 px-5 block whitespace-nowrap',
+                              'first:rounded-t last:rounded-b lg:hover:bg-gray-100 hover:text-link dark:hover:text-heading dark:hover:bg-section py-2 px-5 block whitespace-nowrap',
                               { 'aw-link-active': isActive(href2) },
                             ]}
                             href={href2}
@@ -159,12 +176,17 @@ const persistKey = `header-${Array.from(
       >
         <div class="items-center flex justify-between w-full lg:w-auto">
           <div class="flex">
+            <LanguageSwitcher />
             <Search />
-            {showToggleTheme && <ToggleTheme iconClass="w-6 h-6 lg:w-5 lg:h-5 lg:inline-block" />}
+            {
+              showToggleTheme && (
+                <ToggleTheme iconClass="w-6 h-6 lg:w-5 lg:h-5 lg:inline-block" label={t('common.toggleTheme')} />
+              )
+            }
             {
               showRssFeed && (
                 <a
-                  class="text-muted dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center"
+                  class="text-muted dark:text-muted hover:bg-gray-100 dark:hover:bg-card-surface focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-primary/30 rounded-lg text-sm p-2.5 inline-flex items-center"
                   aria-label="RSS Feed"
                   href={getAsset('/rss.xml')}
                 >

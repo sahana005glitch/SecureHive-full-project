@@ -4,51 +4,54 @@ import Hero from '~/components/widgets/Hero.astro';
 import Features from '~/components/widgets/Features.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
+import { useTranslations } from '~/i18n/translations';
+import { getLocalizedPath } from '~/i18n/routes';
+
+const locale = Astro.currentLocale || 'en';
+const { t } = useTranslations(locale);
+const localePath = (p: string) => getLocalizedPath(p, locale);
 
 const metadata = {
-  title: 'Vendor and Third-Party Access Solutions',
-  description: 'Stop permanent vendor logins. Grant contractors and OEMs just-in-time access with session oversight and automatic expiry.',
+  title: `${t('solutions.items.vendor.title')} — SecureHive`,
+  description: t('solutions.items.vendor.subtitle'),
 };
 ---
 
 <Layout metadata={metadata}>
   <Hero
-    tagline="Solutions"
+    tagline={t('solutions.tagline')}
     actions={[
-      { variant: 'primary', text: 'Request a Demo', href: '/contact' },
-      { text: 'All Solutions', href: '/solutions' },
+      { variant: 'primary', text: t('common.requestDemo'), href: localePath('/contact') },
+      { text: t('common.allSolutions'), href: localePath('/solutions') },
     ]}
   >
-    <Fragment slot="title">Vendor and Third-Party Access</Fragment>
-    <Fragment slot="subtitle">
-      Stop permanent vendor logins. Grant contractors and OEMs just-in-time access with session oversight and automatic expiry.
-    </Fragment>
+    <Fragment slot="title">{t('solutions.items.vendor.title')}</Fragment>
+    <Fragment slot="subtitle">{t('solutions.items.vendor.subtitle')}</Fragment>
   </Hero>
 
   <Features
-    title="How SecureHive helps"
+    title={t('solutions.items.vendor.featuresTitle')}
     items={[
-      { title: 'Time-limited invites', description: 'Access activates for a window and then ends — no standing vendor accounts.', icon: 'tabler:shield' },
-      { title: 'No password sharing', description: 'Vendors connect without receiving long-lived privileged passwords.', icon: 'tabler:lock' },
-      { title: 'Session recording', description: 'Full visibility into what external users did on your systems.', icon: 'tabler:eye' },
-      { title: 'Approval workflows', description: 'Business owners approve access tied to tickets or change records.', icon: 'tabler:users' },
-      { title: 'Scope limitation', description: 'Grant only the systems and privileges required for the engagement.', icon: 'tabler:key' },
-      { title: 'Offboarding by default', description: 'When the window ends, access is gone without manual cleanup.', icon: 'tabler:report' },
+      { title: t('solutions.items.vendor.feat1Title'), description: t('solutions.items.vendor.feat1Desc'), icon: 'tabler:shield' },
+      { title: t('solutions.items.vendor.feat2Title'), description: t('solutions.items.vendor.feat2Desc'), icon: 'tabler:lock' },
+      { title: t('solutions.items.vendor.feat3Title'), description: t('solutions.items.vendor.feat3Desc'), icon: 'tabler:eye' },
+      { title: t('solutions.items.vendor.feat4Title'), description: t('solutions.items.vendor.feat4Desc'), icon: 'tabler:users' },
+      { title: t('solutions.items.vendor.feat5Title'), description: t('solutions.items.vendor.feat5Desc'), icon: 'tabler:key' },
+      { title: t('solutions.items.vendor.feat6Title'), description: t('solutions.items.vendor.feat6Desc'), icon: 'tabler:report' },
     ]}
   />
 
   <FAQs
-    title="Frequently asked questions"
+    title={t('solutions.faqsTitle')}
     items={[
-      { title: 'How do vendors authenticate?', description: 'Patterns typically combine your identity policies with SecureHive session launch so credentials are not emailed or messaged.' },
-      { title: 'Can access span multiple days?', description: 'Yes. Windows can match project schedules while still avoiding permanent accounts.' },
-      { title: 'What if a vendor needs emergency access at 2am?', description: 'Pre-approved emergency paths with enhanced logging can be defined for support contracts.' },
-      { title: 'Does this replace our VDI or VPN?', description: 'It complements network access controls by governing privileged credentials and session behavior after connect.' },
+      { title: t('solutions.faq1Q'), description: t('solutions.faq1A') },
+      { title: t('solutions.faq2Q'), description: t('solutions.faq2A') },
+      { title: t('solutions.faq3Q'), description: t('solutions.faq3A') },
     ]}
   />
 
-  <CallToAction actions={[{ variant: 'primary', text: 'Request a Demo', href: '/contact' }]}>
-    <Fragment slot="title">Discuss Vendor and Third-Party Access requirements</Fragment>
-    <Fragment slot="subtitle">Map privileged access controls to your environment and compliance goals.</Fragment>
+  <CallToAction actions={[{ variant: 'primary', text: t('common.requestDemo'), href: localePath('/contact') }]}>
+    <Fragment slot="title">{t('solutions.items.vendor.ctaTitle')}</Fragment>
+    <Fragment slot="subtitle">{t('solutions.items.vendor.ctaSubtitle')}</Fragment>
   </CallToAction>
 </Layout>

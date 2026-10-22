@@ -1,0 +1,42 @@
+name: Crowdin localization sync
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - crowdin.yml
+      - src/messages/en.json
+      - src/data/pages/en/**
+      - src/data/post/en/**
+      - .github/workflows/crowdin-sync.yml
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  synchronize:
+    name: Synchronize approved translations
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Upload English sources and open a translation pull request
+        uses: crowdin/github-action@v3
+        with:
+          upload_sources: true
+          upload_translations: false
+          download_translations: true
+          skip_untranslated_files: true
+          skip_untranslated_strings: true
+          export_only_approved: true
+          create_pull_request: true
+          localization_branch_name: l10n_crowdin_translations
+          pull_request_title: 'New approved Crowdin translations'
+          pull_request_base_branch_name: main
+        env:
+          GITHUB_TOKEN: ${{ secrets.CROWDIN_GH_TOKEN }}
+          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}

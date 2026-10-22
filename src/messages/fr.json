@@ -1,0 +1,73 @@
+{
+  "common": {
+    "requestDemo": "Demander une démonstration",
+    "exploreSolutions": "Découvrir les solutions",
+    "viewProducts": "Voir les produits",
+    "allProducts": "Tous les produits",
+    "allSolutions": "Toutes les solutions",
+    "learnMore": "En savoir plus",
+    "contactUs": "Nous contacter",
+    "contactSales": "Contacter l’équipe commerciale",
+    "backToHome": "Retour à l’accueil",
+    "explore": "Découvrir",
+    "discover": "Découvrir",
+    "overview": "Vue d’ensemble",
+    "readArticle": "Lire l’article",
+    "previousInsight": "Article précédent",
+    "nextInsight": "Article suivant",
+    "pauseRotation": "Mettre le carrousel en pause",
+    "resumeRotation": "Relancer le carrousel",
+    "keyPoints": "Points clés",
+    "takeaway": "À retenir",
+    "mainNavigation": "Navigation principale",
+    "openMenu": "Ouvrir le menu",
+    "toggleTheme": "Basculer entre les modes sombre et clair"
+  },
+  "nav": {
+    "products": "Produits",
+    "overview": "Vue d’ensemble",
+    "solutions": "Solutions",
+    "blog": "Blog",
+    "pricing": "Tarifs",
+    "contact": "Contact",
+    "resources": "Ressources",
+    "company": "Entreprise",
+    "about": "À propos",
+    "aboutUs": "À propos",
+    "privacyPolicy": "Politique de confidentialité",
+    "termsOfService": "Conditions d’utilisation",
+    "requestDemo": "Demander une démonstration"
+  },
+  "blog": {
+    "title": "Blog en français",
+    "viewAllPosts": "Voir les articles traduits",
+    "subtitle": "Conseils pratiques sur la gestion des accès privilégiés et la sécurité des identités.",
+    "frenchNote": "Les articles ci-dessous sont des synthèses traduites en français. L’ensemble des articles est disponible en anglais.",
+    "germanNote": "Les articles en allemand sont des synthèses rédigées. L’archive complète est disponible en anglais.",
+    "frenchTitle": "Articles en français",
+    "germanTitle": "Artikel auf Deutsch",
+    "newsletterTagline": "Infolettre",
+    "newsletterTitle": "Recevez les nouveaux articles",
+    "newsletterSubtitle": "Des conseils sur les accès privilégiés et la sécurité des identités, dès leur publication.",
+    "newsletterBtn": "S’abonner",
+    "newsletterDisclaimer": "Désabonnez-vous en un clic. Ce formulaire est un modèle : connectez-le à votre service d’envoi."
+  },
+  "search": {
+    "ariaLabel": "Recherche",
+    "openAriaLabel": "Ouvrir la recherche",
+    "placeholder": "Rechercher des produits, solutions, articles…",
+    "initial": "Saisissez un terme pour rechercher dans cette section…",
+    "noResults": "Aucun résultat pour « {query} »",
+    "unavailable": "L’index de recherche est indisponible. Lancez une compilation de production pour activer la recherche.",
+    "resultsLabel": "Résultats de recherche"
+  },
+  "error404": {
+    "title": "Erreur 404",
+    "message": "Désolé, cette page est introuvable.",
+    "submessage": "Vous pouvez découvrir de nombreuses autres informations sur notre page d’accueil.",
+    "backButton": "Retour à l’accueil"
+  },
+  "footer": {
+    "footnote": "© {year} SecureHive. Tous droits réservés. Gestion des accès privilégiés pour les entreprises."
+  }
+}

@@ -13,7 +13,9 @@ import Metadata from '~/components/common/Metadata.astro';
 import SiteVerification from '~/components/common/SiteVerification.astro';
 import Analytics from '~/components/common/Analytics.astro';
 import Intersect from '~/components/common/Intersect.astro';
-import { SITE } from 'astrowind:config';
+import { SITE, APP_BLOG } from 'astrowind:config';
+import { getEnglishPath, getAlternateLanguageUrls } from '~/i18n/routes';
+import { getLocaleConfig } from '~/i18n/config';
 
 // Comment the line below to disable View Transitions
 import { ClientRouter } from 'astro:transitions';
@@ -25,25 +27,35 @@ export interface Props {
 }
 
 const { metadata = {} } = Astro.props;
-const { language, textDirection } = I18N;
+const language = Astro.currentLocale || I18N.language || 'en';
+const localeConfig = getLocaleConfig(language);
+const textDirection = localeConfig.dir || I18N.textDirection || 'ltr';
 const basePath = (SITE.base ?? '/').replace(/^\/+|\/+$/g, '');
 const pathname = Astro.url.pathname.replace(/^\/+|\/+$/g, '');
 const routePath =
   basePath && (pathname === basePath || pathname.startsWith(`${basePath}/`))
     ? pathname.slice(basePath.length)
     : pathname;
-const searchSection = routePath.split('/').filter(Boolean)[0] || 'home';
+const englishPath = getEnglishPath(`/${routePath}`, language);
+const searchSection = englishPath.split('/').filter(Boolean)[0] || 'home';
+const isLocalizedBlogPost =
+  language !== 'en' && englishPath.startsWith(`/${APP_BLOG.list.pathname.replace(/^\/+|\/+$/g, '')}/`);
+const alternateLinks =
+  metadata.alternateLinks ??
+  getAlternateLanguageUrls(englishPath, SITE.site, isLocalizedBlogPost ? [language] : undefined);
 ---
 
 <!doctype html>
-<html lang={language} dir={textDirection} class="2xl:text-[20px]">
+<html lang={localeConfig.htmlLang} dir={textDirection} class="2xl:text-[20px]">
   <head>
     <CommonMeta />
+    <meta data-pagefind-filter="section[content]" content={searchSection} />
     <Favicons />
     <Font cssVariable="--font-inter" preload />
     <CustomStyles />
     <ApplyColorMode />
     <Metadata {...metadata} />
+    {alternateLinks.map((alt) => <link rel="alternate" hreflang={alt.lang} href={alt.url} />)}
     <SiteVerification />
     <Analytics />
 
@@ -58,7 +70,8 @@ const searchSection = routePath.split('/').filter(Boolean)[0] || 'home';
 
   <body
     class="antialiased text-default bg-page tracking-tight min-h-screen flex flex-col"
-    data-pagefind-filter={`section:${searchSection}`}
+    data-pagefind-body
+    data-pagefind-filter={`lang:${localeConfig.code}`}
     data-search-section={searchSection}
   >
     <slot />

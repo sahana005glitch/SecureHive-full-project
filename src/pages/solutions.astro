@@ -3,76 +3,85 @@ import Layout from '~/layouts/PageLayout.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
+import { useTranslations } from '~/i18n/translations';
+import { getLocalizedPath } from '~/i18n/routes';
+
+const locale = Astro.currentLocale || 'en';
+const { t } = useTranslations(locale);
+const localePath = (p: string) => getLocalizedPath(p, locale);
 
 const metadata = {
-  title: 'Solutions — Industry & Use Cases',
-  description:
-    'SecureHive privileged access solutions for financial services, healthcare, manufacturing, government, enterprise IT, and vendor access.',
+  title: `${t('solutions.tagline')} — SecureHive`,
+  description: t('solutions.subtitle'),
 };
 
-const solutions = [
-  { title: 'Financial Services', href: '/solutions/financial-services', description: 'JIT access, session oversight, and audit evidence for banking and capital markets.' },
-  { title: 'Healthcare', href: '/solutions/healthcare', description: 'Govern admin access to clinical systems while supporting operational uptime.' },
-  { title: 'Manufacturing', href: '/solutions/manufacturing', description: 'OT/IT privileged access without blocking production and maintenance windows.' },
-  { title: 'Government', href: '/solutions/government', description: 'Least privilege and accountability for public sector critical systems.' },
-  { title: 'Enterprise IT', href: '/solutions/enterprise-it', description: 'Unified PAM across hybrid directories, cloud admin, and server fleets.' },
-  { title: 'Vendor Access', href: '/solutions/vendor-access', description: 'Time-bound, monitored access for contractors and OEMs — no standing logins.' },
-];
+const solutionList = [
+  { key: 'financial', href: '/solutions/financial-services' },
+  { key: 'healthcare', href: '/solutions/healthcare' },
+  { key: 'mfg', href: '/solutions/manufacturing' },
+  { key: 'gov', href: '/solutions/government' },
+  { key: 'enterpriseIt', href: '/solutions/enterprise-it' },
+  { key: 'vendor', href: '/solutions/vendor-access' },
+] as const;
 ---
 
 <Layout metadata={metadata}>
   <Hero
-    tagline="Solutions"
+    tagline={t('solutions.tagline')}
     actions={[
-      { variant: 'primary', text: 'Request a Demo', href: '/contact' },
-      { text: 'View Products', href: '/products' },
+      { variant: 'primary', text: t('common.requestDemo'), href: localePath('/contact') },
+      { text: t('common.viewProducts'), href: localePath('/products') },
     ]}
   >
     <Fragment slot="title">
-      Privileged access solutions<br />
-      <span class="text-accent">by industry and use case</span>
+      {t('solutions.titleMain')}<br />
+      <span class="text-accent">{t('solutions.titleAccent')}</span>
     </Fragment>
     <Fragment slot="subtitle">
-      The same PAM foundation — applied to the risks, compliance expectations, and operating models of your sector.
+      {t('solutions.subtitle')}
     </Fragment>
   </Hero>
 
-  <section class="py-16 md:py-20 bg-white dark:bg-transparent">
+  <section class="py-16 md:py-20 bg-white dark:bg-section">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {solutions.map((s) => (
-          <a
-            href={s.href}
-            class="sh-card group block p-6 rounded-xl border border-slate-200 dark:border-slate-700 bg-[#F8FAFC] dark:bg-slate-900/50 hover:border-blue-300 dark:hover:border-blue-600 transition-all"
-          >
-            <h3 class="text-lg font-semibold text-[#0B2D5B] dark:text-white mb-2 group-hover:text-[#3B82F6] transition-colors">
-              {s.title}
-            </h3>
-            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">{s.description}</p>
-            <span class="text-sm font-medium text-[#3B82F6] inline-flex items-center gap-1">
-              Explore
-              <svg class="w-4 h-4 sh-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-              </svg>
-            </span>
-          </a>
-        ))}
+        {
+          solutionList.map((s) => (
+            <a
+              href={localePath(s.href)}
+              class="sh-card group block p-6 rounded-xl border border-slate-200 dark:border-theme bg-page dark:bg-card-surface hover:border-accent/60 dark:hover:border-primary transition-all"
+            >
+              <h3 class="text-lg font-semibold text-primary dark:text-heading mb-2 group-hover:text-brand-warm transition-colors">
+                {t(`solutions.items.${s.key}.title`)}
+              </h3>
+              <p class="text-sm text-slate-600 dark:text-muted leading-relaxed mb-4">
+                {t(`solutions.items.${s.key}.desc`)}
+              </p>
+              <span class="text-sm font-medium text-brand-warm inline-flex items-center gap-1">
+                {t('common.explore')}
+                <svg class="w-4 h-4 sh-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </span>
+            </a>
+          ))
+        }
       </div>
     </div>
   </section>
 
   <FAQs
-    title="Solutions FAQs"
+    title={t('solutions.faqsTitle')}
     items={[
-      { title: 'Are solutions separate products?', description: 'Solutions describe how SecureHive products are applied in a sector or use case. The underlying platform is the PAM suite.' },
-      { title: 'Can we mix industries?', description: 'Yes. Large organizations often start with one high-risk use case (for example vendor access) and expand.' },
-      { title: 'Do you provide compliance certification?', description: 'We provide security controls and evidence. Certification and regulatory compliance remain the customer’s responsibility with their advisors.' },
-      { title: 'How do we start?', description: 'Most engagements begin with a discovery discussion and a focused pilot around privileged accounts or vendor access.' },
+      { title: t('solutions.faq1Q'), description: t('solutions.faq1A') },
+      { title: t('solutions.faq2Q'), description: t('solutions.faq2A') },
+      { title: t('solutions.faq3Q'), description: t('solutions.faq3A') },
+      { title: t('solutions.faq4Q'), description: t('solutions.faq4A') },
     ]}
   />
 
-  <CallToAction actions={[{ variant: 'primary', text: 'Request a Demo', href: '/contact' }]}>
-    <Fragment slot="title">Find the right starting point</Fragment>
-    <Fragment slot="subtitle">Tell us your industry and privileged access challenges — we will recommend a path.</Fragment>
+  <CallToAction actions={[{ variant: 'primary', text: t('common.requestDemo'), href: localePath('/contact') }]}>
+    <Fragment slot="title">{t('solutions.ctaTitle')}</Fragment>
+    <Fragment slot="subtitle">{t('solutions.ctaSubtitle')}</Fragment>
   </CallToAction>
 </Layout>

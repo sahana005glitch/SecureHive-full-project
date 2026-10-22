@@ -5,6 +5,7 @@ import { getRelatedPosts } from '~/utils/blog';
 import BlogHighlightedPosts from '~/components/widgets/BlogHighlightedPosts.astro';
 import type { Post } from '~/types';
 import { getBlogPermalink } from '~/utils/permalinks';
+import { getLocalizedPath } from '~/i18n/routes';
 
 export interface Props {
   post: Post;
@@ -24,8 +25,9 @@ const relatedPosts = post.tags ? await getRelatedPosts(post, 4) : [];
       }}
       title="Related Posts"
       linkText="View All Posts"
-      linkUrl={getBlogPermalink()}
+      linkUrl={getLocalizedPath(getBlogPermalink(), post.locale)}
       postIds={relatedPosts.map((post) => post.id)}
+      locale={post.locale}
     />
   ) : null
 }

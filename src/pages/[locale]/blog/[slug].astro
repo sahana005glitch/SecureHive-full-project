@@ -1,0 +1,84 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { SITE } from 'astrowind:config';
+import Breadcrumbs from '~/components/common/Breadcrumbs.astro';
+import SinglePost from '~/components/blog/SinglePost.astro';
+import StructuredData from '~/components/common/StructuredData.astro';
+import Layout from '~/layouts/PageLayout.astro';
+import { getLocaleConfig, SUPPORTED_LOCALES, type Locale } from '~/i18n/config';
+import { getAlternateLanguageUrls } from '~/i18n/routes';
+import { useTranslations } from '~/i18n/translations';
+import { fetchPosts } from '~/utils/blog';
+import type { Post } from '~/types';
+
+export const getStaticPaths = (async () => {
+  const postsByLocale = await Promise.all(
+    SUPPORTED_LOCALES.map(async (locale) => ({
+      locale,
+      posts: await fetchPosts(locale),
+    }))
+  );
+
+  return postsByLocale.flatMap(({ locale, posts }) =>
+    posts.map((post) => {
+      const availableLocales = postsByLocale
+        .filter(({ posts: localizedPosts }) =>
+          localizedPosts.some((localizedPost) => localizedPost.translationKey === post.translationKey)
+        )
+        .map(({ locale: availableLocale }) => availableLocale);
+
+      return {
+        params: { locale, slug: post.slug },
+        props: { locale, post, availableLocales },
+      };
+    })
+  );
+}) satisfies GetStaticPaths;
+
+const { locale, post, availableLocales } = Astro.props as {
+  locale: Locale;
+  post: Post;
+  availableLocales: Locale[];
+};
+const { t } = useTranslations(locale);
+const canonical = new URL(getRelativeLocaleUrl(locale, `blog/${post.slug}`), SITE.site).toString();
+const metadata = {
+  title: post.title,
+  description: post.excerpt,
+  canonical,
+  openGraph: {
+    type: 'article',
+    locale: getLocaleConfig(locale).ogLocale,
+  },
+  alternateLinks: getAlternateLanguageUrls(`/blog/${post.slug}`, SITE.site, availableLocales),
+};
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.title,
+  description: post.excerpt,
+  datePublished: post.publishDate.toISOString(),
+  dateModified: (post.updateDate ?? post.publishDate).toISOString(),
+  inLanguage: locale,
+  ...(post.author ? { author: { '@type': 'Person', name: post.author } } : {}),
+  publisher: { '@type': 'Organization', name: SITE.name },
+  mainEntityOfPage: canonical,
+};
+---
+
+<Layout metadata={metadata}>
+  <StructuredData slot="head" schema={schema} />
+  <Breadcrumbs
+    bar
+    hideCurrent
+    items={[
+      { text: t('common.backToHome'), href: getRelativeLocaleUrl(locale) },
+      { text: t('nav.blog'), href: getRelativeLocaleUrl(locale, 'blog') },
+      { text: post.title },
+    ]}
+  />
+  <SinglePost post={post} url={canonical}>
+    {post.Content && <post.Content />}
+  </SinglePost>
+</Layout>

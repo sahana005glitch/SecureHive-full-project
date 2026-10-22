@@ -4,52 +4,54 @@ import Hero from '~/components/widgets/Hero.astro';
 import Features from '~/components/widgets/Features.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
+import { useTranslations } from '~/i18n/translations';
+import { getLocalizedPath } from '~/i18n/routes';
+
+const locale = Astro.currentLocale || 'en';
+const { t } = useTranslations(locale);
+const localePath = (p: string) => getLocalizedPath(p, locale);
 
 const metadata = {
-  title: 'Session Manager',
-  description: 'Launch, monitor, and record privileged sessions without exposing credentials to end users.',
+  title: `${t('products.items.session.title')} — SecureHive`,
+  description: t('products.items.session.subtitle'),
 };
 ---
 
 <Layout metadata={metadata}>
   <Hero
-    tagline="Product"
+    tagline={t('products.items.session.tagline')}
     actions={[
-      { variant: 'primary', text: 'Request a Demo', href: '/contact' },
-      { text: 'All Products', href: '/products' },
+      { variant: 'primary', text: t('common.requestDemo'), href: localePath('/contact') },
+      { text: t('common.allProducts'), href: localePath('/products') },
     ]}
   >
-    <Fragment slot="title">Session Manager</Fragment>
-    <Fragment slot="subtitle">
-      One-click connections to privileged systems without revealing passwords. Monitor live sessions, record activity,
-      and terminate access if something looks wrong.
-    </Fragment>
+    <Fragment slot="title">{t('products.items.session.title')}</Fragment>
+    <Fragment slot="subtitle">{t('products.items.session.subtitle')}</Fragment>
   </Hero>
 
   <Features
-    title="Session control capabilities"
+    title={t('products.items.session.featuresTitle')}
     items={[
-      { title: 'Credential injection', description: 'Users connect without seeing plaintext passwords. Credentials stay in the vault.', icon: 'tabler:key' },
-      { title: 'Live monitoring', description: 'Security teams can watch active privileged sessions in real time.', icon: 'tabler:eye' },
-      { title: 'Session recording', description: 'Record sessions for forensics, training, and compliance evidence.', icon: 'tabler:video' },
-      { title: 'Terminate on demand', description: 'End a session immediately if anomalous activity is detected.', icon: 'tabler:player-stop' },
-      { title: 'Protocol coverage', description: 'Support common remote protocols used by admins and operators in enterprise environments.', icon: 'tabler:network' },
-      { title: 'Searchable history', description: 'Find past sessions by user, asset, and time for investigations.', icon: 'tabler:search' },
+      { title: t('products.items.session.feat1Title'), description: t('products.items.session.feat1Desc'), icon: 'tabler:key' },
+      { title: t('products.items.session.feat2Title'), description: t('products.items.session.feat2Desc'), icon: 'tabler:eye' },
+      { title: t('products.items.session.feat3Title'), description: t('products.items.session.feat3Desc'), icon: 'tabler:video' },
+      { title: t('products.items.session.feat4Title'), description: t('products.items.session.feat4Desc'), icon: 'tabler:player-stop' },
+      { title: t('products.items.session.feat5Title'), description: t('products.items.session.feat5Desc'), icon: 'tabler:network' },
+      { title: t('products.items.session.feat6Title'), description: t('products.items.session.feat6Desc'), icon: 'tabler:search' },
     ]}
   />
 
   <FAQs
-    title="Frequently asked questions"
+    title={t('products.faqsTitle')}
     items={[
-      { title: 'Do users still need local admin passwords?', description: 'For managed connections, users typically do not need to know the underlying privileged password — the platform injects credentials securely.' },
-      { title: 'Are recordings stored securely?', description: 'Recordings and metadata are stored according to your retention and access policies so only authorized roles can review them.' },
-      { title: 'Can we monitor vendor sessions?', description: 'Yes. Third-party and contractor sessions are a common use case for recording and live oversight.' },
-      { title: 'What happens if a session is terminated?', description: 'The connection is closed and further access requires a new approved request or policy-allowed path.' },
+      { title: t('products.faq1Q'), description: t('products.faq1A') },
+      { title: t('products.faq2Q'), description: t('products.faq2A') },
+      { title: t('products.faq3Q'), description: t('products.faq3A') },
     ]}
   />
 
-  <CallToAction actions={[{ variant: 'primary', text: 'Request a Demo', href: '/contact' }]}>
-    <Fragment slot="title">See privileged sessions under control</Fragment>
-    <Fragment slot="subtitle">Demo credential injection, monitoring, and recording with your team.</Fragment>
+  <CallToAction actions={[{ variant: 'primary', text: t('common.requestDemo'), href: localePath('/contact') }]}>
+    <Fragment slot="title">{t('products.items.session.ctaTitle')}</Fragment>
+    <Fragment slot="subtitle">{t('products.items.session.ctaSubtitle')}</Fragment>
   </CallToAction>
 </Layout>

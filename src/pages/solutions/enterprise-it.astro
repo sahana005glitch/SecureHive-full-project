@@ -4,51 +4,54 @@ import Hero from '~/components/widgets/Hero.astro';
 import Features from '~/components/widgets/Features.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
+import { useTranslations } from '~/i18n/translations';
+import { getLocalizedPath } from '~/i18n/routes';
+
+const locale = Astro.currentLocale || 'en';
+const { t } = useTranslations(locale);
+const localePath = (p: string) => getLocalizedPath(p, locale);
 
 const metadata = {
-  title: 'Enterprise IT Solutions',
-  description: 'Consolidate privileged access across directories, cloud admin planes, and server fleets under one policy and audit model.',
+  title: `${t('solutions.items.enterpriseIt.title')} — SecureHive`,
+  description: t('solutions.items.enterpriseIt.subtitle'),
 };
 ---
 
 <Layout metadata={metadata}>
   <Hero
-    tagline="Solutions"
+    tagline={t('solutions.tagline')}
     actions={[
-      { variant: 'primary', text: 'Request a Demo', href: '/contact' },
-      { text: 'All Solutions', href: '/solutions' },
+      { variant: 'primary', text: t('common.requestDemo'), href: localePath('/contact') },
+      { text: t('common.allSolutions'), href: localePath('/solutions') },
     ]}
   >
-    <Fragment slot="title">Enterprise IT</Fragment>
-    <Fragment slot="subtitle">
-      Consolidate privileged access across directories, cloud admin planes, and server fleets under one policy and audit model.
-    </Fragment>
+    <Fragment slot="title">{t('solutions.items.enterpriseIt.title')}</Fragment>
+    <Fragment slot="subtitle">{t('solutions.items.enterpriseIt.subtitle')}</Fragment>
   </Hero>
 
   <Features
-    title="How SecureHive helps"
+    title={t('solutions.items.enterpriseIt.featuresTitle')}
     items={[
-      { title: 'Hybrid coverage', description: 'Windows, Linux, cloud consoles, and network devices under consistent governance.', icon: 'tabler:shield' },
-      { title: 'Admin sprawl reduction', description: 'Find and retire unused privileged accounts.', icon: 'tabler:lock' },
-      { title: 'JIT for cloud admin', description: 'Time-limited elevation for cloud control planes.', icon: 'tabler:eye' },
-      { title: 'Central vault', description: 'One place for shared and break-glass credentials.', icon: 'tabler:users' },
-      { title: 'SOC integration', description: 'Session and access signals that support detection and response workflows.', icon: 'tabler:key' },
-      { title: 'Self-service with control', description: 'Engineers request access without ticket ping-pong for every task — within policy.', icon: 'tabler:report' },
+      { title: t('solutions.items.enterpriseIt.feat1Title'), description: t('solutions.items.enterpriseIt.feat1Desc'), icon: 'tabler:shield' },
+      { title: t('solutions.items.enterpriseIt.feat2Title'), description: t('solutions.items.enterpriseIt.feat2Desc'), icon: 'tabler:lock' },
+      { title: t('solutions.items.enterpriseIt.feat3Title'), description: t('solutions.items.enterpriseIt.feat3Desc'), icon: 'tabler:eye' },
+      { title: t('solutions.items.enterpriseIt.feat4Title'), description: t('solutions.items.enterpriseIt.feat4Desc'), icon: 'tabler:users' },
+      { title: t('solutions.items.enterpriseIt.feat5Title'), description: t('solutions.items.enterpriseIt.feat5Desc'), icon: 'tabler:key' },
+      { title: t('solutions.items.enterpriseIt.feat6Title'), description: t('solutions.items.enterpriseIt.feat6Desc'), icon: 'tabler:report' },
     ]}
   />
 
   <FAQs
-    title="Frequently asked questions"
+    title={t('solutions.faqsTitle')}
     items={[
-      { title: 'How is this different from IAM?', description: 'IAM manages workforce identity. PAM governs elevated access to critical systems and secrets after authentication.' },
-      { title: 'Can we roll out in phases?', description: 'Yes. Many teams start with discovery and vaulting of shared admins, then add JIT and session controls.' },
-      { title: 'What about DevOps pipelines?', description: 'Service account and secrets capabilities address non-human access used by automation.' },
-      { title: 'Does it work with our IdP?', description: 'SecureHive is intended to complement existing enterprise identity providers.' },
+      { title: t('solutions.faq1Q'), description: t('solutions.faq1A') },
+      { title: t('solutions.faq2Q'), description: t('solutions.faq2A') },
+      { title: t('solutions.faq3Q'), description: t('solutions.faq3A') },
     ]}
   />
 
-  <CallToAction actions={[{ variant: 'primary', text: 'Request a Demo', href: '/contact' }]}>
-    <Fragment slot="title">Discuss Enterprise IT requirements</Fragment>
-    <Fragment slot="subtitle">Map privileged access controls to your environment and compliance goals.</Fragment>
+  <CallToAction actions={[{ variant: 'primary', text: t('common.requestDemo'), href: localePath('/contact') }]}>
+    <Fragment slot="title">{t('solutions.items.enterpriseIt.ctaTitle')}</Fragment>
+    <Fragment slot="subtitle">{t('solutions.items.enterpriseIt.ctaSubtitle')}</Fragment>
   </CallToAction>
 </Layout>

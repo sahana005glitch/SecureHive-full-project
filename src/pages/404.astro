@@ -1,8 +1,13 @@
 ---
 import Layout from '~/layouts/Layout.astro';
 import { getHomePermalink } from '~/utils/permalinks';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { useTranslations } from '~/i18n/translations';
 
-const title = `Error 404`;
+const locale = Astro.currentLocale || 'en';
+const { t } = useTranslations(locale);
+const title = t('error404.title');
+const homeUrl = locale !== 'en' ? getRelativeLocaleUrl(locale) : getHomePermalink();
 ---
 
 <Layout metadata={{ title }}>
@@ -10,14 +15,14 @@ const title = `Error 404`;
     <div class="container flex flex-col items-center justify-center px-5 mx-auto my-8">
       <div class="max-w-md text-center">
         <h2 class="mb-8 font-bold text-9xl">
-          <span class="sr-only">Error</span>
+          <span class="sr-only">{title}</span>
           <span class="text-primary">404</span>
         </h2>
-        <p class="text-3xl font-semibold md:text-3xl">Sorry, we couldn't find this page.</p>
-        <p class="mt-4 mb-8 text-lg text-muted dark:text-slate-400">
-          But don't worry, you can find plenty of other things on our homepage.
+        <p class="text-3xl font-semibold md:text-3xl">{t('error404.message')}</p>
+        <p class="mt-4 mb-8 text-lg text-muted dark:text-muted">
+          {t('error404.submessage')}
         </p>
-        <a rel="noopener noreferrer" href={getHomePermalink()} class="btn ml-4">Back to homepage</a>
+        <a rel="noopener noreferrer" href={homeUrl} class="btn ml-4">{t('error404.backButton')}</a>
       </div>
     </div>
   </section>

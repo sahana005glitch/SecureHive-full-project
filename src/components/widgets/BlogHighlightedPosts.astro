@@ -3,10 +3,12 @@ import { APP_BLOG } from 'astrowind:config';
 
 import Grid from '~/components/blog/Grid.astro';
 
-import { getBlogPermalink } from '~/utils/permalinks';
 import { findPostsByIds } from '~/utils/blog';
+import { getLocalizedPath } from '~/i18n/routes';
 import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 import type { Widget } from '~/types';
+import { isSupportedLocale, type Locale } from '~/i18n/config';
+import { useTranslations } from '~/i18n/translations';
 
 export interface Props extends Widget {
   title?: string;
@@ -14,14 +16,16 @@ export interface Props extends Widget {
   linkUrl?: string | URL;
   information?: string;
   postIds: string[];
+  locale?: Locale;
 }
 
 const {
   title = await Astro.slots.render('title'),
-  linkText = 'View all posts',
-  linkUrl = getBlogPermalink(),
+  linkText: providedLinkText,
+  linkUrl: providedLinkUrl,
   information = await Astro.slots.render('information'),
   postIds = [],
+  locale,
 
   id,
   isDark = false,
@@ -29,7 +33,12 @@ const {
   bg = await Astro.slots.render('bg'),
 } = Astro.props;
 
-const posts = APP_BLOG.isEnabled ? await findPostsByIds(postIds) : [];
+const currentLocale = Astro.currentLocale || '';
+const resolvedLocale: Locale = locale ?? (isSupportedLocale(currentLocale) ? currentLocale : 'en');
+const posts = APP_BLOG.isEnabled ? await findPostsByIds(postIds, resolvedLocale) : [];
+const { t } = useTranslations(resolvedLocale);
+const linkText = providedLinkText ?? t('blog.viewAllPosts');
+const linkUrl = providedLinkUrl ?? getLocalizedPath('/blog', resolvedLocale);
 ---
 
 {
@@ -44,7 +53,7 @@ const posts = APP_BLOG.isEnabled ? await findPostsByIds(postIds) : [];
             />
             {APP_BLOG.list.isEnabled && linkText && linkUrl && (
               <a
-                class="text-muted dark:text-slate-400 hover:text-primary transition ease-in duration-200 block mb-6 lg:mb-0"
+                class="text-muted dark:text-muted hover:text-primary transition ease-in duration-200 block mb-6 lg:mb-0"
                 href={linkUrl}
               >
                 {linkText} »
@@ -53,7 +62,7 @@ const posts = APP_BLOG.isEnabled ? await findPostsByIds(postIds) : [];
           </div>
         )}
 
-        {information && <p class="text-muted dark:text-slate-400 lg:text-sm lg:max-w-md" set:html={information} />}
+        {information && <p class="text-muted dark:text-muted lg:text-sm lg:max-w-md" set:html={information} />}
       </div>
 
       <Grid posts={posts} />

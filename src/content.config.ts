@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
+import { marketingPageSchema } from './schemas/marketing-page';
 
 const metadataDefinition = () =>
   z
@@ -48,13 +49,15 @@ const metadataDefinition = () =>
     .optional();
 
 const postCollection = defineCollection({
-  loader: glob({ pattern: ['*.md', '*.mdx'], base: 'src/data/post' }),
+  loader: glob({ pattern: ['**/*.md', '**/*.mdx'], base: 'src/data/post' }),
   schema: z.object({
     publishDate: z.date().optional(),
     updateDate: z.date().optional(),
     draft: z.boolean().optional(),
 
     title: z.string(),
+    locale: z.enum(['en', 'fr', 'de']),
+    translationKey: z.string().min(1),
     excerpt: z.string().optional(),
     image: z.string().optional(),
     /** Alternative text for the cover image. Leave empty for decorative stock photos. */
@@ -68,6 +71,12 @@ const postCollection = defineCollection({
   }),
 });
 
+const marketingPageCollection = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: 'src/data/pages' }),
+  schema: marketingPageSchema,
+});
+
 export const collections = {
+  marketingPage: marketingPageCollection,
   post: postCollection,
 };

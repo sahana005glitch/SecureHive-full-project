@@ -4,52 +4,54 @@ import Hero from '~/components/widgets/Hero.astro';
 import Features from '~/components/widgets/Features.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
+import { useTranslations } from '~/i18n/translations';
+import { getLocalizedPath } from '~/i18n/routes';
+
+const locale = Astro.currentLocale || 'en';
+const { t } = useTranslations(locale);
+const localePath = (p: string) => getLocalizedPath(p, locale);
 
 const metadata = {
-  title: 'Just-in-Time Access',
-  description: 'Replace standing privilege with time-limited, approval-based access to critical systems.',
+  title: `${t('products.items.jit.title')} — SecureHive`,
+  description: t('products.items.jit.subtitle'),
 };
 ---
 
 <Layout metadata={metadata}>
   <Hero
-    tagline="Product"
+    tagline={t('products.items.jit.tagline')}
     actions={[
-      { variant: 'primary', text: 'Request a Demo', href: '/contact' },
-      { text: 'All Products', href: '/products' },
+      { variant: 'primary', text: t('common.requestDemo'), href: localePath('/contact') },
+      { text: t('common.allProducts'), href: localePath('/products') },
     ]}
   >
-    <Fragment slot="title">Just-in-Time Access</Fragment>
-    <Fragment slot="subtitle">
-      Eliminate standing privilege. Users request elevated access, approvers grant a time window, and access expires
-      automatically — with optional password reset after use.
-    </Fragment>
+    <Fragment slot="title">{t('products.items.jit.title')}</Fragment>
+    <Fragment slot="subtitle">{t('products.items.jit.subtitle')}</Fragment>
   </Hero>
 
   <Features
-    title="How JIT reduces risk"
+    title={t('products.items.jit.featuresTitle')}
     items={[
-      { title: 'Request & approve workflows', description: 'Users request access with a business reason. Designated approvers grant a limited window or auto-approve trusted roles.', icon: 'tabler:git-pull-request' },
-      { title: 'Time-bound elevation', description: 'Access lasts only as long as the approved window. When time ends, privileges are revoked.', icon: 'tabler:clock' },
-      { title: 'Just-enough privilege', description: 'Grant only the permissions required for the task — not full admin by default.', icon: 'tabler:adjustments' },
-      { title: 'Reset after use', description: 'Optionally randomize credentials when the session ends so standing secrets do not linger.', icon: 'tabler:refresh' },
-      { title: 'Policy exceptions', description: 'Exclude high-risk accounts from auto-approval and require dual control where needed.', icon: 'tabler:shield-check' },
-      { title: 'Full request history', description: 'Every request, approval, and grant is logged for audit and incident review.', icon: 'tabler:history' },
+      { title: t('products.items.jit.feat1Title'), description: t('products.items.jit.feat1Desc'), icon: 'tabler:git-pull-request' },
+      { title: t('products.items.jit.feat2Title'), description: t('products.items.jit.feat2Desc'), icon: 'tabler:clock' },
+      { title: t('products.items.jit.feat3Title'), description: t('products.items.jit.feat3Desc'), icon: 'tabler:adjustments' },
+      { title: t('products.items.jit.feat4Title'), description: t('products.items.jit.feat4Desc'), icon: 'tabler:refresh' },
+      { title: t('products.items.jit.feat5Title'), description: t('products.items.jit.feat5Desc'), icon: 'tabler:shield-check' },
+      { title: t('products.items.jit.feat6Title'), description: t('products.items.jit.feat6Desc'), icon: 'tabler:history' },
     ]}
   />
 
   <FAQs
-    title="Frequently asked questions"
+    title={t('products.faqsTitle')}
     items={[
-      { title: 'What is standing privilege?', description: 'Standing privilege means always-on admin or elevated rights. JIT replaces that with temporary access that must be requested and expires.' },
-      { title: 'Can emergency access still work?', description: 'Yes. Break-glass paths can be configured with stricter logging and post-use review so operations are not blocked.' },
-      { title: 'Does JIT work with our existing tickets?', description: 'Workflows can align with your change and incident processes. Integration options depend on your environment and deployment.' },
-      { title: 'Who can approve requests?', description: 'You designate approvers by role, group, or account ownership. Auto-approval can be limited to low-risk scenarios.' },
+      { title: t('products.faq1Q'), description: t('products.faq1A') },
+      { title: t('products.faq2Q'), description: t('products.faq2A') },
+      { title: t('products.faq3Q'), description: t('products.faq3A') },
     ]}
   />
 
-  <CallToAction actions={[{ variant: 'primary', text: 'Request a Demo', href: '/contact' }]}>
-    <Fragment slot="title">Move from standing privilege to JIT</Fragment>
-    <Fragment slot="subtitle">See request workflows, time windows, and revocation in a live walkthrough.</Fragment>
+  <CallToAction actions={[{ variant: 'primary', text: t('common.requestDemo'), href: localePath('/contact') }]}>
+    <Fragment slot="title">{t('products.items.jit.ctaTitle')}</Fragment>
+    <Fragment slot="subtitle">{t('products.items.jit.ctaSubtitle')}</Fragment>
   </CallToAction>
 </Layout>

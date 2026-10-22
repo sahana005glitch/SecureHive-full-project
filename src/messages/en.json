@@ -1,0 +1,73 @@
+{
+  "common": {
+    "requestDemo": "Request a Demo",
+    "exploreSolutions": "Explore Solutions",
+    "viewProducts": "View Products",
+    "allProducts": "All Products",
+    "allSolutions": "All Solutions",
+    "learnMore": "Learn more",
+    "contactUs": "Contact Us",
+    "contactSales": "Contact Sales",
+    "backToHome": "Back to homepage",
+    "explore": "Explore",
+    "discover": "Discover",
+    "overview": "Overview",
+    "readArticle": "Read article",
+    "previousInsight": "Previous insight",
+    "nextInsight": "Next insight",
+    "pauseRotation": "Pause carousel",
+    "resumeRotation": "Resume carousel",
+    "keyPoints": "Key points",
+    "takeaway": "Key takeaway",
+    "mainNavigation": "Main navigation",
+    "openMenu": "Open menu",
+    "toggleTheme": "Toggle dark and light mode"
+  },
+  "nav": {
+    "products": "Products",
+    "overview": "Overview",
+    "solutions": "Solutions",
+    "blog": "Blog",
+    "pricing": "Pricing",
+    "contact": "Contact",
+    "resources": "Resources",
+    "company": "Company",
+    "about": "About",
+    "aboutUs": "About Us",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "requestDemo": "Request a Demo"
+  },
+  "blog": {
+    "title": "The SecureHive Blog",
+    "viewAllPosts": "View all posts",
+    "subtitle": "Practical guidance on privileged access management, identity security, and enterprise cyber operations.",
+    "frenchNote": "French articles are translated summaries. All articles are fully available in English.",
+    "germanNote": "Deutsche Artikel sind redaktionelle Zusammenfassungen. Das vollständige Archiv ist auf Englisch verfügbar.",
+    "frenchTitle": "Articles en français",
+    "germanTitle": "Artikel auf Deutsch",
+    "newsletterTagline": "Newsletter",
+    "newsletterTitle": "Stay informed on PAM security",
+    "newsletterSubtitle": "Get the latest insights on privileged access, zero trust, and identity security delivered to your inbox.",
+    "newsletterBtn": "Subscribe",
+    "newsletterDisclaimer": "Unsubscribe at any time. We respect your privacy and never share your information."
+  },
+  "search": {
+    "ariaLabel": "Search",
+    "openAriaLabel": "Open search",
+    "placeholder": "Search products, solutions, blog...",
+    "initial": "Type to search this section...",
+    "noResults": "No results found for \"{query}\"",
+    "unavailable": "Search index not available. Run a production build to enable search.",
+    "resultsLabel": "Search results"
+  },
+  "error404": {
+    "title": "Error 404",
+    "message": "Sorry, we couldn't find this page.",
+    "submessage": "Don't worry, you can find plenty of other things on our homepage.",
+    "backButton": "Back to homepage"
+  },
+  "footer": {
+    "footnote": "© {year} SecureHive. All rights reserved. Privileged Access Management for the enterprise."
+  }
+}

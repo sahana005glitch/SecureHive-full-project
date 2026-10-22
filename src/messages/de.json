@@ -1,0 +1,73 @@
+{
+  "common": {
+    "requestDemo": "Demo anfordern",
+    "exploreSolutions": "Lösungen entdecken",
+    "viewProducts": "Produkte ansehen",
+    "allProducts": "Alle Produkte",
+    "allSolutions": "Alle Lösungen",
+    "learnMore": "Mehr erfahren",
+    "contactUs": "Kontakt aufnehmen",
+    "contactSales": "Vertrieb kontaktieren",
+    "backToHome": "Zurück zur Startseite",
+    "explore": "Entdecken",
+    "discover": "Erkunden",
+    "overview": "Übersicht",
+    "readArticle": "Artikel lesen",
+    "previousInsight": "Vorheriger Beitrag",
+    "nextInsight": "Nächster Beitrag",
+    "pauseRotation": "Karussell pausieren",
+    "resumeRotation": "Karussell fortsetzen",
+    "keyPoints": "Wichtige Punkte",
+    "takeaway": "Fazit",
+    "mainNavigation": "Hauptnavigation",
+    "openMenu": "Menü öffnen",
+    "toggleTheme": "Zwischen dunklem und hellem Modus wechseln"
+  },
+  "nav": {
+    "products": "Produkte",
+    "overview": "Übersicht",
+    "solutions": "Lösungen",
+    "blog": "Blog",
+    "pricing": "Preise",
+    "contact": "Kontakt",
+    "resources": "Ressourcen",
+    "company": "Unternehmen",
+    "about": "Über uns",
+    "aboutUs": "Über uns",
+    "privacyPolicy": "Datenschutzrichtlinie",
+    "termsOfService": "Nutzungsbedingungen",
+    "requestDemo": "Demo anfordern"
+  },
+  "blog": {
+    "title": "Der SecureHive Blog",
+    "viewAllPosts": "Alle Artikel ansehen",
+    "subtitle": "Praktische Leitfäden zu Privileged Access Management, Identitätssicherheit und Cyberabwehr im Unternehmen.",
+    "frenchNote": "Artikel auf Französisch sind redaktionelle Zusammenfassungen. Das vollständige Archiv ist auf Englisch verfügbar.",
+    "germanNote": "Die folgenden deutschsprachigen Artikel fassen Kerninhalte zusammen. Das vollständige Archiv mit über 90 Beiträgen ist auf Englisch verfügbar.",
+    "frenchTitle": "Articles en français",
+    "germanTitle": "Artikel auf Deutsch",
+    "newsletterTagline": "Newsletter",
+    "newsletterTitle": "Bleiben Sie informiert bei PAM-Sicherheit",
+    "newsletterSubtitle": "Erhalten Sie aktuelle Einblicke zu privilegierten Zugriffen, Zero Trust und Identitätssicherheit direkt in Ihr Postfach.",
+    "newsletterBtn": "Abonnieren",
+    "newsletterDisclaimer": "Jederzeit mit einem Klick abbestellbar. Wir respektieren Ihre Privatsphäre und geben keine Daten weiter."
+  },
+  "search": {
+    "ariaLabel": "Suche",
+    "openAriaLabel": "Suche öffnen",
+    "placeholder": "Produkte, Lösungen, Blog durchsuchen…",
+    "initial": "Suchbegriff eingeben, um diesen Bereich zu durchsuchen…",
+    "noResults": "Keine Ergebnisse für „{query}“ gefunden",
+    "unavailable": "Suchindex nicht verfügbar. Bitte erstellen Sie einen Produktions-Build, um die Suche zu aktivieren.",
+    "resultsLabel": "Suchergebnisse"
+  },
+  "error404": {
+    "title": "Fehler 404",
+    "message": "Diese Seite konnte leider nicht gefunden werden.",
+    "submessage": "Keine Sorge – auf unserer Startseite finden Sie zahlreiche nützliche Informationen.",
+    "backButton": "Zurück zur Startseite"
+  },
+  "footer": {
+    "footnote": "© {year} SecureHive. Alle Rechte vorbehalten. Privileged Access Management für Unternehmen."
+  }
+}

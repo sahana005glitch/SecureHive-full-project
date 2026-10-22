@@ -1,0 +1,84 @@
+---
+import { DEFAULT_LOCALE, isSupportedLocale, SUPPORTED_LOCALES, LOCALES } from '~/i18n/config';
+import { getLocalizedPath } from '~/i18n/routes';
+import franceFlag from '~/assets/favicons/France.png';
+import germanFlag from '~/assets/favicons/German.png';
+import ukFlag from '~/assets/favicons/UK.png';
+
+const requestedLocale = Astro.currentLocale || DEFAULT_LOCALE;
+const currentLocale = isSupportedLocale(requestedLocale) ? requestedLocale : DEFAULT_LOCALE;
+const currentPath = Astro.url.pathname;
+const flags = {
+  en: ukFlag,
+  fr: franceFlag,
+  de: germanFlag,
+};
+const currentLocaleInfo = LOCALES[currentLocale];
+---
+
+<details class="relative z-50">
+  <summary
+    class="flex h-10 w-32 cursor-pointer list-none items-center justify-between gap-2 rounded-md border border-slate-200 bg-white px-2 text-sm font-medium text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary dark:border-theme dark:bg-section dark:text-default dark:hover:bg-card-surface"
+    aria-label={`Language: ${currentLocaleInfo.label}`}
+  >
+    <span class="flex min-w-0 items-center gap-2">
+      <img
+        src={flags[currentLocale].src}
+        alt=""
+        aria-hidden="true"
+        width="20"
+        height="16"
+        class="max-h-4 max-w-5 shrink-0 object-contain"
+      />
+      <span class="truncate">{currentLocaleInfo.label}</span>
+    </span>
+    <svg
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      class="h-4 w-4 shrink-0 transition-transform"
+      aria-hidden="true"
+    >
+      <path d="m5 7.5 5 5 5-5" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  </summary>
+  <div
+    class="absolute right-0 mt-2 min-w-36 overflow-hidden rounded-md border border-slate-200 bg-white p-1 shadow-lg dark:border-theme dark:bg-section"
+  >
+    {
+      SUPPORTED_LOCALES.map((localeKey) => {
+        const optionUrl = getLocalizedPath(currentPath, localeKey);
+        const localeInfo = LOCALES[localeKey];
+        return (
+          <a
+            href={optionUrl}
+            data-astro-reload
+            aria-current={currentLocale === localeKey ? 'page' : undefined}
+            class="flex items-center gap-2 rounded px-2 py-2 text-sm text-slate-700 hover:bg-slate-100 focus-visible:bg-slate-100 focus-visible:outline-none dark:text-default dark:hover:bg-card-surface dark:focus-visible:bg-card-surface"
+          >
+            <img
+              src={flags[localeKey].src}
+              alt=""
+              aria-hidden="true"
+              width="20"
+              height="16"
+              class="max-h-4 max-w-5 shrink-0 object-contain"
+            />
+            <span>{localeInfo.label}</span>
+          </a>
+        );
+      })
+    }
+  </div>
+</details>
+
+<style>
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  details[open] summary > svg {
+    transform: rotate(180deg);
+  }
+</style>

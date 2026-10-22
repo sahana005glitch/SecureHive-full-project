@@ -4,51 +4,54 @@ import Hero from '~/components/widgets/Hero.astro';
 import Features from '~/components/widgets/Features.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
+import { useTranslations } from '~/i18n/translations';
+import { getLocalizedPath } from '~/i18n/routes';
+
+const locale = Astro.currentLocale || 'en';
+const { t } = useTranslations(locale);
+const localePath = (p: string) => getLocalizedPath(p, locale);
 
 const metadata = {
-  title: 'Government Solutions',
-  description: 'Enforce least privilege, monitor high-risk sessions, and produce the audit trail required for public sector accountability.',
+  title: `${t('solutions.items.gov.title')} — SecureHive`,
+  description: t('solutions.items.gov.subtitle'),
 };
 ---
 
 <Layout metadata={metadata}>
   <Hero
-    tagline="Solutions"
+    tagline={t('solutions.tagline')}
     actions={[
-      { variant: 'primary', text: 'Request a Demo', href: '/contact' },
-      { text: 'All Solutions', href: '/solutions' },
+      { variant: 'primary', text: t('common.requestDemo'), href: localePath('/contact') },
+      { text: t('common.allSolutions'), href: localePath('/solutions') },
     ]}
   >
-    <Fragment slot="title">Government</Fragment>
-    <Fragment slot="subtitle">
-      Enforce least privilege, monitor high-risk sessions, and produce the audit trail required for public sector accountability.
-    </Fragment>
+    <Fragment slot="title">{t('solutions.items.gov.title')}</Fragment>
+    <Fragment slot="subtitle">{t('solutions.items.gov.subtitle')}</Fragment>
   </Hero>
 
   <Features
-    title="How SecureHive helps"
+    title={t('solutions.items.gov.featuresTitle')}
     items={[
-      { title: 'Fine-grained access control', description: 'Limit privileged entitlements to what roles actually require.', icon: 'tabler:shield' },
-      { title: 'Contractor oversight', description: 'Time-bound access for integrators and managed service providers.', icon: 'tabler:lock' },
-      { title: 'Session monitoring', description: 'Oversight of privileged activity on critical systems.', icon: 'tabler:eye' },
-      { title: 'Credential centralization', description: 'Vault shared and administrative credentials across agencies or departments.', icon: 'tabler:users' },
-      { title: 'Reporting for oversight', description: 'Evidence for internal review boards and external assessments.', icon: 'tabler:key' },
-      { title: 'Hybrid infrastructure', description: 'Consistent controls across on-premises and cloud workloads.', icon: 'tabler:report' },
+      { title: t('solutions.items.gov.feat1Title'), description: t('solutions.items.gov.feat1Desc'), icon: 'tabler:shield' },
+      { title: t('solutions.items.gov.feat2Title'), description: t('solutions.items.gov.feat2Desc'), icon: 'tabler:lock' },
+      { title: t('solutions.items.gov.feat3Title'), description: t('solutions.items.gov.feat3Desc'), icon: 'tabler:eye' },
+      { title: t('solutions.items.gov.feat4Title'), description: t('solutions.items.gov.feat4Desc'), icon: 'tabler:users' },
+      { title: t('solutions.items.gov.feat5Title'), description: t('solutions.items.gov.feat5Desc'), icon: 'tabler:key' },
+      { title: t('solutions.items.gov.feat6Title'), description: t('solutions.items.gov.feat6Desc'), icon: 'tabler:report' },
     ]}
   />
 
   <FAQs
-    title="Frequently asked questions"
+    title={t('solutions.faqsTitle')}
     items={[
-      { title: 'Can this support NIST-aligned access practices?', description: 'Just-in-time access, least privilege, and auditing align with common modern identity security practices. Implementation is tailored with your team.' },
-      { title: 'How are citizen-facing systems protected?', description: 'By reducing standing admin and monitoring privileged sessions on systems that support those services.' },
-      { title: 'Multi-agency deployments?', description: 'Policy and vault models can be structured for shared services or agency-specific boundaries.' },
-      { title: 'Offline or air-gapped needs?', description: 'Deployment options depend on environment constraints; discuss architecture during evaluation.' },
+      { title: t('solutions.faq1Q'), description: t('solutions.faq1A') },
+      { title: t('solutions.faq2Q'), description: t('solutions.faq2A') },
+      { title: t('solutions.faq3Q'), description: t('solutions.faq3A') },
     ]}
   />
 
-  <CallToAction actions={[{ variant: 'primary', text: 'Request a Demo', href: '/contact' }]}>
-    <Fragment slot="title">Discuss Government requirements</Fragment>
-    <Fragment slot="subtitle">Map privileged access controls to your environment and compliance goals.</Fragment>
+  <CallToAction actions={[{ variant: 'primary', text: t('common.requestDemo'), href: localePath('/contact') }]}>
+    <Fragment slot="title">{t('solutions.items.gov.ctaTitle')}</Fragment>
+    <Fragment slot="subtitle">{t('solutions.items.gov.ctaSubtitle')}</Fragment>
   </CallToAction>
 </Layout>

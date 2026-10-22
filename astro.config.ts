@@ -25,8 +25,18 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
 
 export default defineConfig({
   output: 'static',
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'fr', 'de'],
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
+  devToolbar:{
+    enabled: false,
+  },
 
-  // Prefetch links as they enter the viewport for snappier navigations
+  // Prefetch links as they enter the viewport
   // (works together with <ClientRouter />, which enables prefetch by default).
   prefetch: {
     prefetchAll: true,

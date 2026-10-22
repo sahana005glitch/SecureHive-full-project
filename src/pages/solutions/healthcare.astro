@@ -4,51 +4,54 @@ import Hero from '~/components/widgets/Hero.astro';
 import Features from '~/components/widgets/Features.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
+import { useTranslations } from '~/i18n/translations';
+import { getLocalizedPath } from '~/i18n/routes';
+
+const locale = Astro.currentLocale || 'en';
+const { t } = useTranslations(locale);
+const localePath = (p: string) => getLocalizedPath(p, locale);
 
 const metadata = {
-  title: 'Healthcare Solutions',
-  description: 'Govern admin access to EHR, imaging, and infrastructure while supporting uptime and privacy expectations common in healthcare environments.',
+  title: `${t('solutions.items.healthcare.title')} — SecureHive`,
+  description: t('solutions.items.healthcare.subtitle'),
 };
 ---
 
 <Layout metadata={metadata}>
   <Hero
-    tagline="Solutions"
+    tagline={t('solutions.tagline')}
     actions={[
-      { variant: 'primary', text: 'Request a Demo', href: '/contact' },
-      { text: 'All Solutions', href: '/solutions' },
+      { variant: 'primary', text: t('common.requestDemo'), href: localePath('/contact') },
+      { text: t('common.allSolutions'), href: localePath('/solutions') },
     ]}
   >
-    <Fragment slot="title">Healthcare</Fragment>
-    <Fragment slot="subtitle">
-      Govern admin access to EHR, imaging, and infrastructure while supporting uptime and privacy expectations common in healthcare environments.
-    </Fragment>
+    <Fragment slot="title">{t('solutions.items.healthcare.title')}</Fragment>
+    <Fragment slot="subtitle">{t('solutions.items.healthcare.subtitle')}</Fragment>
   </Hero>
 
   <Features
-    title="How SecureHive helps"
+    title={t('solutions.items.healthcare.featuresTitle')}
     items={[
-      { title: 'Clinical system protection', description: 'Reduce standing admin on systems that store or process patient-related data.', icon: 'tabler:shield' },
-      { title: 'Vendor and support access', description: 'Grant temporary access to EHR and device vendors with monitoring.', icon: 'tabler:lock' },
-      { title: 'Least privilege for IT staff', description: 'Elevate only when required for change windows and incidents.', icon: 'tabler:eye' },
-      { title: 'Session accountability', description: 'Know who performed privileged actions during outages and upgrades.', icon: 'tabler:users' },
-      { title: 'Credential vaulting', description: 'Remove shared passwords from sticky notes and shared inboxes.', icon: 'tabler:key' },
-      { title: 'Compliance support', description: 'Access logs that help demonstrate control over privileged activity.', icon: 'tabler:report' },
+      { title: t('solutions.items.healthcare.feat1Title'), description: t('solutions.items.healthcare.feat1Desc'), icon: 'tabler:shield' },
+      { title: t('solutions.items.healthcare.feat2Title'), description: t('solutions.items.healthcare.feat2Desc'), icon: 'tabler:lock' },
+      { title: t('solutions.items.healthcare.feat3Title'), description: t('solutions.items.healthcare.feat3Desc'), icon: 'tabler:eye' },
+      { title: t('solutions.items.healthcare.feat4Title'), description: t('solutions.items.healthcare.feat4Desc'), icon: 'tabler:users' },
+      { title: t('solutions.items.healthcare.feat5Title'), description: t('solutions.items.healthcare.feat5Desc'), icon: 'tabler:key' },
+      { title: t('solutions.items.healthcare.feat6Title'), description: t('solutions.items.healthcare.feat6Desc'), icon: 'tabler:report' },
     ]}
   />
 
   <FAQs
-    title="Frequently asked questions"
+    title={t('solutions.faqsTitle')}
     items={[
-      { title: 'Is SecureHive a HIPAA compliance product?', description: 'SecureHive is a security control for privileged access. It can support your compliance program; legal and clinical compliance remain organizational responsibilities.' },
-      { title: 'Will this slow clinical operations?', description: 'Policies are designed around operational reality — emergency access and approved elevation paths keep care teams unblocked.' },
-      { title: 'Can biomedical device vendors be controlled?', description: 'Vendor access is a primary use case: time-limited, monitored sessions instead of permanent shared logins.' },
-      { title: 'What about shared clinical workstations?', description: 'Endpoint privilege controls can reduce local admin on shared devices while allowing required clinical applications.' },
+      { title: t('solutions.faq1Q'), description: t('solutions.faq1A') },
+      { title: t('solutions.faq2Q'), description: t('solutions.faq2A') },
+      { title: t('solutions.faq3Q'), description: t('solutions.faq3A') },
     ]}
   />
 
-  <CallToAction actions={[{ variant: 'primary', text: 'Request a Demo', href: '/contact' }]}>
-    <Fragment slot="title">Discuss Healthcare requirements</Fragment>
-    <Fragment slot="subtitle">Map privileged access controls to your environment and compliance goals.</Fragment>
+  <CallToAction actions={[{ variant: 'primary', text: t('common.requestDemo'), href: localePath('/contact') }]}>
+    <Fragment slot="title">{t('solutions.items.healthcare.ctaTitle')}</Fragment>
+    <Fragment slot="subtitle">{t('solutions.items.healthcare.ctaSubtitle')}</Fragment>
   </CallToAction>
 </Layout>

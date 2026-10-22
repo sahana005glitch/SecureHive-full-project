@@ -290,10 +290,13 @@ Yes, in maintenance mode: v1 receives dependency updates and bug fixes, while ne
 Ask your AI coding assistant. AstroWind is _AI-ready_: the repository ships an [`AGENTS.md`](./AGENTS.md) with the project conventions and step-by-step skills in [`.agents/skills/`](./.agents/skills/) for the most common tasks, so Claude Code, Codex/ChatGPT, Cursor, Copilot and similar tools can do them reliably (and you can read the skills yourself).
 
 **Which widgets are there and how do I use them?**
-Every section is a component in `src/components/widgets/` with typed props. The catalogue with props and where each one is demoed is in [`.agents/skills/use-widgets.md`](./.agents/skills/use-widgets.md); the six pages in `src/pages/landing/` show them combined into complete landing pages.
+Page sections are components in `src/components/widgets/` with typed props. See [`.agents/skills/use-widgets.md`](./.agents/skills/use-widgets.md) for the current components and their props; the project keeps its routes focused on SecureHive pages rather than shipping template demo routes.
 
 **Where do blog posts go?**
-`src/data/post/` as `.md` or `.mdx` files. They are read at build time.
+`src/data/post/<locale>/` as `.md` or `.mdx` files. Each post declares its `locale` and a stable `translationKey`; translated versions share that key. They are read at build time.
+
+**How are translations managed?**
+UI catalogs are in `src/messages/{en,fr,de}.json`. Structured marketing pages are separate JSON documents in `src/data/pages/<locale>/`, validated by a shared Zod schema through Astro's Content Layer. English catalogs, page data, and blog posts in `src/data/post/en/` are Crowdin sources. On changes to those sources, GitHub Actions uploads them to Crowdin and opens a pull request containing approved French and German translations. Configure the `CROWDIN_PROJECT_ID` and `CROWDIN_PERSONAL_TOKEN` repository secrets, plus a repository-scoped `CROWDIN_GH_TOKEN` with Contents and Pull requests write access so generated PRs trigger CI. Keep Crowdin's target languages aligned with `src/i18n/config.ts`.
 
 **Where do I change colors and fonts?**
 Colors in `src/components/CustomStyles.astro` (CSS variables for light and dark), Tailwind tokens and utilities in `src/assets/styles/tailwind.css`, fonts in the `fonts` entry of `astro.config.ts`.

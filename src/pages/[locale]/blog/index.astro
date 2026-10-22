@@ -1,0 +1,52 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { SITE } from 'astrowind:config';
+import Breadcrumbs from '~/components/common/Breadcrumbs.astro';
+import Headline from '~/components/blog/Headline.astro';
+import List from '~/components/blog/List.astro';
+import Newsletter from '~/components/widgets/Newsletter.astro';
+import PageLayout from '~/layouts/PageLayout.astro';
+import { SUPPORTED_LOCALES, type Locale } from '~/i18n/config';
+import { useTranslations } from '~/i18n/translations';
+import { fetchPosts } from '~/utils/blog';
+
+export const getStaticPaths = (() =>
+  SUPPORTED_LOCALES.map((locale) => ({
+    params: { locale },
+    props: { locale },
+  }))) satisfies GetStaticPaths;
+
+const { locale } = Astro.props as { locale: Locale };
+const { t } = useTranslations(locale);
+const posts = await fetchPosts(locale);
+const metadata = {
+  title: t(locale === 'fr' ? 'blog.frenchTitle' : 'blog.germanTitle'),
+  description: t('blog.subtitle'),
+  canonical: new URL(getRelativeLocaleUrl(locale, 'blog'), SITE.site).toString(),
+};
+---
+
+<PageLayout metadata={metadata}>
+  <Breadcrumbs
+    bar
+    items={[{ text: t('common.backToHome'), href: getRelativeLocaleUrl(locale) }, { text: t('nav.blog') }]}
+  />
+  <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
+    <Headline subtitle={t('blog.subtitle')}>
+      {t(locale === 'fr' ? 'blog.frenchTitle' : 'blog.germanTitle')}
+    </Headline>
+    <p class="mb-8 text-sm text-slate-500 dark:text-muted">
+      {t(locale === 'fr' ? 'blog.frenchNote' : 'blog.germanNote')}
+    </p>
+    <List posts={posts} />
+  </section>
+  <Newsletter
+    tagline={t('blog.newsletterTagline')}
+    title={t('blog.newsletterTitle')}
+    subtitle={t('blog.newsletterSubtitle')}
+    button={t('blog.newsletterBtn')}
+    disclaimer={t('blog.newsletterDisclaimer')}
+    classes={{ container: 'max-w-4xl' }}
+  />
+</PageLayout>

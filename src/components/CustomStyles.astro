@@ -10,20 +10,24 @@
     --aw-font-heading: var(--font-inter);
 
     /* SecureHive brand */
-    --aw-color-primary: #0B2D5B;
-    --aw-color-secondary: #1E3A5F;
-    --aw-color-accent: #3B82F6;
+    --aw-color-primary: #024950;
+    --aw-color-secondary: #003135;
+    --aw-color-accent: #0fa4af;
+    --aw-color-warm: #964734;
 
-    --aw-color-text-heading: #0B2D5B;
-    --aw-color-text-default: #1F2937;
-    --aw-color-text-muted: #4B5563;
-    --aw-color-bg-page: #F8FAFC;
-    --aw-color-bg-page-dark: #0B2D5B;
-    --aw-color-link: #3B82F6;
+    --aw-color-text-heading: #003135;
+    --aw-color-text-default: #1f3b3d;
+    --aw-color-text-muted: #52696b;
+    --aw-color-bg-page: #f6fbfa;
+    --aw-color-bg-page-dark: #003135;
+    --aw-color-bg-section: #f0f6f5;
+    --aw-color-bg-card: #ffffff;
+    --aw-color-border: #dce7e5;
+    --aw-color-link: #024950;
 
     ::selection {
-      background-color: #3B82F6;
-      color: #ffffff;
+      background-color: #0fa4af;
+      color: #003135;
     }
   }
 
@@ -32,19 +36,24 @@
     --aw-font-serif: var(--font-inter);
     --aw-font-heading: var(--font-inter);
 
-    --aw-color-primary: #3B82F6;
-    --aw-color-secondary: #60A5FA;
-    --aw-color-accent: #93C5FD;
+    --aw-color-primary: #6edff6;
+    --aw-color-secondary: #729bff;
+    --aw-color-accent: #6edff6;
+    --aw-color-warm: #729bff;
 
-    --aw-color-text-heading: #F8FAFC;
-    --aw-color-text-default: #E5E7EB;
-    --aw-color-text-muted: #9CA3AF;
-    --aw-color-bg-page: #0a1628;
-    --aw-color-link: #60A5FA;
+    --aw-color-text-heading: #f0f5ff;
+    --aw-color-text-default: #c0ccdf;
+    --aw-color-text-muted: #8494ae;
+    --aw-color-bg-page: #081426;
+    --aw-color-bg-page-dark: #0e1c31;
+    --aw-color-bg-section: #0e1c31;
+    --aw-color-bg-card: #142641;
+    --aw-color-border: #293a55;
+    --aw-color-link: #6edff6;
 
     ::selection {
-      background-color: #3B82F6;
-      color: #ffffff;
+      background-color: #6edff6;
+      color: #081426;
     }
   }
 
@@ -52,27 +61,33 @@
   .btn-primary,
   a.btn-primary,
   button.btn-primary {
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      background-color 0.2s ease;
   }
   .btn-primary:hover,
   a.btn-primary:hover,
   button.btn-primary:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--aw-color-accent) 30%, transparent);
   }
 
   /* Cards */
   .sh-card {
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease,
+      border-color 0.25s ease;
   }
   .sh-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 28px rgba(11, 45, 91, 0.1);
-    border-color: rgba(59, 130, 246, 0.35);
+    box-shadow: 0 12px 28px color-mix(in srgb, var(--aw-color-primary) 10%, transparent);
+    border-color: color-mix(in srgb, var(--aw-color-accent) 35%, transparent);
   }
   .dark .sh-card:hover {
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
-    border-color: rgba(59, 130, 246, 0.45);
+    border-color: color-mix(in srgb, var(--aw-color-accent) 45%, transparent);
   }
 
   /* Arrow micro-interaction */
@@ -87,14 +102,14 @@
   /* Subtle technical grid */
   .sh-network-grid {
     background-image:
-      linear-gradient(rgba(59, 130, 246, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(59, 130, 246, 0.04) 1px, transparent 1px);
+      linear-gradient(color-mix(in srgb, var(--aw-color-accent) 4%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--aw-color-accent) 4%, transparent) 1px, transparent 1px);
     background-size: 40px 40px;
   }
   .dark .sh-network-grid {
     background-image:
-      linear-gradient(rgba(59, 130, 246, 0.07) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(59, 130, 246, 0.07) 1px, transparent 1px);
+      linear-gradient(color-mix(in srgb, var(--aw-color-accent) 7%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--aw-color-accent) 7%, transparent) 1px, transparent 1px);
   }
 
   /* Smooth focus rings for accessibility */
@@ -102,7 +117,7 @@
   button:focus-visible,
   input:focus-visible,
   textarea:focus-visible {
-    outline: 2px solid #3B82F6;
+    outline: 2px solid var(--aw-color-primary);
     outline-offset: 2px;
   }
 </style>

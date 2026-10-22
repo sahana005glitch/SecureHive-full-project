@@ -1,17 +1,23 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 
-import BlogHighlightedPosts from '~/components/widgets/BlogHighlightedPosts.astro';
+import InsightsCarousel from '~/components/widgets/InsightsCarousel.astro';
+import { Icon } from 'astro-icon/components';
 import FAQs from '~/components/widgets/FAQs.astro';
 import StructuredData from '~/components/common/StructuredData.astro';
 import { SITE, I18N } from 'astrowind:config';
+import { useTranslations } from '~/i18n/translations';
+import { getLocalizedPath } from '~/i18n/routes';
 import favIconSvg from '~/assets/favicons/favicon.svg';
 
+const locale = Astro.currentLocale || 'en';
+const { t } = useTranslations(locale);
+const localePath = (path: string) => getLocalizedPath(path, locale);
+
 const metadata = {
-  title: 'SecureHive — Privileged Access Management',
+  title: t('home.metaTitle'),
   ignoreTitleTemplate: true,
-  description:
-    'Enterprise Privileged Access Management for identity-centric security. Discover, control, and audit privileged access across your environment.',
+  description: t('home.metaDescription'),
 };
 
 const organizationId = `${SITE?.site}/#organization`;
@@ -22,7 +28,7 @@ const structuredData = [
     '@id': `${SITE?.site}/#website`,
     name: SITE?.name,
     url: SITE?.site,
-    inLanguage: I18N?.language,
+    inLanguage: Astro.currentLocale || I18N?.language,
     publisher: { '@id': organizationId },
   },
   {
@@ -40,7 +46,9 @@ const structuredData = [
   <StructuredData slot="head" schema={structuredData} />
 
   <!-- ========== HERO with animated network background ========== -->
-  <section class="sh-home-hero relative flex min-h-[calc(100svh-5rem)] flex-col justify-between overflow-hidden bg-[#0B2D5B] text-white">
+  <section
+    class="sh-home-hero relative flex min-h-[calc(100svh-5rem)] flex-col justify-between overflow-hidden bg-dark text-white"
+  >
     <sh-hero-canvas class="sh-hero-canvas absolute inset-0 pointer-events-none" aria-hidden="true">
       <canvas></canvas>
     </sh-hero-canvas>
@@ -50,51 +58,51 @@ const structuredData = [
       <!-- Subtle grid -->
       <div
         class="absolute inset-0 opacity-[0.07]"
-        style="background-image: linear-gradient(rgba(59,130,246,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.4) 1px, transparent 1px); background-size: 48px 48px;"
-      ></div>
+        style="background-image: linear-gradient(rgba(15,164,175,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(15,164,175,0.4) 1px, transparent 1px); background-size: 48px 48px;"
+      >
+      </div>
 
       <!-- Soft radial vignette for readability -->
-      <div
-        class="absolute inset-0"
-        style="background: radial-gradient(ellipse 80% 70% at 50% 40%, transparent 0%, rgba(11,45,91,0.55) 70%, rgba(11,45,91,0.85) 100%);"
-      ></div>
+      <div class="sh-hero-vignette absolute inset-0"></div>
     </div>
 
     <!-- Hero content -->
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 lg:py-40">
       <div class="max-w-7xl">
         <p
-          class="inline-flex items-center gap-2 text-sm font-medium text-blue-200 mb-6 intersect-once motion-safe:opacity-0 motion-safe:intersect:animate-fade"
+          class="inline-flex items-center gap-2 text-sm font-medium text-accent mb-6 intersect-once motion-safe:opacity-0 motion-safe:intersect:animate-fade"
         >
-          <span class="inline-block w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
-          Privileged Access Management
+          <span class="inline-block w-2 h-2 rounded-full bg-brand-warm animate-pulse"></span>
+          {t('home.heroBadge')}
         </p>
-        <h1 class="sh-hero-title mb-6 text-4xl font-bold leading-[1.06] tracking-tight text-white sm:text-5xl lg:text-[clamp(3.5rem,5vw,5.75rem)]">
-          <span class="sh-hero-line"><span>Control privileged access.</span></span>
-          <span class="sh-hero-line sh-hero-line-highlight"><span>Eliminate standing privilege.</span></span>
+        <h1
+          class="sh-hero-title mb-6 text-4xl font-bold leading-[1.06] tracking-tight text-white dark:text-heading sm:text-5xl lg:text-[clamp(3.5rem,5vw,5.75rem)]"
+        >
+          <span class="sh-hero-line"><span>{t('home.heroTitle1')}</span></span>
+          <span class="sh-hero-line sh-hero-line-highlight"><span>{t('home.heroTitle2')}</span></span>
         </h1>
         <p
-          class="max-w-3xl text-lg leading-relaxed text-slate-300 sm:text-xl mb-10 intersect-once motion-safe:opacity-0 motion-safe:intersect:animate-fade"
+          class="max-w-3xl text-lg leading-relaxed text-slate-300 dark:text-default sm:text-xl mb-10 intersect-once motion-safe:opacity-0 motion-safe:intersect:animate-fade"
         >
-          SecureHive is an enterprise Privileged Access Management platform — discover accounts, enforce just-in-time access, vault credentials, and record sessions so identity becomes your control plane.
+          {t('home.heroSubtitle')}
         </p>
         <div
           class="flex flex-col sm:flex-row gap-4 intersect-once motion-safe:opacity-0 motion-safe:intersect:animate-fade"
         >
           <a
-            href="/contact"
-            class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-[#3B82F6] text-white font-semibold text-base hover:bg-blue-500 transition-all duration-200 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5"
+            href={localePath('/contact')}
+            class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-brand-warm text-white font-semibold text-base hover:bg-[#7A392A] transition-all duration-200 shadow-lg shadow-brand-warm/25 hover:shadow-brand-warm/40 hover:-translate-y-0.5 dark:!bg-primary dark:!text-[#081426] dark:hover:!bg-secondary dark:shadow-cyan-400/25"
           >
-            Request a Demo
+            {t('common.requestDemo')}
             <svg class="w-4 h-4 sh-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path>
             </svg>
           </a>
           <a
-            href="/solutions"
+            href={localePath('/solutions')}
             class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg border border-white/25 text-white font-semibold text-base hover:bg-white/10 transition-all duration-200"
           >
-            Explore Solutions
+            {t('common.exploreSolutions')}
           </a>
         </div>
       </div>
@@ -103,22 +111,22 @@ const structuredData = [
     <!-- Bottom fade into page background -->
     <div class="relative z-10 w-full pb-8 sm:pb-10">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <p class="mb-4 text-sm font-medium text-blue-100/75">Security across the privileged access lifecycle</p>
-        <div class="sh-capability-scroller" aria-label="SecureHive platform capabilities">
+        <p class="mb-4 text-sm font-medium text-teal-100/75">{t('home.lifecycleTagline')}</p>
+        <div class="sh-capability-scroller" aria-label={t('home.lifecycleTitle')}>
           <div class="sh-capability-track">
             <div class="sh-capability-set" role="list">
-              <span role="listitem">Just-in-time access</span>
-              <span role="listitem">Credential vaulting</span>
-              <span role="listitem">Session oversight</span>
-              <span role="listitem">Identity governance</span>
-              <span role="listitem">Cloud entitlements</span>
+              <span role="listitem">{t('home.capJit')}</span>
+              <span role="listitem">{t('home.capVault')}</span>
+              <span role="listitem">{t('home.capSession')}</span>
+              <span role="listitem">{t('home.capGovernance')}</span>
+              <span role="listitem">{t('home.capCloud')}</span>
             </div>
             <div class="sh-capability-set" role="list" aria-hidden="true">
-              <span role="listitem">Just-in-time access</span>
-              <span role="listitem">Credential vaulting</span>
-              <span role="listitem">Session oversight</span>
-              <span role="listitem">Identity governance</span>
-              <span role="listitem">Cloud entitlements</span>
+              <span role="listitem">{t('home.capJit')}</span>
+              <span role="listitem">{t('home.capVault')}</span>
+              <span role="listitem">{t('home.capSession')}</span>
+              <span role="listitem">{t('home.capGovernance')}</span>
+              <span role="listitem">{t('home.capCloud')}</span>
             </div>
           </div>
         </div>
@@ -127,127 +135,168 @@ const structuredData = [
   </section>
 
   <!-- ========== TRUST / CREDIBILITY ========== -->
-  <section class="py-14 bg-[#F8FAFC] border-b border-slate-200/80 dark:bg-[#07101f] dark:border-[#1c2c47]">
+  <section class="py-14 bg-page border-b border-slate-200/80 dark:bg-section dark:border-theme">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div
         class="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 text-slate-500 text-sm font-medium tracking-wide intersect-once motion-safe:opacity-0 motion-safe:intersect:animate-fade"
       >
         <span class="flex items-center gap-2">
-          <svg class="w-5 h-5 text-[#0B2D5B] dark:text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+          <svg
+            class="w-5 h-5 text-primary dark:text-secondary"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
+            ></path>
           </svg>
-          Built for modern security teams
+          {t('home.scaleTagline')}
         </span>
         <span class="flex items-center gap-2">
-          <svg class="w-5 h-5 text-[#0B2D5B] dark:text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+          <svg
+            class="w-5 h-5 text-primary dark:text-secondary"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"></path>
           </svg>
-          Privileged Access Management
+          {t('home.heroBadge')}
         </span>
         <span class="flex items-center gap-2">
-          <svg class="w-5 h-5 text-[#0B2D5B] dark:text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+          <svg
+            class="w-5 h-5 text-primary dark:text-secondary"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"></path>
           </svg>
-          Identity · Access · Endpoint · Cloud
+          {t('home.scaleTitle')}
         </span>
       </div>
     </div>
   </section>
 
   <!-- ========== SECURITY SOLUTIONS ========== -->
-  <section class="py-20 md:py-28 bg-white dark:bg-[#07101f]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <!-- ========== SECURITY SOLUTIONS ========== -->
+  <section class="sh-solutions-bg relative overflow-hidden py-20 md:py-28">
+    <div class="sh-dots absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="max-w-2xl mb-14 intersect-once motion-safe:opacity-0 motion-safe:intersect:animate-fade">
-        <p class="text-sm font-semibold text-[#3B82F6] tracking-wide uppercase mb-3">Solutions</p>
-        <h2 class="text-3xl md:text-4xl font-bold text-[#0B2D5B] tracking-tight mb-4 dark:text-slate-100">
-          Comprehensive security across your enterprise
+        <p class="text-sm font-semibold text-brand-warm tracking-wide uppercase mb-3">{t('home.solutionsTagline')}</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-primary tracking-tight mb-4 dark:text-heading">
+          {t('home.solutionsTitle')}
         </h2>
-        <p class="text-lg text-slate-600 leading-relaxed dark:text-slate-300">
-          Protect identities, control privileged access, secure endpoints, and govern cloud environments
-          from a unified platform designed for enterprise scale.
+        <p class="text-lg text-slate-600 leading-relaxed dark:text-default">
+          {t('home.solutionsSubtitle')}
         </p>
       </div>
 
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {[
-          {
-            title: 'Identity & Access Security',
-            desc: 'Strengthen authentication, enforce least privilege, and continuously verify every identity across your organization.',
-            icon: 'M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z',
-          },
-          {
-            title: 'Privileged Access Management',
-            desc: 'Discover, vault, and monitor privileged accounts with just-in-time access and session oversight.',
-            icon: 'M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z',
-          },
-          {
-            title: 'Endpoint Security',
-            desc: 'Protect workstations, servers, and mobile devices with adaptive controls and continuous monitoring.',
-            icon: 'M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25z',
-          },
-          {
-            title: 'Cloud Security',
-            desc: 'Gain visibility and control across multi-cloud environments with configuration, identity, and workload protection.',
-            icon: 'M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z',
-          },
-          {
-            title: 'Security Automation',
-            desc: 'Orchestrate response workflows, reduce alert fatigue, and accelerate investigation with intelligent automation.',
-            icon: 'M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z',
-          },
-          {
-            title: 'Unified Visibility',
-            desc: 'Correlate signals across identity, access, and infrastructure for a single source of security truth.',
-            icon: 'M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z M15 12a3 3 0 11-6 0 3 3 0 016 0z',
-          },
-        ].map((item, i) => (
-          <div
-            class={`sh-card group p-6 rounded-xl border border-slate-200 bg-white hover:border-blue-200 dark:border-[#1c2c47] dark:bg-[#0c172b] intersect-once motion-safe:opacity-0 motion-safe:intersect:animate-fade`}
-            style={`--stagger: ${i * 60}ms`}
-          >
-            <div class="w-11 h-11 rounded-lg bg-[#0B2D5B]/5 flex items-center justify-center mb-4 group-hover:bg-[#0B2D5B]/10 transition-colors dark:bg-[#12213b]">
-              <svg class="w-6 h-6 text-[#0B2D5B] dark:text-blue-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d={item.icon} />
-              </svg>
+        {
+          [
+            {
+              title: t('home.solIdentityTitle'),
+              desc: t('home.solIdentityDesc'),
+              icon: 'M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z',
+            },
+            {
+              title: t('home.solPamTitle'),
+              desc: t('home.solPamDesc'),
+              icon: 'M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z',
+            },
+            {
+              title: t('home.solEndpointTitle'),
+              desc: t('home.solEndpointDesc'),
+              icon: 'M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25z',
+            },
+            {
+              title: t('home.solCloudTitle'),
+              desc: t('home.solCloudDesc'),
+              icon: 'M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z',
+            },
+            {
+              title: t('home.solAutomationTitle'),
+              desc: t('home.solAutomationDesc'),
+              icon: 'M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z',
+            },
+            {
+              title: t('home.solVisibilityTitle'),
+              desc: t('home.solVisibilityDesc'),
+              icon: 'M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z M15 12a3 3 0 11-6 0 3 3 0 016 0z',
+            },
+          ].map((item, i) => (
+            <div
+              class="sh-feature-card group p-6 intersect-once motion-safe:opacity-0 motion-safe:intersect:animate-fade"
+              style={`--stagger: ${i * 60}ms`}
+            >
+              <div class="sh-icon-tile w-11 h-11 rounded-lg flex items-center justify-center mb-4">
+                <svg
+                  class="w-6 h-6 text-primary dark:text-primary"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d={item.icon} />
+                </svg>
+              </div>
+              <h3 class="text-lg font-semibold text-primary mb-2 dark:text-heading">{item.title}</h3>
+              <p class="text-slate-600 text-sm leading-relaxed dark:text-default">{item.desc}</p>
             </div>
-            <h3 class="text-lg font-semibold text-[#0B2D5B] mb-2 dark:text-slate-100">{item.title}</h3>
-            <p class="text-slate-600 text-sm leading-relaxed dark:text-slate-300">{item.desc}</p>
-          </div>
-        ))}
+          ))
+        }
       </div>
     </div>
   </section>
 
   <!-- ========== WHY SECUREHIVE ========== -->
-  <section class="py-20 md:py-28 bg-[#F8FAFC] relative overflow-hidden dark:bg-[#0a1628]">
-    <div class="absolute inset-0 sh-network-grid opacity-60 pointer-events-none" aria-hidden="true"></div>
+  <!-- ========== WHY SECUREHIVE ========== -->
+  <section class="sh-why-bg relative overflow-hidden py-20 md:py-28">
+    <div class="sh-why-hex absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+    <div class="sh-why-glow absolute inset-0 pointer-events-none" aria-hidden="true"></div>
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         <div class="intersect-once motion-safe:opacity-0 motion-safe:intersect:animate-fade">
-          <p class="text-sm font-semibold text-[#3B82F6] tracking-wide uppercase mb-3">Why SecureHive</p>
-          <h2 class="text-3xl md:text-4xl font-bold text-[#0B2D5B] tracking-tight mb-6 dark:text-slate-100">
-            Designed for security teams who demand trust and clarity
+          <p class="text-sm font-semibold text-brand-warm tracking-wide uppercase mb-3">{t('home.whyTagline')}</p>
+          <h2 class="text-3xl md:text-4xl font-bold text-primary tracking-tight mb-6 dark:text-heading">
+            {t('home.whyTitle')}
           </h2>
-          <p class="text-lg text-slate-600 leading-relaxed mb-8 dark:text-slate-300">
-            SecureHive brings together identity-centric controls, privileged access governance, and
-            infrastructure protection in a platform that prioritizes usability without sacrificing depth.
+          <p class="text-lg text-slate-600 leading-relaxed mb-8 dark:text-default">
+            {t('home.whySubtitle')}
           </p>
           <ul class="space-y-4">
-            {[
-              'Unified control plane across identity, access, and infrastructure',
-              'Policy-driven automation that reduces operational load',
-              'Clear visibility for auditors, operators, and leadership',
-              'Architecture built for hybrid and multi-cloud environments',
-            ].map((text) => (
-              <li class="flex items-start gap-3">
-                <span class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center">
-                  <svg class="w-3 h-3 text-[#3B82F6]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
-                </span>
-                <span class="text-slate-700 dark:text-slate-300">{text}</span>
-              </li>
-            ))}
+            {
+              [t('home.whyPoint1'), t('home.whyPoint2'), t('home.whyPoint3'), t('home.whyPoint4')].map((text) => (
+                <li class="flex items-start gap-3">
+                  <span class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-accent/10 flex items-center justify-center dark:bg-primary/15">
+                    <svg
+                      class="w-3 h-3 text-accent"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="3"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                  </span>
+                  <span class="text-slate-700 dark:text-default">{text}</span>
+                </li>
+              ))
+            }
           </ul>
         </div>
 
@@ -256,26 +305,40 @@ const structuredData = [
           class="relative aspect-square max-w-md mx-auto lg:max-w-none intersect-once motion-safe:opacity-0 motion-safe:intersect:animate-fade"
           aria-hidden="true"
         >
-          <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#0B2D5B] to-[#1E3A5F] overflow-hidden">
+          <div
+            class="absolute inset-0 rounded-2xl bg-gradient-to-br from-secondary to-primary overflow-hidden shadow-2xl shadow-primary/30 ring-1 ring-accent/20"
+          >
             <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 400" fill="none">
-              <!-- Concentric shield geometry -->
-              <path d="M200 40 L80 90 v80c0 70 50 120 120 140 70-20 120-70 120-140V90L200 40z" stroke="#3B82F6" stroke-opacity="0.3" stroke-width="1.5" fill="none" />
-              <path d="M200 80 L120 115 v55c0 50 35 85 80 100 45-15 80-50 80-100v-55L200 80z" stroke="#3B82F6" stroke-opacity="0.45" stroke-width="1.5" fill="none" />
-              <path d="M200 120 L155 142 v35c0 30 20 50 45 58 25-8 45-28 45-58v-35L200 120z" stroke="#60A5FA" stroke-opacity="0.6" stroke-width="1.5" fill="rgba(59,130,246,0.08)" />
-              <!-- Nodes -->
-              <circle cx="200" cy="200" r="8" fill="#3B82F6" />
-              <circle cx="140" cy="160" r="4" fill="#60A5FA" opacity="0.8" />
-              <circle cx="260" cy="160" r="4" fill="#60A5FA" opacity="0.8" />
-              <circle cx="160" cy="250" r="4" fill="#60A5FA" opacity="0.8" />
-              <circle cx="240" cy="250" r="4" fill="#60A5FA" opacity="0.8" />
-              <line x1="200" y1="200" x2="140" y2="160" stroke="#3B82F6" stroke-opacity="0.4" />
-              <line x1="200" y1="200" x2="260" y2="160" stroke="#3B82F6" stroke-opacity="0.4" />
-              <line x1="200" y1="200" x2="160" y2="250" stroke="#3B82F6" stroke-opacity="0.4" />
-              <line x1="200" y1="200" x2="240" y2="250" stroke="#3B82F6" stroke-opacity="0.4" />
-              <!-- Pulse ring -->
-              <circle cx="200" cy="200" r="20" stroke="#3B82F6" stroke-opacity="0.3" stroke-width="1" fill="none">
-                <animate attributeName="r" values="16;32;16" dur="4s" repeatCount="indefinite" />
-                <animate attributeName="stroke-opacity" values="0.4;0;0.4" dur="4s" repeatCount="indefinite" />
+              <path
+                d="M200 40 L80 90 v80c0 70 50 120 120 140 70-20 120-70 120-140V90L200 40z"
+                stroke="#0FA4AF"
+                stroke-opacity="0.3"
+                stroke-width="1.5"
+                fill="none"></path>
+              <path
+                d="M200 80 L120 115 v55c0 50 35 85 80 100 45-15 80-50 80-100v-55L200 80z"
+                stroke="#0FA4AF"
+                stroke-opacity="0.45"
+                stroke-width="1.5"
+                fill="none"></path>
+              <path
+                d="M200 120 L155 142 v35c0 30 20 50 45 58 25-8 45-28 45-58v-35L200 120z"
+                stroke="#964734"
+                stroke-opacity="0.6"
+                stroke-width="1.5"
+                fill="rgba(15,164,175,0.08)"></path>
+              <circle cx="200" cy="200" r="8" fill="#0FA4AF"></circle>
+              <circle cx="140" cy="160" r="4" fill="#964734" opacity="0.8"></circle>
+              <circle cx="260" cy="160" r="4" fill="#964734" opacity="0.8"></circle>
+              <circle cx="160" cy="250" r="4" fill="#964734" opacity="0.8"></circle>
+              <circle cx="240" cy="250" r="4" fill="#964734" opacity="0.8"></circle>
+              <line x1="200" y1="200" x2="140" y2="160" stroke="#0FA4AF" stroke-opacity="0.4"></line>
+              <line x1="200" y1="200" x2="260" y2="160" stroke="#0FA4AF" stroke-opacity="0.4"></line>
+              <line x1="200" y1="200" x2="160" y2="250" stroke="#0FA4AF" stroke-opacity="0.4"></line>
+              <line x1="200" y1="200" x2="240" y2="250" stroke="#0FA4AF" stroke-opacity="0.4"></line>
+              <circle cx="200" cy="200" r="20" stroke="#0FA4AF" stroke-opacity="0.3" stroke-width="1" fill="none">
+                <animate attributeName="r" values="16;32;16" dur="4s" repeatCount="indefinite"></animate>
+                <animate attributeName="stroke-opacity" values="0.4;0;0.4" dur="4s" repeatCount="indefinite"></animate>
               </circle>
             </svg>
           </div>
@@ -285,116 +348,223 @@ const structuredData = [
   </section>
 
   <!-- ========== INDUSTRIES ========== -->
-  <section class="py-20 md:py-28 bg-white dark:bg-[#07101f]">
+  <section class="py-20 md:py-28 bg-white dark:bg-section">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-2xl mx-auto mb-14 intersect-once motion-safe:opacity-0 motion-safe:intersect:animate-fade">
-        <p class="text-sm font-semibold text-[#3B82F6] tracking-wide uppercase mb-3">Industries</p>
-        <h2 class="text-3xl md:text-4xl font-bold text-[#0B2D5B] tracking-tight mb-4 dark:text-slate-100">
-          Built for regulated and complex environments
+      <div
+        class="text-center max-w-2xl mx-auto mb-14 intersect-once motion-safe:opacity-0 motion-safe:intersect:animate-fade"
+      >
+        <p class="text-sm font-semibold text-brand-warm tracking-wide uppercase mb-3">{t('home.indTagline')}</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-primary tracking-tight mb-4 dark:text-heading">
+          {t('home.indTitle')}
         </h2>
-        <p class="text-lg text-slate-600 dark:text-slate-300">
-          SecureHive supports organizations that require rigorous access control, auditability, and operational resilience.
+        <p class="text-lg text-slate-600 dark:text-default">
+          {t('home.indSubtitle')}
         </p>
       </div>
 
       <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
-        {[
-          { name: 'Banking & Finance', desc: 'Protect high-value systems and privileged roles' },
-          { name: 'Healthcare', desc: 'Safeguard patient data and clinical systems' },
-          { name: 'Manufacturing', desc: 'Secure OT/IT convergence and supply chains' },
-          { name: 'Government', desc: 'Meet stringent access and compliance needs' },
-          { name: 'Education', desc: 'Defend research and student ecosystems' },
-        ].map((ind) => (
-          <div
-            class="sh-card p-5 rounded-xl border border-slate-200 bg-[#F8FAFC] text-center dark:border-[#1c2c47] dark:bg-[#0c172b] intersect-once motion-safe:opacity-0 motion-safe:intersect:animate-fade"
-          >
-            <div class="w-10 h-10 mx-auto mb-3 rounded-lg bg-[#0B2D5B]/8 flex items-center justify-center">
-              <svg class="w-5 h-5 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
-              </svg>
+        {
+          [
+            { name: t('home.indFinance'), desc: t('home.indFinanceDesc') },
+            { name: t('home.indHealthcare'), desc: t('home.indHealthcareDesc') },
+            { name: t('home.indMfg'), desc: t('home.indMfgDesc') },
+            { name: t('home.indGov'), desc: t('home.indGovDesc') },
+            { name: t('home.indEdu'), desc: t('home.indEduDesc') },
+          ].map((ind) => (
+            <div class="sh-card p-5 rounded-xl border border-slate-200 bg-page text-center dark:border-theme dark:bg-card-surface intersect-once motion-safe:opacity-0 motion-safe:intersect:animate-fade">
+              <div class="w-10 h-10 mx-auto mb-3 rounded-lg bg-primary/8 flex items-center justify-center">
+                <svg
+                  class="w-5 h-5 text-accent"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z"
+                  />
+                </svg>
+              </div>
+              <h3 class="font-semibold text-primary text-sm mb-1 dark:text-heading">{ind.name}</h3>
+              <p class="text-xs text-slate-500 leading-snug dark:text-muted">{ind.desc}</p>
             </div>
-            <h3 class="font-semibold text-[#0B2D5B] text-sm mb-1 dark:text-slate-100">{ind.name}</h3>
-            <p class="text-xs text-slate-500 leading-snug dark:text-slate-400">{ind.desc}</p>
-          </div>
-        ))}
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PLATFORM BREADTH ========== -->
+  <section class="sh-platform-section bg-page py-20 md:py-28">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto mb-12 max-w-3xl text-center">
+        <p class="mb-3 text-sm font-semibold uppercase tracking-wide text-brand-warm">
+          {t('home.platformTagline')}
+        </p>
+        <h2 class="mb-4 text-3xl font-bold tracking-tight text-heading md:text-4xl">
+          {t('home.platformTitle')}
+        </h2>
+        <p class="text-lg leading-relaxed text-muted">{t('home.platformSubtitle')}</p>
+      </div>
+
+      <div class="grid gap-5 lg:grid-cols-3">
+        {
+          [
+            {
+              key: 'identity',
+              title: t('home.platformIdentity'),
+              items: [
+                {
+                  title: t('products.items.serviceAccount.title'),
+                  description: t('products.items.serviceAccount.desc'),
+                  href: '/products/service-account-security',
+                  icon: 'tabler:robot',
+                },
+                {
+                  title: t('products.items.vault.title'),
+                  description: t('products.items.vault.desc'),
+                  href: '/products/credential-vault',
+                  icon: 'tabler:lock',
+                },
+              ],
+            },
+            {
+              key: 'access',
+              title: t('home.platformAccess'),
+              items: [
+                {
+                  title: t('products.items.pam.title'),
+                  description: t('products.items.pam.desc'),
+                  href: '/products/privileged-account-manager',
+                  icon: 'tabler:lock',
+                },
+                {
+                  title: t('products.items.jit.title'),
+                  description: t('products.items.jit.desc'),
+                  href: '/products/just-in-time-access',
+                  icon: 'tabler:clock',
+                },
+              ],
+            },
+            {
+              key: 'governance',
+              title: t('home.platformGovernance'),
+              items: [
+                {
+                  title: t('products.items.session.title'),
+                  description: t('products.items.session.desc'),
+                  href: '/products/session-manager',
+                  icon: 'tabler:video',
+                },
+                {
+                  title: t('products.items.epm.title'),
+                  description: t('products.items.epm.desc'),
+                  href: '/products/endpoint-privilege-manager',
+                  icon: 'tabler:device-desktop',
+                },
+              ],
+            },
+          ].map((group) => (
+            <section class:list={['sh-platform-group', `sh-platform-group--${group.key}`]}>
+              <h3 class="sh-platform-group__header flex items-center gap-3 rounded-t-2xl px-5 py-4 text-lg font-bold text-heading">
+                <span class="sh-platform-group__mark" aria-hidden="true">
+                  ✦
+                </span>
+                {group.title}
+              </h3>
+              <div class="rounded-b-2xl border border-t-0 border-theme bg-card-surface px-5">
+                {group.items.map((item, index) => (
+                  <a
+                    class:list={[
+                      'sh-platform-item group flex gap-4 py-5',
+                      { 'border-t border-dashed border-theme': index > 0 },
+                    ]}
+                    href={localePath(item.href)}
+                  >
+                    <span class="sh-platform-item__icon flex h-11 w-11 shrink-0 items-center justify-center rounded-full">
+                      <Icon name={item.icon} class="h-5 w-5" aria-hidden="true" />
+                    </span>
+                    <span class="min-w-0">
+                      <span class="mb-1 block font-semibold text-heading transition-colors group-hover:text-link">
+                        {item.title}
+                      </span>
+                      <span class="block text-sm leading-relaxed text-muted">{item.description}</span>
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </section>
+          ))
+        }
       </div>
     </div>
   </section>
 
   <!-- ========== RESOURCES / INSIGHTS ========== -->
-  <BlogHighlightedPosts
-    title="Latest insights"
-    information="Practical guidance on privileged access, identity security, and enterprise cyber operations."
-    postIds={[
-      'top-trends-in-privileged-access-management-for-2026',
-      'the-principle-of-least-privilege-a-practical-guide',
-      'understanding-identity-threat-detection-and-response-itdr',
-    ]}
-  />
-
+  <InsightsCarousel title={t('home.insightsTagline')} information="" />
 
   <FAQs
-    title="Frequently asked questions"
-    subtitle="Quick answers about SecureHive Privileged Access Management."
+    title={t('home.faqsTagline')}
+    subtitle={t('home.faqsTitle')}
     items={[
       {
-        title: 'What is Privileged Access Management?',
-        description:
-          'PAM is the set of controls that govern elevated access to critical systems and secrets — who can get admin rights, for how long, and with what oversight. SecureHive focuses on discovery, just-in-time access, vaulting, and session accountability.',
+        title: t('home.faq1Q'),
+        description: t('home.faq1A'),
       },
       {
-        title: 'How is SecureHive different from our identity provider?',
-        description:
-          'Your IdP handles workforce login and SSO. SecureHive governs what happens after authentication when someone needs privileged access to servers, cloud consoles, or shared credentials.',
+        title: t('home.faq2Q'),
+        description: t('home.faq2A'),
       },
       {
-        title: 'Can we start with a limited pilot?',
-        description:
-          'Yes. Many teams begin with discovery and vaulting of shared admin accounts, or with vendor access, then expand to JIT and session controls.',
+        title: t('home.faq3Q'),
+        description: t('home.faq3A'),
       },
       {
-        title: 'Does SecureHive require replacing existing tools?',
-        description:
-          'No. SecureHive is designed to work alongside enterprise directories and identity providers. Deployment is typically phased rather than rip-and-replace.',
+        title: t('home.faq4Q'),
+        description: t('home.faq4A'),
       },
       {
-        title: 'Where can I learn more?',
-        description:
-          'Explore Products and Solutions, read the Blog for practical guidance, or Request a Demo to discuss your environment with our team.',
+        title: t('home.faq5Q'),
+        description: t('home.faq5A'),
       },
     ]}
   />
 
   <!-- ========== FINAL CTA ========== -->
-  <section class="relative py-20 md:py-28 bg-[#0B2D5B] overflow-hidden">
+  <section class="relative py-20 md:py-28 bg-secondary dark:bg-page overflow-hidden">
     <div class="absolute inset-0 pointer-events-none opacity-20" aria-hidden="true">
       <div
         class="absolute inset-0"
-        style="background-image: linear-gradient(rgba(59,130,246,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.3) 1px, transparent 1px); background-size: 40px 40px;"
-      ></div>
+        style="background-image: linear-gradient(rgba(15,164,175,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(15,164,175,0.3) 1px, transparent 1px); background-size: 40px 40px;"
+      >
+      </div>
     </div>
-    <div class="relative max-w-3xl mx-auto px-4 sm:px-6 text-center intersect-once motion-safe:opacity-0 motion-safe:intersect:animate-fade">
+    <div
+      class="relative max-w-3xl mx-auto px-4 sm:px-6 text-center intersect-once motion-safe:opacity-0 motion-safe:intersect:animate-fade"
+    >
       <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight mb-4">
-        Ready to strengthen your security posture?
+        {t('home.ctaTitle')}
       </h2>
       <p class="text-lg text-slate-300 mb-10 max-w-xl mx-auto">
-        Talk with our team about how SecureHive can support your identity, access, and infrastructure security goals.
+        {t('home.ctaSubtitle')}
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a
-          href="/contact"
-          class="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-lg bg-[#3B82F6] text-white font-semibold hover:bg-blue-500 transition-all duration-200 shadow-lg shadow-blue-500/30 hover:-translate-y-0.5"
+          href={localePath('/contact')}
+          class="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-lg bg-brand-warm text-white font-semibold hover:bg-[#7A392A] transition-all duration-200 shadow-lg shadow-brand-warm/30 hover:-translate-y-0.5 dark:!bg-primary dark:!text-[#081426] dark:hover:!bg-secondary dark:shadow-cyan-400/30"
         >
-          Request a Demo
+          {t('common.requestDemo')}
           <svg class="w-4 h-4 sh-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path>
           </svg>
         </a>
         <a
-          href="/contact"
+          href={localePath('/contact')}
           class="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-lg border border-white/25 text-white font-semibold hover:bg-white/10 transition-all duration-200"
         >
-          Contact Sales
+          {t('common.contactSales')}
         </a>
       </div>
     </div>
@@ -408,8 +578,65 @@ const structuredData = [
     height: 100%;
   }
 
+  .sh-platform-group__header {
+    background: color-mix(in srgb, var(--aw-color-accent) 14%, var(--aw-color-bg-card));
+  }
+
+  .sh-platform-group--access .sh-platform-group__header {
+    background: color-mix(in srgb, var(--aw-color-secondary) 14%, var(--aw-color-bg-card));
+  }
+
+  .sh-platform-group--governance .sh-platform-group__header {
+    background: color-mix(in srgb, var(--aw-color-warm) 13%, var(--aw-color-bg-card));
+  }
+
+  .sh-platform-group__mark {
+    color: var(--aw-color-primary);
+    font-size: 1.25rem;
+  }
+
+  .sh-platform-group--access .sh-platform-group__mark {
+    color: var(--aw-color-secondary);
+  }
+
+  .sh-platform-group--governance .sh-platform-group__mark {
+    color: var(--aw-color-warm);
+  }
+
+  .sh-platform-item__icon {
+    background: color-mix(in srgb, var(--aw-color-accent) 12%, var(--aw-color-bg-page));
+    color: var(--aw-color-primary);
+  }
+
+  .sh-platform-group--access .sh-platform-item__icon {
+    background: color-mix(in srgb, var(--aw-color-secondary) 12%, var(--aw-color-bg-page));
+    color: var(--aw-color-secondary);
+  }
+
+  .sh-platform-group--governance .sh-platform-item__icon {
+    background: color-mix(in srgb, var(--aw-color-warm) 12%, var(--aw-color-bg-page));
+    color: var(--aw-color-warm);
+  }
+
   .sh-home-hero > div[aria-hidden='true'] svg {
     display: none;
+  }
+
+  .sh-hero-vignette {
+    background: radial-gradient(
+      ellipse 80% 70% at 50% 40%,
+      transparent 0%,
+      rgb(0 49 53 / 55%) 70%,
+      rgb(0 49 53 / 85%) 100%
+    );
+  }
+  :global(.dark) .sh-hero-vignette {
+    background: radial-gradient(
+      ellipse 80% 70% at 50% 40%,
+      transparent 0%,
+      rgb(8 20 38 / 55%) 70%,
+      rgb(8 20 38 / 85%) 100%
+    );
   }
 
   .sh-hero-title {
@@ -429,12 +656,21 @@ const structuredData = [
   }
 
   .sh-hero-line-highlight > span {
-    color: #7db6ff;
-    background: linear-gradient(100deg, #7db6ff 20%, #d9ecff 45%, #7db6ff 70%);
+    color: #0fa4af;
+    background: linear-gradient(100deg, #0fa4af 20%, #d5f1ef 45%, #0fa4af 70%);
     background-size: 220% 100%;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: sh-hero-rise 0.9s 0.16s cubic-bezier(0.2, 0.8, 0.2, 1) forwards, sh-hero-shine 5s 1.2s linear infinite;
+    animation:
+      sh-hero-rise 0.9s 0.16s cubic-bezier(0.2, 0.8, 0.2, 1) forwards,
+      sh-hero-shine 5s 1.2s linear infinite;
+  }
+  :global(.dark) .sh-hero-line-highlight > span {
+    color: #6edff6;
+    background: linear-gradient(100deg, #6edff6 20%, #f0f5ff 45%, #6edff6 70%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .sh-capability-scroller {
@@ -471,15 +707,21 @@ const structuredData = [
   }
 
   @keyframes sh-hero-rise {
-    to { transform: translateY(0); }
+    to {
+      transform: translateY(0);
+    }
   }
 
   @keyframes sh-hero-shine {
-    to { background-position: -220% 0; }
+    to {
+      background-position: -220% 0;
+    }
   }
 
   @keyframes sh-capability-scroll {
-    to { transform: translateX(-50%); }
+    to {
+      transform: translateX(-50%);
+    }
   }
 
   @media (max-width: 640px) {
@@ -497,44 +739,324 @@ const structuredData = [
       transform: none !important;
     }
   }
+
+  /* ---------- Solutions section ---------- */
+  .sh-solutions-bg {
+    background:
+      radial-gradient(55% 45% at 0% 0%, color-mix(in srgb, var(--aw-color-accent) 12%, transparent), transparent 70%),
+      radial-gradient(
+        45% 40% at 100% 100%,
+        color-mix(in srgb, var(--aw-color-primary) 10%, transparent),
+        transparent 70%
+      ),
+      linear-gradient(180deg, #ffffff 0%, var(--aw-color-bg-page) 100%);
+  }
+  :global(.dark) .sh-solutions-bg {
+    background:
+      radial-gradient(55% 45% at 0% 0%, rgb(110 223 246 / 0.16), transparent 70%),
+      radial-gradient(45% 40% at 100% 100%, rgb(114 155 255 / 0.08), transparent 70%),
+      linear-gradient(180deg, #0e1c31 0%, #081426 100%);
+  }
+
+  .sh-dots {
+    background-image: radial-gradient(
+      color-mix(in srgb, var(--aw-color-primary) 16%, transparent) 1px,
+      transparent 1px
+    );
+    background-size: 24px 24px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 25%, transparent 80%);
+  }
+  :global(.dark) .sh-dots {
+    background-image: radial-gradient(rgb(110 223 246 / 0.18) 1px, transparent 1px);
+  }
+
+  /* ---------- Feature cards ---------- */
+  .sh-feature-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    border: 1px solid rgb(226 232 240 / 0.9);
+    background: linear-gradient(
+      180deg,
+      rgb(255 255 255 / 0.92),
+      color-mix(in srgb, var(--aw-color-bg-page) 85%, transparent)
+    );
+    backdrop-filter: blur(8px);
+    box-shadow: 0 1px 2px color-mix(in srgb, var(--aw-color-primary) 4%, transparent);
+    transition:
+      transform 0.28s ease,
+      box-shadow 0.28s ease,
+      border-color 0.28s ease;
+  }
+  :global(.dark) .sh-feature-card {
+    border-color: #293a55;
+    background: linear-gradient(180deg, rgb(20 38 65 / 0.96), rgb(14 28 49 / 0.96));
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04);
+  }
+  .sh-feature-card > * {
+    position: relative;
+    z-index: 1;
+  }
+  .sh-feature-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      260px circle at var(--mx, 50%) var(--my, 0%),
+      color-mix(in srgb, var(--aw-color-accent) 18%, transparent),
+      transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  .sh-feature-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 1.25rem;
+    right: 1.25rem;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--aw-color-accent),
+      color-mix(in srgb, var(--aw-color-accent) 60%, white),
+      transparent
+    );
+    opacity: 0;
+    transform: scaleX(0.4);
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
+  }
+  .sh-feature-card:hover {
+    transform: translateY(-5px);
+    border-color: color-mix(in srgb, var(--aw-color-accent) 45%, transparent);
+    box-shadow:
+      0 22px 44px -22px color-mix(in srgb, var(--aw-color-primary) 40%, transparent),
+      0 0 0 1px color-mix(in srgb, var(--aw-color-accent) 8%, transparent);
+  }
+  :global(.dark) .sh-feature-card:hover {
+    border-color: rgb(110 223 246 / 0.55);
+    box-shadow:
+      0 22px 50px -20px rgb(0 0 0 / 0.7),
+      0 0 40px -12px rgb(110 223 246 / 0.2);
+  }
+  .sh-feature-card:hover::before {
+    opacity: 1;
+  }
+  .sh-feature-card:hover::after {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  .sh-icon-tile {
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--aw-color-primary) 8%, transparent),
+      color-mix(in srgb, var(--aw-color-accent) 14%, transparent)
+    );
+    border: 1px solid color-mix(in srgb, var(--aw-color-accent) 15%, transparent);
+    transition: box-shadow 0.3s ease;
+  }
+  :global(.dark) .sh-icon-tile {
+    background: linear-gradient(135deg, rgb(110 223 246 / 0.18), rgb(114 155 255 / 0.08));
+    border-color: rgb(110 223 246 / 0.2);
+  }
+  .sh-feature-card:hover .sh-icon-tile {
+    box-shadow: 0 0 22px color-mix(in srgb, var(--aw-color-accent) 40%, transparent);
+  }
+
+  /* ---------- Why SecureHive section ---------- */
+  .sh-why-bg {
+    background: linear-gradient(180deg, #ffffff 0%, color-mix(in srgb, var(--aw-color-accent) 8%, white) 100%);
+  }
+  :global(.dark) .sh-why-bg {
+    background: linear-gradient(180deg, #081426 0%, #0e1c31 55%, #142641 100%);
+  }
+
+  .sh-why-hex {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100' fill='none' stroke='%230FA4AF' stroke-opacity='.22'/%3E%3Cpath d='M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34' fill='none' stroke='%230FA4AF' stroke-opacity='.22'/%3E%3C/svg%3E");
+    background-size: 56px 100px;
+    mask-image: radial-gradient(ellipse 80% 70% at 75% 50%, #000 10%, transparent 75%);
+    opacity: 0.7;
+  }
+  :global(.dark) .sh-why-hex {
+    opacity: 1;
+  }
+
+  .sh-why-glow {
+    background:
+      radial-gradient(40% 50% at 85% 50%, color-mix(in srgb, var(--aw-color-accent) 20%, transparent), transparent 70%),
+      radial-gradient(35% 40% at 5% 10%, rgb(114 155 255 / 0.14), transparent 70%);
+    animation: sh-glow-drift 14s ease-in-out infinite alternate;
+  }
+  @keyframes sh-glow-drift {
+    to {
+      transform: translate3d(-2%, 3%, 0) scale(1.05);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sh-why-glow {
+      animation: none;
+    }
+    .sh-feature-card,
+    .sh-feature-card::before,
+    .sh-feature-card::after {
+      transition: none;
+    }
+  }
 </style>
 
 <script>
+  type Node = {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    r: number;
+    z: number;
+    hub: boolean;
+    pulse: number;
+    scanId: number;
+    sx: number;
+    sy: number;
+    phase: number;
+  };
+
+  type Packet = { a: number; b: number; t: number; hops: number; hue: 0 | 1 };
+
   class SecureHiveHeroCanvas extends HTMLElement {
     private canvas: HTMLCanvasElement | null = null;
-    private context: CanvasRenderingContext2D | null = null;
-    private cells: Array<[number, number]> = [];
-    private animationFrame = 0;
+    private ctx: CanvasRenderingContext2D | null = null;
+    private w = 0;
+    private h = 0;
+    private nodes: Node[] = [];
+    private packets: Packet[] = [];
+    private neighbors: number[][] = [];
+    private hexLayer: HTMLCanvasElement | null = null;
+    private glowBlue: HTMLCanvasElement | null = null;
+    private glowCyan: HTMLCanvasElement | null = null;
+    private raf = 0;
+    private running = false;
+    private last = 0;
+    private time = 0;
+    private spawnTimer = 0;
+    private scanId = 0;
+    private lastScanPhase = 0;
     private resizeObserver?: ResizeObserver;
+    private intersectionObserver?: IntersectionObserver;
     private pointerX = -999;
     private pointerY = -999;
+    private px = 0;
+    private py = 0;
     private reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    private resize = () => {
-      if (!this.canvas || !this.context) return;
+    private static LINK = 150;
+    private static SCAN_PERIOD = 8;
 
+    private makeGlow(rgb: string) {
+      const c = document.createElement('canvas');
+      c.width = c.height = 64;
+      const g = c.getContext('2d')!;
+      const grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+      grad.addColorStop(0, `rgba(${rgb}, 1)`);
+      grad.addColorStop(0.25, `rgba(${rgb}, 0.45)`);
+      grad.addColorStop(1, `rgba(${rgb}, 0)`);
+      g.fillStyle = grad;
+      g.fillRect(0, 0, 64, 64);
+      return c;
+    }
+
+    private buildHexLayer() {
+      const layer = document.createElement('canvas');
+      layer.width = this.canvas!.width;
+      layer.height = this.canvas!.height;
+      const g = layer.getContext('2d')!;
+      const ratio = layer.width / this.w;
+      g.setTransform(ratio, 0, 0, ratio, 0, 0);
+      const radius = 38;
+      const hexW = Math.sqrt(3) * radius;
+      g.strokeStyle = 'rgba(15, 164, 175, 1)';
+      g.lineWidth = 1;
+      for (let row = -1; row < this.h / (1.5 * radius) + 2; row++) {
+        for (let col = -1; col < this.w / hexW + 2; col++) {
+          const cx = col * hexW + (row % 2 ? hexW / 2 : 0);
+          const cy = row * 1.5 * radius;
+          g.beginPath();
+          for (let s = 0; s < 6; s++) {
+            const a = (Math.PI / 3) * s + Math.PI / 6;
+            const x = cx + (radius - 1.5) * Math.cos(a);
+            const y = cy + (radius - 1.5) * Math.sin(a);
+            if (s === 0) g.moveTo(x, y);
+            else g.lineTo(x, y);
+          }
+          g.closePath();
+          g.stroke();
+        }
+      }
+      this.hexLayer = layer;
+    }
+
+    private seedNodes() {
+      const count = Math.max(36, Math.min(105, Math.round((this.w * this.h) / 15000)));
+      this.nodes = Array.from({ length: count }, (_, i) => {
+        const z = 0.45 + Math.random() * 0.55;
+        const hub = i % 9 === 0;
+        const speed = (6 + Math.random() * 12) * z;
+        const dir = Math.random() * Math.PI * 2;
+        return {
+          x: Math.random() * this.w,
+          y: Math.random() * this.h,
+          vx: Math.cos(dir) * speed,
+          vy: Math.sin(dir) * speed,
+          r: hub ? 3.4 : 1.2 + Math.random() * 1.4,
+          z,
+          hub,
+          pulse: 0,
+          scanId: -1,
+          sx: 0,
+          sy: 0,
+          phase: Math.random() * Math.PI * 2,
+        };
+      });
+      this.packets = [];
+    }
+
+    private resize = () => {
+      if (!this.canvas || !this.ctx) return;
       const { width, height } = this.getBoundingClientRect();
       if (!width || !height) return;
 
       const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      const firstRun = this.nodes.length === 0;
+      const oldW = this.w;
+      const oldH = this.h;
+
+      this.w = width;
+      this.h = height;
       this.canvas.width = Math.round(width * ratio);
       this.canvas.height = Math.round(height * ratio);
-      this.context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      this.ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-      const radius = 40;
-      const hexWidth = Math.sqrt(3) * radius;
-      this.cells = [];
-      for (let row = -1; row < height / (1.5 * radius) + 2; row += 1) {
-        for (let column = -1; column < width / hexWidth + 2; column += 1) {
-          this.cells.push([column * hexWidth + (row % 2 ? hexWidth / 2 : 0), row * 1.5 * radius]);
+      if (firstRun) {
+        this.seedNodes();
+      } else {
+        for (const n of this.nodes) {
+          n.x *= width / oldW;
+          n.y *= height / oldH;
         }
       }
+      this.buildHexLayer();
+      if (this.reducedMotion) this.draw(performance.now());
     };
 
-    private onPointerMove = (event: PointerEvent) => {
-      const bounds = this.getBoundingClientRect();
-      this.pointerX = event.clientX - bounds.left;
-      this.pointerY = event.clientY - bounds.top;
+    private onPointerMove = (e: PointerEvent) => {
+      const b = this.getBoundingClientRect();
+      this.pointerX = e.clientX - b.left;
+      this.pointerY = e.clientY - b.top;
     };
 
     private onPointerLeave = () => {
@@ -542,44 +1064,250 @@ const structuredData = [
       this.pointerY = -999;
     };
 
+    private spawnPacket() {
+      const candidates: number[] = [];
+      for (let i = 0; i < this.neighbors.length; i++) if (this.neighbors[i].length) candidates.push(i);
+      if (!candidates.length) return;
+      const a = candidates[(Math.random() * candidates.length) | 0];
+      const list = this.neighbors[a];
+      const b = list[(Math.random() * list.length) | 0];
+      this.packets.push({ a, b, t: 0, hops: 2 + ((Math.random() * 4) | 0), hue: Math.random() < 0.3 ? 1 : 0 });
+    }
+
     private draw = (timestamp: number) => {
-      if (!this.context) return;
+      const ctx = this.ctx;
+      if (!ctx || !this.w) return;
 
-      const time = timestamp / 1000;
-      const radius = 40;
-      this.context.clearRect(0, 0, this.clientWidth, this.clientHeight);
+      const dt = this.reducedMotion ? 0 : Math.min(0.05, (timestamp - (this.last || timestamp)) / 1000);
+      this.last = timestamp;
+      this.time = this.reducedMotion ? 3 : this.time + dt;
 
-      for (const [centerX, centerY] of this.cells) {
-        const distance = Math.hypot(centerX - this.clientWidth * 0.72, centerY - this.clientHeight * 0.35);
-        const wave = Math.max(0, Math.sin(distance / 95 - time * 1.3));
-        const spotlight = Math.max(0, 1 - Math.hypot(centerX - this.pointerX, centerY - this.pointerY) / 190);
-        const alpha = 0.055 + wave * 0.2 * Math.max(0, 1 - distance / 1000) + spotlight * 0.5;
+      const { w, h, nodes } = this;
+      const LINK = SecureHiveHeroCanvas.LINK;
+      const LINK2 = LINK * LINK;
 
-        this.context.beginPath();
-        for (let side = 0; side < 6; side += 1) {
-          const angle = (Math.PI / 3) * side + Math.PI / 6;
-          const x = centerX + (radius - 2) * Math.cos(angle);
-          const y = centerY + (radius - 2) * Math.sin(angle);
-          if (side === 0) this.context.moveTo(x, y);
-          else this.context.lineTo(x, y);
+      ctx.clearRect(0, 0, w, h);
+
+      // --- Pointer parallax (smoothed) ---
+      const tx = this.pointerX > -900 ? (this.pointerX - w / 2) / w : 0;
+      const ty = this.pointerY > -900 ? (this.pointerY - h / 2) / h : 0;
+      this.px += (tx - this.px) * Math.min(1, dt * 3);
+      this.py += (ty - this.py) * Math.min(1, dt * 3);
+
+      // --- Base hex grid ---
+      if (this.hexLayer) {
+        ctx.globalAlpha = 0.055;
+        ctx.drawImage(this.hexLayer, 0, 0, w, h);
+        ctx.globalAlpha = 1;
+      }
+
+      // --- Verification scan ring ---
+      const ox = w * 0.72;
+      const oy = h * 0.38;
+      const maxR = Math.hypot(Math.max(ox, w - ox), Math.max(oy, h - oy)) * 1.05;
+      const phase = (this.time % SecureHiveHeroCanvas.SCAN_PERIOD) / SecureHiveHeroCanvas.SCAN_PERIOD;
+      if (phase < this.lastScanPhase) this.scanId++;
+      this.lastScanPhase = phase;
+      const ringR = phase * maxR;
+      const band = 140;
+      const fade = Math.sin(Math.min(1, phase * 1.1) * Math.PI) * 0.9 + 0.1;
+
+      if (this.hexLayer && ringR > 4) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(ox, oy, ringR, 0, Math.PI * 2);
+        ctx.arc(ox, oy, Math.max(0, ringR - band), 0, Math.PI * 2, true);
+        ctx.clip('evenodd');
+        ctx.globalAlpha = 0.5 * fade;
+        ctx.drawImage(this.hexLayer, 0, 0, w, h);
+        ctx.restore();
+        ctx.globalAlpha = 1;
+
+        ctx.beginPath();
+        ctx.arc(ox, oy, ringR, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(15, 164, 175, ${0.22 * fade})`;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
+
+      // --- Update nodes ---
+      for (const n of nodes) {
+        n.x += n.vx * dt;
+        n.y += n.vy * dt;
+        if (n.x < -30) n.x = w + 30;
+        else if (n.x > w + 30) n.x = -30;
+        if (n.y < -30) n.y = h + 30;
+        else if (n.y > h + 30) n.y = -30;
+
+        // gentle pointer attraction
+        const dxp = this.pointerX - n.x;
+        const dyp = this.pointerY - n.y;
+        const dp = Math.hypot(dxp, dyp);
+        if (dp < 220 && dp > 1) {
+          const f = (1 - dp / 220) * 14 * dt;
+          n.x += (dxp / dp) * f;
+          n.y += (dyp / dp) * f;
         }
-        this.context.closePath();
-        this.context.strokeStyle = `rgba(125, 182, 255, ${alpha})`;
-        this.context.lineWidth = 1;
-        this.context.stroke();
-        if (alpha > 0.28) {
-          this.context.fillStyle = `rgba(88, 157, 255, ${(alpha - 0.28) * 0.22})`;
-          this.context.fill();
+
+        n.sx = n.x + this.px * 50 * n.z;
+        n.sy = n.y + this.py * 50 * n.z;
+
+        // scan hit
+        const sd = Math.hypot(n.x - ox, n.y - oy);
+        if (n.scanId !== this.scanId && sd < ringR && sd > ringR - band * 0.5) {
+          n.scanId = this.scanId;
+          n.pulse = 1;
+        }
+        n.pulse = Math.max(0, n.pulse - dt * 0.9);
+      }
+
+      // --- Links + adjacency ---
+      if (this.neighbors.length !== nodes.length) this.neighbors = nodes.map(() => []);
+      for (const list of this.neighbors) list.length = 0;
+
+      ctx.lineWidth = 1;
+      for (let i = 0; i < nodes.length; i++) {
+        const a = nodes[i];
+        for (let j = i + 1; j < nodes.length; j++) {
+          const b = nodes[j];
+          const dx = a.sx - b.sx;
+          const dy = a.sy - b.sy;
+          const d2 = dx * dx + dy * dy;
+          if (d2 > LINK2) continue;
+          const d = Math.sqrt(d2);
+          this.neighbors[i].push(j);
+          this.neighbors[j].push(i);
+          const hot = Math.max(a.pulse, b.pulse);
+          const alpha = (1 - d / LINK) * 0.3 * Math.min(a.z, b.z) + hot * 0.25 * (1 - d / LINK);
+          ctx.strokeStyle = hot > 0.05 ? `rgba(120, 230, 235, ${alpha})` : `rgba(15, 164, 175, ${alpha})`;
+          ctx.beginPath();
+          ctx.moveTo(a.sx, a.sy);
+          ctx.lineTo(b.sx, b.sy);
+          ctx.stroke();
         }
       }
 
-      if (!this.reducedMotion) this.animationFrame = requestAnimationFrame(this.draw);
+      // --- Pointer links + glow ---
+      if (this.pointerX > -900 && this.glowBlue) {
+        for (const n of nodes) {
+          const d = Math.hypot(n.sx - this.pointerX, n.sy - this.pointerY);
+          if (d < 200) {
+            ctx.strokeStyle = `rgba(15, 164, 175, ${(1 - d / 200) * 0.5})`;
+            ctx.beginPath();
+            ctx.moveTo(this.pointerX, this.pointerY);
+            ctx.lineTo(n.sx, n.sy);
+            ctx.stroke();
+          }
+        }
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.globalAlpha = 0.5;
+        ctx.drawImage(this.glowBlue, this.pointerX - 150, this.pointerY - 150, 300, 300);
+        ctx.globalAlpha = 1;
+        ctx.globalCompositeOperation = 'source-over';
+      }
+
+      // --- Packets ---
+      if (!this.reducedMotion) {
+        this.spawnTimer -= dt;
+        if (this.spawnTimer <= 0 && this.packets.length < Math.max(8, nodes.length * 0.35)) {
+          this.spawnPacket();
+          this.spawnTimer = 0.12 + Math.random() * 0.25;
+        }
+      }
+
+      ctx.globalCompositeOperation = 'lighter';
+      for (let i = this.packets.length - 1; i >= 0; i--) {
+        const p = this.packets[i];
+        const a = nodes[p.a];
+        const b = nodes[p.b];
+        const len = Math.hypot(b.sx - a.sx, b.sy - a.sy);
+        if (len > LINK * 1.3 || len < 1) {
+          this.packets.splice(i, 1);
+          continue;
+        }
+        p.t += ((200 / len) * dt) | 0 || (200 / len) * dt;
+        if (p.t >= 1) {
+          b.pulse = Math.max(b.pulse, 0.8);
+          const options = this.neighbors[p.b].filter((k) => k !== p.a);
+          if (p.hops > 0 && options.length) {
+            p.a = p.b;
+            p.b = options[(Math.random() * options.length) | 0];
+            p.t = 0;
+            p.hops--;
+          } else {
+            this.packets.splice(i, 1);
+          }
+          continue;
+        }
+        const glow = p.hue ? this.glowCyan : this.glowBlue;
+        if (!glow) continue;
+        for (let k = 0; k < 6; k++) {
+          const tt = Math.max(0, p.t - k * 0.03);
+          const x = a.sx + (b.sx - a.sx) * tt;
+          const y = a.sy + (b.sy - a.sy) * tt;
+          const size = (k === 0 ? 20 : 14) * (1 - k * 0.12);
+          ctx.globalAlpha = (k === 0 ? 1 : 0.55) * (1 - k / 6);
+          ctx.drawImage(glow, x - size / 2, y - size / 2, size, size);
+        }
+      }
+      ctx.globalAlpha = 1;
+
+      // --- Nodes ---
+      for (const n of nodes) {
+        const breathe = 0.7 + 0.3 * Math.sin(this.time * 1.4 + n.phase);
+        const glowSize = (n.hub ? 34 : 18) + n.pulse * 40;
+        const glow = n.pulse > 0.05 ? this.glowCyan : this.glowBlue;
+        if (glow) {
+          ctx.globalAlpha = (0.3 + n.pulse * 0.7) * n.z * breathe;
+          ctx.drawImage(glow, n.sx - glowSize / 2, n.sy - glowSize / 2, glowSize, glowSize);
+        }
+      }
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.globalAlpha = 1;
+
+      for (const n of nodes) {
+        ctx.fillStyle =
+          n.pulse > 0.05 ? `rgba(190, 255, 250, ${0.7 + n.pulse * 0.3})` : `rgba(200, 245, 240, ${0.5 * n.z + 0.3})`;
+        ctx.beginPath();
+        ctx.arc(n.sx, n.sy, n.r * (1 + n.pulse * 0.6), 0, Math.PI * 2);
+        ctx.fill();
+
+        if (n.hub) {
+          const rr = 8 + Math.sin(this.time * 1.2 + n.phase) * 1.5 + n.pulse * 10;
+          ctx.strokeStyle = `rgba(15, 164, 175, ${0.35 + n.pulse * 0.4})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.arc(n.sx, n.sy, rr, this.time * 0.6 + n.phase, this.time * 0.6 + n.phase + Math.PI * 1.35);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(n.sx, n.sy, rr + 5, -this.time * 0.4 + n.phase, -this.time * 0.4 + n.phase + Math.PI * 0.8);
+          ctx.strokeStyle = `rgba(15, 164, 175, ${0.18 + n.pulse * 0.3})`;
+          ctx.stroke();
+        }
+      }
+
+      if (this.running && !this.reducedMotion) this.raf = requestAnimationFrame(this.draw);
     };
+
+    private start() {
+      if (this.running || this.reducedMotion) return;
+      this.running = true;
+      this.last = 0;
+      this.raf = requestAnimationFrame(this.draw);
+    }
+
+    private stop() {
+      this.running = false;
+      cancelAnimationFrame(this.raf);
+    }
 
     connectedCallback() {
       this.canvas = this.querySelector('canvas');
-      this.context = this.canvas?.getContext('2d') ?? null;
-      if (!this.context) return;
+      this.ctx = this.canvas?.getContext('2d') ?? null;
+      if (!this.ctx) return;
+
+      this.glowBlue = this.makeGlow('110, 175, 255');
+      this.glowCyan = this.makeGlow('110, 235, 230');
 
       if (typeof ResizeObserver !== 'undefined') {
         this.resizeObserver = new ResizeObserver(this.resize);
@@ -591,12 +1319,22 @@ const structuredData = [
       this.parentElement?.addEventListener('pointermove', this.onPointerMove);
       this.parentElement?.addEventListener('pointerleave', this.onPointerLeave);
       this.resize();
-      this.animationFrame = requestAnimationFrame(this.draw);
+
+      if (typeof IntersectionObserver !== 'undefined') {
+        this.intersectionObserver = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) this.start();
+          else this.stop();
+        });
+        this.intersectionObserver.observe(this);
+      } else {
+        this.start();
+      }
     }
 
     disconnectedCallback() {
-      cancelAnimationFrame(this.animationFrame);
+      this.stop();
       this.resizeObserver?.disconnect();
+      this.intersectionObserver?.disconnect();
       window.removeEventListener('resize', this.resize);
       this.parentElement?.removeEventListener('pointermove', this.onPointerMove);
       this.parentElement?.removeEventListener('pointerleave', this.onPointerLeave);

@@ -1,0 +1,128 @@
+---
+import type { GetStaticPaths } from 'astro';
+import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
+import { SITE, APP_BLOG } from 'astrowind:config';
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES, type Locale } from '~/i18n/config';
+import { getLocalizedTaxonomyPath } from '~/i18n/routes';
+import { fetchPosts } from '~/utils/blog';
+import type { Post, Taxonomy } from '~/types';
+import PageLayout from '~/layouts/PageLayout.astro';
+import Headline from '~/components/blog/Headline.astro';
+import List from '~/components/blog/List.astro';
+
+const pageModules = import.meta.glob<{ default: AstroComponentFactory }>(
+  '../{*.astro,*.md,products/*.astro,solutions/*.astro}',
+  { eager: true }
+);
+
+export const getStaticPaths = (async () => {
+  const taxonomyRoutePath = (type: 'category' | 'tag', slug: string) =>
+    `${(type === 'category' ? APP_BLOG.category.pathname : APP_BLOG.tag.pathname).replace(/^\/+|\/+$/gu, '')}/${slug}`;
+  const pageEntries = Object.keys(import.meta.glob('../{*.astro,*.md,products/*.astro,solutions/*.astro}')).filter(
+    (file) => !file.endsWith('/404.astro')
+  );
+
+  const localizedPages = SUPPORTED_LOCALES.filter((locale) => locale !== DEFAULT_LOCALE).flatMap((locale) =>
+    pageEntries.map((file) => {
+      const routePath = file
+        .replace(/^\.\.\//u, '')
+        .replace(/\.(?:astro|md)$/u, '')
+        .replace(/(^|\/)index$/u, '');
+
+      return {
+        params: {
+          locale,
+          ...(routePath ? { path: routePath } : {}),
+        },
+        props: { pageKey: file },
+      };
+    })
+  );
+  const taxonomyPages = await Promise.all(
+    SUPPORTED_LOCALES.filter((locale) => locale !== DEFAULT_LOCALE).map(async (locale) => {
+      const posts = await fetchPosts(locale);
+      const pages: Array<{
+        params: { locale: Locale; path: string };
+        props: { taxonomy: Taxonomy; taxonomyType: 'category' | 'tag'; posts: Post[] };
+      }> = [];
+
+      if (APP_BLOG.category.isEnabled) {
+        const categories = new Map<string, Taxonomy>();
+        for (const post of posts) {
+          if (post.category) categories.set(post.category.slug, post.category);
+        }
+        for (const [slug, taxonomy] of categories) {
+          pages.push({
+            params: {
+              locale,
+              path: taxonomyRoutePath('category', slug),
+            },
+            props: {
+              taxonomy,
+              taxonomyType: 'category',
+              posts: posts.filter((post) => post.category?.slug === slug),
+            },
+          });
+        }
+      }
+
+      if (APP_BLOG.tag.isEnabled) {
+        const tags = new Map<string, Taxonomy>();
+        for (const post of posts) {
+          for (const tag of post.tags ?? []) tags.set(tag.slug, tag);
+        }
+        for (const [slug, taxonomy] of tags) {
+          pages.push({
+            params: {
+              locale,
+              path: taxonomyRoutePath('tag', slug),
+            },
+            props: {
+              taxonomy,
+              taxonomyType: 'tag',
+              posts: posts.filter((post) => post.tags?.some((postTag) => postTag.slug === slug)),
+            },
+          });
+        }
+      }
+
+      return pages;
+    })
+  );
+
+  return [...localizedPages, ...taxonomyPages.flat()];
+}) satisfies GetStaticPaths;
+
+const { pageKey, taxonomy, taxonomyType, posts } = Astro.props as {
+  pageKey?: string;
+  taxonomy?: Taxonomy;
+  taxonomyType?: 'category' | 'tag';
+  posts?: Post[];
+};
+const Page = pageKey ? pageModules[pageKey]?.default : undefined;
+
+if (!Page && !taxonomy) {
+  throw new Error(`No source page was found for localized route "${pageKey}".`);
+}
+
+const taxonomyTitle = taxonomyType === 'tag' ? `Tag: ${taxonomy?.title}` : taxonomy?.title;
+const taxonomyPath =
+  taxonomy && taxonomyType ? getLocalizedTaxonomyPath(taxonomyType, taxonomy.slug, Astro.currentLocale) : undefined;
+const metadata = {
+  title: taxonomyTitle,
+  canonical: taxonomyPath ? new URL(taxonomyPath, SITE.site).toString() : undefined,
+};
+---
+
+{
+  taxonomy && posts ? (
+    <PageLayout metadata={metadata}>
+      <section class="px-4 md:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
+        <Headline>{taxonomyTitle}</Headline>
+        <List posts={posts} />
+      </section>
+    </PageLayout>
+  ) : (
+    Page && <Page />
+  )
+}

@@ -5,63 +5,81 @@ import Features from '~/components/widgets/Features.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import Steps from '~/components/widgets/Steps.astro';
+import { getMarketingContent, useTranslations } from '~/i18n/translations';
+import { getLocalizedPath } from '~/i18n/routes';
+
+const locale = Astro.currentLocale || 'en';
+const { t } = useTranslations(locale);
+const workflow = getMarketingContent(locale).products.items.pam.workflow;
+const localePath = (p: string) => getLocalizedPath(p, locale);
 
 const metadata = {
-  title: 'Privileged Account Manager',
-  description:
-    'Discover, vault, and control privileged accounts across Windows, Linux, databases, and cloud — with full audit trails.',
+  title: `${t('products.items.pam.title')} — SecureHive`,
+  description: t('products.items.pam.subtitle'),
 };
 ---
 
 <Layout metadata={metadata}>
   <Hero
-    tagline="Product"
+    tagline={t('products.items.pam.tagline')}
     actions={[
-      { variant: 'primary', text: 'Request a Demo', href: '/contact' },
-      { text: 'All Products', href: '/products' },
+      { variant: 'primary', text: t('common.requestDemo'), href: localePath('/contact') },
+      { text: t('common.allProducts'), href: localePath('/products') },
     ]}
   >
-    <Fragment slot="title">Privileged Account Manager</Fragment>
-    <Fragment slot="subtitle">
-      Discover and consolidate privileged accounts into a centralized, encrypted vault. Control shared admin access,
-      automate password rotation, and maintain a complete audit trail.
-    </Fragment>
+    <Fragment slot="title">{t('products.items.pam.title')}</Fragment>
+    <Fragment slot="subtitle">{t('products.items.pam.subtitle')}</Fragment>
   </Hero>
 
   <Features
-    title="Core capabilities"
+    title={t('products.items.pam.featuresTitle')}
     items={[
-      { title: 'Discover & consolidate', description: 'Find privileged accounts across servers, workstations, databases, network devices, and applications — including dormant and abandoned accounts.', icon: 'tabler:search' },
-      { title: 'Shared admin control', description: 'Share break-glass and admin accounts with accountability. Track who used which credential and when.', icon: 'tabler:users' },
-      { title: 'Automated rotation', description: 'Randomize passwords on a schedule or after use. Enforce complexity policies without manual work.', icon: 'tabler:refresh' },
-      { title: 'Central encrypted vault', description: 'Store credentials under strong encryption with granular access controls and approval workflows.', icon: 'tabler:lock' },
-      { title: 'Dependency-aware updates', description: 'Update service and application dependencies when passwords change so systems keep running.', icon: 'tabler:link' },
-      { title: 'Audit-ready reporting', description: 'Export access and change history for compliance reviews and incident investigations.', icon: 'tabler:file-text' },
+      {
+        title: t('products.items.pam.feat1Title'),
+        description: t('products.items.pam.feat1Desc'),
+        icon: 'tabler:search',
+      },
+      {
+        title: t('products.items.pam.feat2Title'),
+        description: t('products.items.pam.feat2Desc'),
+        icon: 'tabler:refresh',
+      },
+      {
+        title: t('products.items.pam.feat3Title'),
+        description: t('products.items.pam.feat3Desc'),
+        icon: 'tabler:lock',
+      },
+      {
+        title: t('products.items.pam.feat4Title'),
+        description: t('products.items.pam.feat4Desc'),
+        icon: 'tabler:file-text',
+      },
+      {
+        title: t('products.items.pam.feat5Title'),
+        description: t('products.items.pam.feat5Desc'),
+        icon: 'tabler:link',
+      },
+      {
+        title: t('products.items.pam.feat6Title'),
+        description: t('products.items.pam.feat6Desc'),
+        icon: 'tabler:code',
+      },
     ]}
   />
 
-  <Steps
-    title="How it works"
-    items={[
-      { title: 'Connect sources', description: 'Point SecureHive at directories, servers, and cloud accounts for discovery.', icon: 'tabler:plug' },
-      { title: 'Inventory privileges', description: 'Build a live inventory of human, service, and shared privileged accounts.', icon: 'tabler:list' },
-      { title: 'Vault & policy', description: 'Onboard accounts into the vault and apply rotation and access policies.', icon: 'tabler:shield' },
-      { title: 'Operate & audit', description: 'Users request access; every checkout and change is logged.', icon: 'tabler:check' },
-    ]}
-  />
+  <Steps title={workflow.title} items={workflow.steps} />
 
   <FAQs
-    title="Frequently asked questions"
+    title={t('products.faqsTitle')}
     items={[
-      { title: 'What account types can be managed?', description: 'Local and domain accounts, service accounts, database credentials, network device logins, and application secrets — depending on connectors configured for your environment.' },
-      { title: 'Does this replace our identity provider?', description: 'No. SecureHive integrates with your existing IdP and directories. It focuses on privileged credentials and access, not workforce SSO.' },
-      { title: 'How are passwords protected in the vault?', description: 'Credentials are encrypted at rest and in transit. Access is governed by role, approval workflows, and optional dual control for sensitive accounts.' },
-      { title: 'Can we rotate passwords after each use?', description: 'Yes. Policies can require rotation after checkout or on a fixed schedule, including dependency updates where supported.' },
+      { title: t('products.faq1Q'), description: t('products.faq1A') },
+      { title: t('products.faq2Q'), description: t('products.faq2A') },
+      { title: t('products.faq3Q'), description: t('products.faq3A') },
     ]}
   />
 
-  <CallToAction actions={[{ variant: 'primary', text: 'Request a Demo', href: '/contact' }]}>
-    <Fragment slot="title">See Privileged Account Manager in action</Fragment>
-    <Fragment slot="subtitle">Walk through discovery, vaulting, and rotation in an environment like yours.</Fragment>
+  <CallToAction actions={[{ variant: 'primary', text: t('common.requestDemo'), href: localePath('/contact') }]}>
+    <Fragment slot="title">{t('products.items.pam.ctaTitle')}</Fragment>
+    <Fragment slot="subtitle">{t('products.items.pam.ctaSubtitle')}</Fragment>
   </CallToAction>
 </Layout>

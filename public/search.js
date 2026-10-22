@@ -1,6 +1,32 @@
 let pagefindPromise;
 let debounceTimer;
 
+/* -->pagefindPromise stores the ongoing or completed
+  --->  Pagefind loading operation so the script can reuse it.
+  --->debounceTimer manages the delay before searching.
+  ---> lang detects the current page's language. */
+  
+const lang = (document.documentElement.lang || 'en').toLowerCase().split('-')[0];
+const messagesByLocale = {
+  en: {
+    unavailable: 'Search index not available. Run a production build to enable search.',
+    initial: 'Type to search this section…',
+    noResults: (query) => `No results for “${query}”`,
+  },
+  fr: {
+    unavailable:
+      "L'index de recherche est indisponible. Lancez une compilation de production pour activer la recherche.",
+    initial: 'Saisissez un terme pour rechercher dans cette section…',
+    noResults: (query) => `Aucun résultat pour « ${query} »`,
+  },
+  de: {
+    unavailable: 'Suchindex nicht verfügbar. Bitte erstellen Sie einen Produktions-Build, um die Suche zu aktivieren.',
+    initial: 'Suchbegriff eingeben, um diesen Bereich zu durchsuchen…',
+    noResults: (query) => `Keine Ergebnisse für „${query}“ gefunden`,
+  },
+};
+const messages = messagesByLocale[lang] || messagesByLocale.en;
+
 const messageClass = 'text-sm text-slate-500 dark:text-slate-400 px-3 py-6 text-center';
 
 function showMessage(text) {
@@ -17,7 +43,7 @@ async function loadPagefind() {
   if (!pagefindPromise) {
     const pagefindPath = document.querySelector('[data-search-root]')?.dataset.pagefindUrl;
     if (!pagefindPath) {
-      showMessage('Search index not available. Run a production build to enable search.');
+      showMessage(messages.unavailable);
       return null;
     }
 
@@ -29,7 +55,7 @@ async function loadPagefind() {
       .catch((error) => {
         console.error('Failed to load the Pagefind search index:', error);
         pagefindPromise = null;
-        showMessage('Search index not available. Run a production build to enable search.');
+        showMessage(messages.unavailable);
         return null;
       });
   }
@@ -48,7 +74,7 @@ function closeSearch() {
   document.getElementById('sh-search-dialog')?.close();
   const input = document.getElementById('sh-search-input');
   if (input) input.value = '';
-  showMessage('Type to search this section…');
+  showMessage(messages.initial);
 }
 
 document.addEventListener('click', (event) => {
@@ -82,7 +108,7 @@ document.addEventListener('input', (event) => {
   debounceTimer = setTimeout(async () => {
     const query = event.target.value.trim();
     if (!query) {
-      showMessage('Type to search this section…');
+      showMessage(messages.initial);
       return;
     }
 
@@ -91,10 +117,10 @@ document.addEventListener('input', (event) => {
     if (!pagefind || !results) return;
 
     const section = document.body.dataset.searchSection || 'home';
-    const search = await pagefind.search(query, { filters: { section } });
+    const search = await pagefind.search(query, { filters: { section, lang } });
     const resultData = await Promise.all(search.results.slice(0, 12).map((result) => result.data()));
     if (!resultData.length) {
-      showMessage(`No results for “${query}”`);
+      showMessage(messages.noResults(query));
       return;
     }
 
@@ -109,7 +135,7 @@ document.addEventListener('input', (event) => {
       link.setAttribute('role', 'option');
 
       const title = document.createElement('div');
-      title.className = 'text-sm font-semibold text-[#0B2D5B] dark:text-blue-300';
+      title.className = 'text-sm font-semibold text-primary dark:text-blue-300';
       title.textContent = data.meta?.title || data.url;
 
       const excerpt = document.createElement('div');

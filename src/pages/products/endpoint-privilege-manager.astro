@@ -4,52 +4,54 @@ import Hero from '~/components/widgets/Hero.astro';
 import Features from '~/components/widgets/Features.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
+import { useTranslations } from '~/i18n/translations';
+import { getLocalizedPath } from '~/i18n/routes';
+
+const locale = Astro.currentLocale || 'en';
+const { t } = useTranslations(locale);
+const localePath = (p: string) => getLocalizedPath(p, locale);
 
 const metadata = {
-  title: 'Endpoint Privilege Manager',
-  description: 'Remove local admin rights on endpoints and elevate applications only when policy allows.',
+  title: `${t('products.items.epm.title')} — SecureHive`,
+  description: t('products.items.epm.subtitle'),
 };
 ---
 
 <Layout metadata={metadata}>
   <Hero
-    tagline="Product"
+    tagline={t('products.items.epm.tagline')}
     actions={[
-      { variant: 'primary', text: 'Request a Demo', href: '/contact' },
-      { text: 'All Products', href: '/products' },
+      { variant: 'primary', text: t('common.requestDemo'), href: localePath('/contact') },
+      { text: t('common.allProducts'), href: localePath('/products') },
     ]}
   >
-    <Fragment slot="title">Endpoint Privilege Manager</Fragment>
-    <Fragment slot="subtitle">
-      Eliminate standing local administrator rights. Users work with standard privileges; approved applications and
-      tasks elevate on demand under policy.
-    </Fragment>
+    <Fragment slot="title">{t('products.items.epm.title')}</Fragment>
+    <Fragment slot="subtitle">{t('products.items.epm.subtitle')}</Fragment>
   </Hero>
 
   <Features
-    title="Endpoint least privilege"
+    title={t('products.items.epm.featuresTitle')}
     items={[
-      { title: 'Remove local admin', description: 'Standardize endpoints on non-admin users without blocking legitimate work.', icon: 'tabler:user-off' },
-      { title: 'Application elevation', description: 'Elevate specific apps or processes when policy allows — not the entire desktop session.', icon: 'tabler:apps' },
-      { title: 'Policy-based control', description: 'Define what can run elevated by publisher, path, hash, or role.', icon: 'tabler:list-check' },
-      { title: 'Server & workstation coverage', description: 'Apply consistent privilege policies across user devices and server fleets.', icon: 'tabler:device-desktop' },
-      { title: 'Audit elevation events', description: 'Log every elevation for investigation and compliance reporting.', icon: 'tabler:file-analytics' },
-      { title: 'Align with PAM', description: 'Combine endpoint least privilege with vaulted credentials and JIT for a full privileged access program.', icon: 'tabler:link' },
+      { title: t('products.items.epm.feat1Title'), description: t('products.items.epm.feat1Desc'), icon: 'tabler:user-off' },
+      { title: t('products.items.epm.feat2Title'), description: t('products.items.epm.feat2Desc'), icon: 'tabler:apps' },
+      { title: t('products.items.epm.feat3Title'), description: t('products.items.epm.feat3Desc'), icon: 'tabler:list-check' },
+      { title: t('products.items.epm.feat4Title'), description: t('products.items.epm.feat4Desc'), icon: 'tabler:device-desktop' },
+      { title: t('products.items.epm.feat5Title'), description: t('products.items.epm.feat5Desc'), icon: 'tabler:file-analytics' },
+      { title: t('products.items.epm.feat6Title'), description: t('products.items.epm.feat6Desc'), icon: 'tabler:link' },
     ]}
   />
 
   <FAQs
-    title="Frequently asked questions"
+    title={t('products.faqsTitle')}
     items={[
-      { title: 'Will users lose productivity without admin rights?', description: 'Elevation policies are designed so approved tools still work. The goal is to remove blanket admin, not block the business.' },
-      { title: 'How do we handle software installs?', description: 'Controlled elevation or IT-managed deployment paths replace ad-hoc admin installs, reducing malware and configuration drift.' },
-      { title: 'Does this replace antivirus or EDR?', description: 'No. Endpoint privilege management complements EDR by shrinking the blast radius when a session is compromised.' },
-      { title: 'Can policies differ by department?', description: 'Yes. Policies can align to roles and device groups so developers, finance, and operators get appropriate elevation rules.' },
+      { title: t('products.faq1Q'), description: t('products.faq1A') },
+      { title: t('products.faq2Q'), description: t('products.faq2A') },
+      { title: t('products.faq3Q'), description: t('products.faq3A') },
     ]}
   />
 
-  <CallToAction actions={[{ variant: 'primary', text: 'Request a Demo', href: '/contact' }]}>
-    <Fragment slot="title">Deploy least privilege on endpoints</Fragment>
-    <Fragment slot="subtitle">Discuss rollout strategy and elevation policies with SecureHive.</Fragment>
+  <CallToAction actions={[{ variant: 'primary', text: t('common.requestDemo'), href: localePath('/contact') }]}>
+    <Fragment slot="title">{t('products.items.epm.ctaTitle')}</Fragment>
+    <Fragment slot="subtitle">{t('products.items.epm.ctaSubtitle')}</Fragment>
   </CallToAction>
 </Layout>
