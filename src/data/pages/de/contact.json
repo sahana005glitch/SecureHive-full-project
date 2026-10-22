@@ -1,0 +1,22 @@
+{
+  "tagline": "Kontakt",
+  "title": "Demo anfordern oder Kontakt aufnehmen",
+  "subtitle": "Teilen Sie uns ein paar Details zu Ihrem Team und Ihren Herausforderungen mit. Wir antworten in der Regel innerhalb eines Werktags.",
+  "formTitle": "Wie können wir Ihnen helfen?",
+  "formSubtitle": "Wenn Sie eine Produktevaluation wünschen, nennen Sie bitte Privileged Access Management oder Ihren primären Anwendungsfall.",
+  "nameLabel": "Vollständiger Name",
+  "emailLabel": "Geschäftliche E-Mail-Adresse",
+  "companyLabel": "Unternehmen",
+  "phoneLabel": "Telefon (optional)",
+  "messageLabel": "Nachricht – beschreiben Sie Ihren Bedarf (PAM, Identität, Compliance usw.) und ggf. die Unternehmensgröße",
+  "disclaimer": "Mit dem Absenden dieses Formulars erklären Sie sich damit einverstanden, dass SecureHive Sie bezüglich Ihrer Anfrage kontaktiert.",
+  "responseNote": "Unser Team antwortet in der Regel innerhalb eines Arbeitstags.",
+  "submitBtn": "Nachricht senden",
+  "engageTitle": "Kontaktmöglichkeiten",
+  "engage1Title": "Demo anfordern",
+  "engage1Desc": "Erleben Sie, wie SecureHive Kontenerkennung, Just-in-Time-Zugriffe und Sitzungsaufzeichnungen in der Praxis umsetzt.",
+  "engage2Title": "Mit dem Vertrieb sprechen",
+  "engage2Desc": "Diskutieren Sie Bereitstellungsoptionen, Integrationspfade und unternehmensspezifische Anforderungen.",
+  "engage3Title": "Technischer Support",
+  "engage3Desc": "Bestehende Kunden erreichen unser Support-Team rund um die Uhr für operative Unterstützung."
+}

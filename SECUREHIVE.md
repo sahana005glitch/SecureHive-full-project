@@ -20,7 +20,7 @@ Production-oriented Astro site built on **AstroWind** (Astro 7 + Tailwind 4).
 npm install
 npm install -D pagefind   # if not already installed
 npm run dev               # local development
-npm run build             # astro build && pagefind --site dist
+npm run build             # astro build, then Pagefind runs automatically
 npm run preview           # preview production build + search
 ```
 
@@ -28,22 +28,22 @@ Search only works after `npm run build` (Pagefind indexes `dist/`).
 
 ## Main routes
 
-| Route | Description |
-|-------|-------------|
-| `/` | Homepage |
-| `/products` | Product suite hub |
-| `/products/*` | Individual PAM products |
-| `/solutions` | Solutions hub |
+| Route          | Description               |
+| -------------- | ------------------------- |
+| `/`            | Homepage                  |
+| `/products`    | Product suite hub         |
+| `/products/*`  | Individual PAM products   |
+| `/solutions`   | Solutions hub             |
 | `/solutions/*` | Industry / use-case pages |
-| `/blog` | Blog listing |
-| `/contact` | Demo / contact form |
-| `/about` | Company |
-| `/pricing` | Enterprise pricing CTA |
+| `/blog`        | Blog listing              |
+| `/contact`     | Demo / contact form       |
+| `/about`       | Company                   |
+| `/pricing`     | Enterprise pricing CTA    |
 
 ## Stack
 
 - Astro 7, Tailwind CSS 4, AstroWind template architecture
-- Content collections for blog (`src/data/post/`)
+- Locale-partitioned content collections for the blog (`src/data/post/<locale>/`)
 - Pagefind for static search
 
 ## Notes

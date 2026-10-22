@@ -1,0 +1,17 @@
+{
+  "tagline": "Company",
+  "titleMain": "Privileged access",
+  "titleAccent": "as the control plane",
+  "subtitle": "SecureHive focuses on Privileged Access Management and identity-centric security so enterprises can reduce standing privilege, control critical access, and produce the audit trail security and compliance teams need.",
+  "featuresTitle": "What guides our work",
+  "feature1Title": "Identity-centric security",
+  "feature1Desc": "We treat identity and privileged access as the primary control plane for modern environments.",
+  "feature2Title": "Operational clarity",
+  "feature2Desc": "Controls should be enforceable by security teams without blocking legitimate work.",
+  "feature3Title": "Enterprise readiness",
+  "feature3Desc": "Scale, auditability, and integration with existing identity infrastructure are non-negotiable.",
+  "feature4Title": "Least privilege in practice",
+  "feature4Desc": "Just-in-time access and credential hygiene over standing admin rights.",
+  "ctaTitle": "Strengthen your privileged access controls",
+  "ctaSubtitle": "Discuss your PAM requirements, current directory architecture, and rollout phases with our team."
+}

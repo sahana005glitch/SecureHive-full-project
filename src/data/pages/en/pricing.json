@@ -1,0 +1,17 @@
+{
+  "tagline": "Pricing",
+  "title": "Enterprise pricing tailored to your environment",
+  "subtitle": "SecureHive is licensed for enterprise deployments. Pricing depends on scope, integrations, and support requirements.",
+  "planTitle": "Custom enterprise plans",
+  "planDesc": "We work with security and procurement teams to define the right combination of identity, access, endpoint, and cloud capabilities. Contact us for a proposal based on your environment.",
+  "contactSales": "Contact Sales",
+  "faqsTitle": "Common questions",
+  "faq1Q": "How is SecureHive licensed?",
+  "faq1A": "Licensing is typically based on the scope of deployment and selected product areas. Our team will recommend a structure that matches your environment.",
+  "faq2Q": "Can we start with a pilot?",
+  "faq2A": "Yes. Many organizations begin with a focused pilot around identity or privileged access before expanding.",
+  "faq3Q": "Do you offer professional services?",
+  "faq3A": "Implementation and advisory services can be included as part of an enterprise engagement. Details are provided during the proposal process.",
+  "ctaTitle": "Request a customized proposal",
+  "ctaSubtitle": "Tell us about your systems, user counts, and compliance timeline — we will draft a licensing proposal."
+}
